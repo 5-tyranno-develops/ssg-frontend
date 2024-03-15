@@ -1,0 +1,20 @@
+.signup_header_menu {
+    border-bottom: 1px solid;
+    display: flex;
+    font-weight: bold;
+    align-items: center;
+    height: 45px;
+}
+.button-groups {
+    width: 100%;
+    height: 52px;
+    margin-bottom: 10px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: none;
+    font-size: 18px;
+    color: #fff;
+    font-weight: bold;
+}
