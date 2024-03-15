@@ -10,15 +10,15 @@
     padding: 10px;
     position: relative;
     align-items: center;
-    height: 30px;
+    height: 50px;
     justify-content: space-between;
     display: flex;
 }
 .terms-content {
     padding: 10px;
-    width: 45px;
-    height: 6px;
-    font-size: 11px;
+    width: 50px;
+    height: 17px;
+    font-size: 8px;
     background-color: #f0f0f0;
     text-align: center;
     align-items: center;
@@ -56,6 +56,7 @@
 #currency {
     /* padding-right: ; */
     width: 100%; /* 셀렉트 박스의 너비 조정 */
+    border: 0 none;
 }
 
 .tag-group {
