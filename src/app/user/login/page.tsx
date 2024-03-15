@@ -1,8 +1,7 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import React from 'react'
 import Link from 'next/link'
-import NaverIcon from '@/images/NaverSvg'
-import AppleIcon from '@/images/AppleSvg'
+import EasyIcon from '@/components/ui/easyIcon'
 
 function Login() {
     return (
@@ -39,51 +38,7 @@ function Login() {
                         <Link href="/user/signupintro">회원가입</Link>
                     </div>
                 </form>
-
-                <ul className=" flex justify-center mt-4 space-x-7 text-xs">
-                    <li>
-                        <a>
-                            <span>
-                                <NaverIcon />
-                            </span>
-                            <span className="m-2 ">네이버</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <img
-                                src="https://www.m25.or.kr/common/assets/img/common/ico_kakaotalk.png"
-                                alt="카카오"
-                                className=" w-14"
-                            />
-                            <span className="ml-2">카카오</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <AppleIcon />
-                            </span>
-                            <span className="m-3">애플</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <NaverIcon />
-                            </span>
-                            <span className="m-3">토스</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <NaverIcon />
-                            </span>
-                            <span className="m-2">휴대폰</span>
-                        </a>
-                    </li>
-                </ul>
+                <EasyIcon />
 
                 <div className=" p-4 mt-20 ">
                     <button type="submit" className="relative w-full  h-12  bg-black text-white text-sm font-bold">
