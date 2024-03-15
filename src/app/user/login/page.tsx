@@ -48,7 +48,9 @@ function Login() {
                     </button>
                 </div>
 
-                <a className=" flex mt-10 justify-center w-full  h-10  text-gray-400 text-xs">비회원 조회하기</a>
+                <Link href="/user/nonuser" className=" flex mt-10 justify-center w-full  h-10  text-gray-400 text-xs">
+                    비회원 조회하기
+                </Link>
             </div>
         </div>
     )
