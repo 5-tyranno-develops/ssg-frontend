@@ -28,11 +28,15 @@ function Login() {
                     </div>
 
                     <div className=" flex justify-center mt-4 space-x-1 text-xs">
-                        <Link href="/user/findid">아이디 찾기</Link>
+                        <Link href="/user/findid" passHref>
+                            아이디 찾기
+                        </Link>
                         <span>|</span>
-                        <a>비밀번호 찾기</a>
+                        <Link href="/user/findpw " passHref>
+                            비밀번호 찾기
+                        </Link>
                         <span>|</span>
-                        <a>회원가입</a>
+                        <Link href="/user/signupintro">회원가입</Link>
                     </div>
                 </form>
 

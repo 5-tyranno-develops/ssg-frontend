@@ -75,6 +75,7 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import './terms.css'
 import React, { useState } from 'react'
 import { Checkbox } from '@nextui-org/react'
+import Buttons from '@/components/ui/buttons'
 
 function Auth() {
     const [terms, setTerms] = useState([
@@ -107,6 +108,15 @@ function Auth() {
             setCheckedItem([])
         }
     }
+    const [phoneNumberString, setPhoneNumberString] = useState('')
+
+    const parsingPhoneNumber = (num: string) => {
+        return num
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
+            .replace(/(-{1,2})$/g, '')
+    }
+
     console.log(checkedItem)
     return (
         <div>
@@ -138,7 +148,7 @@ function Auth() {
                         <span style={{ padding: '10px', color: 'red' }}>전체 동의</span>
                     </label>
                 </div>
-                <div className="auth_user">
+                <div className="auth_user" style={{ marginTop: '30px' }}>
                     <span className="inp_txt">
                         <input className="input-content" type="text" id="userName" name="name" placeholder="이름" />
                         {/* <div className="tag-group">
@@ -151,7 +161,11 @@ function Auth() {
                     <span className="inp_txt">
                         <input type="text" className="input-content" placeholder="생년월일 8자리(예. 20100101)" />
                         <label htmlFor="currency" className="" />
-                        <select id="currency" name="foriegn">
+                        <select
+                            id="currency"
+                            name="foriegn"
+                            style={{ fontSize: '14px', color: '#000', marginLeft: '65%' }}
+                        >
                             <option>내국인</option>
                             <option>외국인</option>
                         </select>
@@ -162,7 +176,8 @@ function Auth() {
                         <select
                             id="currency"
                             name="phone-type"
-                            className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                            style={{ fontSize: '14px', color: '#000' }}
+                            className="h-full rounded-md border-0 bg-transparent py-0 pl-2 pr-7 text-gray-500 focus:ring-2 focus:ring-inset focus:ring-indigo-600 "
                         >
                             <option>SKT</option>
                             <option>KT</option>
@@ -175,14 +190,27 @@ function Auth() {
                     <span className="inp_txt">
                         <input
                             className="input-content"
-                            type="text"
-                            id="userName"
-                            name="name"
+                            type="tel"
+                            value={phoneNumberString}
+                            maxLength={13}
+                            onChange={(e) => setPhoneNumberString(parsingPhoneNumber(e.target.value))}
                             placeholder="-없이 휴대폰번호 입력"
                         />
-
-                        <label className="userName"></label>
                     </span>
+                    <label className="userName"></label>
+                </div>
+                <span>
+                    <Buttons title="인증번호 받기" />
+                </span>
+                <div className="m_auth_section">
+                    <ul className="noti_list">
+                        <li className="text-sm">본인 명의의 휴대폰 정보를 정확히 입력하여 주시기 바랍니다.</li>
+                        <li className="text-sm">
+                            타인의 명의를 도용하여 부정인증을 시도한 경우 관련 법령에 따라 처벌(3년 이하의 징역형 또는
+                            1천만원 이하의 벌금형) 받을수 있습니다.
+                        </li>
+                        <li className="text-sm">인증문의 : (주)KCB고객센터(02-708-1000)</li>
+                    </ul>
                 </div>
             </div>
         </div>
