@@ -2,6 +2,7 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import React from 'react'
 import Link from 'next/link'
 import EasyIcon from '@/components/ui/easyIcon'
+import Buttons from '@/components/ui/buttons'
 
 function Login() {
     return (
@@ -10,8 +11,8 @@ function Login() {
             <div>
                 <form className=" p-8 flex flex-col  ">
                     <div className=" mb-1">
-                        <input type="text" placeholder="아이디" className=" mt-1 p-2 w-full h-12  border text-sm " />
-                        <input type="text" placeholder="비밀번호" className="p-2 w-full h-12  border text-sm" />
+                        <input type="text" placeholder="아이디" className=" mt-1 p-2 w-full h-11  border text-sm " />
+                        <input type="text" placeholder="비밀번호" className="p-2 w-full h-11  border text-sm" />
                     </div>
 
                     <div>
@@ -20,10 +21,8 @@ function Login() {
                             <label className="ml-1  text-sm">아이디 저장</label>
                         </span>
                     </div>
-                    <div>
-                        <button type="submit" className="mt-5 w-full  h-12  text-white  bg-red-500 font-bold">
-                            로그인
-                        </button>
+                    <div className="mt-6">
+                        <Buttons title="로그인" />
                     </div>
 
                     <div className=" flex justify-center mt-4 space-x-1 text-xs">
