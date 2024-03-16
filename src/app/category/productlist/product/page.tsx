@@ -16,7 +16,7 @@ function Product() {
             <div className="m-4">
                 <div className=" flex items-center justify-between border-b-2 ">
                     <span className="inline-block  text-xs font-bold ">
-                        <p>신세계백화점</p>
+                        <p>신세계 백화점</p>
                     </span>
 
                     <button type="button" className=" mr-3">

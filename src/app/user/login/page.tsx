@@ -1,11 +1,8 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import React from 'react'
 import Link from 'next/link'
-import NaverIcon from '@/images/NaverSvg'
-import KakaoIcon from '@/images/KakaoSvg'
-import AppleIcon from '@/images/AppleSvg'
-import TossIcon from '@/images/TossSvg'
-import PhoneIcon from '@/images/PhoneSvg'
+import EasyIcon from '@/components/ui/easyIcon'
+import Buttons from '@/components/ui/buttons'
 
 function Login() {
     return (
@@ -14,8 +11,8 @@ function Login() {
             <div>
                 <form className=" p-8 flex flex-col  ">
                     <div className=" mb-1">
-                        <input type="text" placeholder="아이디" className=" mt-1 p-2 w-full h-12  border text-sm " />
-                        <input type="text" placeholder="비밀번호" className="p-2 w-full h-12  border text-sm" />
+                        <input type="text" placeholder="아이디" className=" mt-1 p-2 w-full h-11  border text-sm " />
+                        <input type="text" placeholder="비밀번호" className="p-2 w-full h-11  border text-sm" />
                     </div>
 
                     <div>
@@ -24,10 +21,8 @@ function Login() {
                             <label className="ml-1  text-sm">아이디 저장</label>
                         </span>
                     </div>
-                    <div>
-                        <button type="submit" className="mt-5 w-full  h-12  text-white  bg-red-500 font-bold">
-                            로그인
-                        </button>
+                    <div className="mt-6">
+                        <Buttons title="로그인" />
                     </div>
 
                     <div className=" flex justify-center mt-4 space-x-1 text-xs">
@@ -42,49 +37,7 @@ function Login() {
                         <Link href="/user/signupintro">회원가입</Link>
                     </div>
                 </form>
-
-                <ul className=" flex justify-center mt-4 space-x-7 text-xs">
-                    <li>
-                        <a>
-                            <span>
-                                <NaverIcon />
-                            </span>
-                            <span className="m-2 ">네이버</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <KakaoIcon />
-                            </span>
-                            <span className="m-2">카카오</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <AppleIcon />
-                            </span>
-                            <span className="m-3">애플</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <TossIcon />
-                            </span>
-                            <span className="m-3">토스</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a>
-                            <span>
-                                <PhoneIcon />
-                            </span>
-                            <span className="m-2">휴대폰</span>
-                        </a>
-                    </li>
-                </ul>
+                <EasyIcon />
 
                 <div className=" p-4 mt-20 ">
                     <button type="submit" className="relative w-full  h-12  bg-black text-white text-sm font-bold">
@@ -94,11 +47,9 @@ function Login() {
                     </button>
                 </div>
 
-                <a className=" flex mt-10 ">
-                    <Link href="/user/nonuser" className="flex justify-center w-full  h-10  text-gray-400 text-xs">
-                        비회원 조회하기
-                    </Link>
-                </a>
+                <Link href="/user/nonuser" className=" flex mt-10 justify-center w-full  h-10  text-gray-400 text-xs">
+                    비회원 조회하기
+                </Link>
             </div>
         </div>
     )
