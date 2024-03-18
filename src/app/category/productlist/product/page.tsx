@@ -28,7 +28,11 @@ function Product() {
     return (
         <div>
             <div>
-                <img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i1_750.jpg" alt="상품이미지1"></img>
+                <img
+                    src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i1_750.jpg"
+                    alt="상품이미지1"
+                    className="w-full"
+                ></img>
             </div>
             <div className="m-4 ">
                 <div className=" flex items-center justify-between border-b-2  ">
@@ -117,7 +121,7 @@ function Product() {
                         </dl>
                     </div>
                 </div>
-                <div className=" bg-gray-100 h-4"></div>
+                <div className=" bg-gray-100 h-4 mb-2"></div>
 
                 <div>
                     {getImagesToShow().map((image, index) => (
@@ -127,6 +131,7 @@ function Product() {
                                 alt={`상품이미지${index + 1}`}
                                 data-src={image}
                                 data-ll-status="loaded"
+                                className="w-full"
                             ></img>
                         </div>
                     ))}
