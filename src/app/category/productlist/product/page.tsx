@@ -2,6 +2,10 @@
 'use client'
 import ShareIcon from '@/images/ShareSvg'
 import React, { useState } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import './swiper-bundle.min.css'
+
+import { Pagination } from 'swiper/modules'
 
 function Product() {
     const [expanded, setExpanded] = useState(false)
@@ -27,13 +31,40 @@ function Product() {
 
     return (
         <div>
-            <div>
-                <img
-                    src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i1_750.jpg"
-                    alt="상품이미지1"
-                    className="w-full"
-                ></img>
+            <div className="relative flex justify-center items-center">
+                <Swiper
+                    loop={true}
+                    pagination={{
+                        type: 'fraction',
+                        el: '.swiper-pagination',
+                    }}
+                    modules={[Pagination]}
+                >
+                    <SwiperSlide>
+                        <img
+                            className="w-full h-full"
+                            src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i1_750.jpg"
+                            alt="상품이미지1"
+                        />
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <img
+                            className="w-full h-full"
+                            src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i2_750.jpg"
+                            alt="상품이미지2"
+                        />
+                    </SwiperSlide>
+                    <SwiperSlide>
+                        <img
+                            className="w-full h-full"
+                            src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i3_750.jpg"
+                            alt="상품이미지3"
+                        />
+                    </SwiperSlide>
+                </Swiper>
+                <div className="swiper-pagination text-white text-xs bg-gray-300 rounded-full px-4 py-1  bottom-2  bg-opacity-70 "></div>
             </div>
+
             <div className="m-4 ">
                 <div className=" flex items-center justify-between border-b-2  ">
                     <span className=" text-xs font-bold mb-2 ml-2">
