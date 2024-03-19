@@ -1,83 +1,36 @@
-//https://m.ssg.com/item/itemView.ssg?itemId=1000581553919&siteNo=6009&salestrNo=1004참고
-'use client'
+import Image from 'next/image'
+import React from 'react'
+import ProductBottomHeader from './_components/ProductBottomHeader'
+import ProductInformation from './_components/ProductInformation'
+import ProductDetail from './_components/ProductDetail'
+import BackIcon from '@/images/back'
+import CartIcon from '@/images/CartIcon.png'
+import SearchIcon from '@/images/SearchIcon.png'
 
-import React, { useState } from 'react'
-import ProductTopHeader from './ProductTopHeader'
-import ProductBottomHeader from './ProductBottomHeader'
-import Thumnail from './Thumbnail'
-import ProductInformation from './ProductInformation'
+import 'swiper/css'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Pagination } from 'swiper/modules'
 
 function Product() {
-    const [expanded, setExpanded] = useState(false)
-    //임시 사진들
-    const images = [
-        'https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i1_750.jpg',
-        'https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i2_750.jpg',
-        'https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i3_750.jpg',
-        'https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i4_750.jpg',
-        'https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i5_750.jpg',
-    ]
-
-    const toggleExpand = () => {
-        setExpanded(!expanded)
-    }
-    const getImagesToShow = () => {
-        if (expanded) {
-            return images
-        } else {
-            return images.slice(0, 2)
-        }
-    }
-
     return (
         <div>
-            <div className="fixed top-0 w-full">
-                <ProductTopHeader />
+            <div className="fixed top-0 w-full flex items-center h-12 space-x-5 font-bold bg-white">
+                <span className="ml-2">
+                    <BackIcon />
+                </span>
+
+                <p>상세</p>
+                <p>리뷰</p>
+                <p>Q&A</p>
+
+                <Image src={CartIcon} alt="장바구니아이콘"></Image>
+
+                <Image src={SearchIcon} alt="검색아이콘"></Image>
             </div>
 
-            <Thumnail />
             <ProductInformation />
-
-            <div>
-                {getImagesToShow().map((image, index) => (
-                    <div key={index}>
-                        <img
-                            src={image}
-                            alt={`상품이미지${index + 1}`}
-                            data-src={image}
-                            data-ll-status="loaded"
-                            className="w-full"
-                        ></img>
-                    </div>
-                ))}
-                {!expanded && images.length > 2 && (
-                    <div>
-                        <button
-                            type="button"
-                            onClick={toggleExpand}
-                            className=" w-full h-12 bg-white text-base text-center "
-                            style={{ boxShadow: '0px -30px 15px rgba(0, 0, 0, 0.1)' }}
-                        >
-                            상세정보 펼쳐보기
-                        </button>
-                    </div>
-                )}
-                {expanded && (
-                    <div>
-                        <button
-                            type="button"
-                            onClick={toggleExpand}
-                            className=" w-full h-12 bg-white text-base text-center"
-                        >
-                            상세정보 접기
-                        </button>
-                    </div>
-                )}
-            </div>
-
-            <div className="fixed bottom-0 w-full">
-                <ProductBottomHeader />
-            </div>
+            <ProductDetail />
+            <ProductBottomHeader />
         </div>
     )
 }
