@@ -6,12 +6,14 @@ export default function Buttons({
     href,
     ftcolor,
     click,
+    disabled,
 }: {
     title: string
     color?: string
     href: string
     ftcolor?: string
     click?: any
+    disabled?: boolean
 }) {
     return (
         <div>
@@ -20,6 +22,7 @@ export default function Buttons({
                     className="button-groups"
                     style={{ backgroundColor: color || '#ff5452', color: ftcolor || '#fff' }}
                     onClick={click}
+                    disabled={disabled}
                 >
                     {title}
                 </button>
