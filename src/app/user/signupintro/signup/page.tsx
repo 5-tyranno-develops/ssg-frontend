@@ -224,7 +224,7 @@ function signup() {
                 <h3> 마케팅 정보 수신동의</h3>
             </div>
             <div>
-                ㄴ<h4 className="m-3 ml-5 font-semibold">신세게포인트</h4>
+                <h4 className="m-3 ml-5 font-semibold">신세게포인트</h4>
                 <div className="terms-box">
                     <label>
                         <input type="checkbox" onChange={() => handleCheckboxChange('shinsegaeMarketing')} />
@@ -237,7 +237,7 @@ function signup() {
                 </div>
                 <div className="terms-box">
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={() => handleCheckboxChange('shinsegaeOption')} />
                         <span style={{ padding: '10px' }}>
                             {' '}
                             (선택) 정보 이마트/신세계백화점 공동 개인정보 수집 및 이용동의{' '}
@@ -248,7 +248,7 @@ function signup() {
                 <h4 className="m-3 ml-5 font-semibold">SSG.COM</h4>
                 <div className="terms-box">
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={() => handleCheckboxChange('ssgMarketing')} />
                         <span style={{ padding: '10px' }}>
                             {' '}
                             (선택) 마케팅 정보 제공을 위한 개인정보 수집 및 이용 동의{' '}
