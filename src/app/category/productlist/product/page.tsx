@@ -2,6 +2,7 @@
 'use client'
 import ShareIcon from '@/images/ShareSvg'
 import React, { useState } from 'react'
+import ProductTopHeader from './ProductTopHeader'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 
@@ -31,6 +32,7 @@ function Product() {
 
     return (
         <div>
+            <ProductTopHeader />
             <Swiper
                 loop={true}
                 pagination={{
