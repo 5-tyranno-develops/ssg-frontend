@@ -2,7 +2,7 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import './terms.css'
 import React from 'react'
 
-import Agree from './_components/agree'
+import Agree from './_components/Agree'
 import Authphone from './_components/Authphone'
 function Auth() {
     return (

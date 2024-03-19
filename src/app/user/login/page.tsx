@@ -22,7 +22,7 @@ function Login() {
                         </span>
                     </div>
                     <div className="mt-6">
-                        <Buttons title="로그인" />
+                        <Buttons title="로그인" href="/" />
                     </div>
 
                     <div className=" flex justify-center mt-4 space-x-1 text-xs">

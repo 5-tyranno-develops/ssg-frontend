@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import signupcoupon from '@/images/signupcoupon.png'
 import HeaderTitle from '@/components/ui/HeaderTitle'
-import Link from 'next/link'
 import Buttons from '@/components/ui/buttons'
 
 function Signup() {
