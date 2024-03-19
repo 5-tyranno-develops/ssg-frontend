@@ -1,12 +1,11 @@
 'use client'
 import Buttons from '@/components/ui/buttons'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 export default function Authphone() {
     const [name, setName] = useState('')
     const [gender, setGender] = useState<number>()
     const [birthday, setBirthday] = useState('')
     const [phoneNumberString, setPhoneNumberString] = useState('')
-    const [isButtonEnabled, setIsButtonEnabled] = useState(false)
 
     const settingName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -25,19 +24,18 @@ export default function Authphone() {
         setGender(genderType)
     }
 
-    useEffect(() => {
-        // 모든 필드가 채워져 있는지 확인합니다.
-        const allFieldsFilled =
-            name.trim() !== '' && gender !== undefined && birthday.trim() !== '' && phoneNumberString.trim() !== ''
-
-        // 버튼 활성화 상태를 설정합니다.
-        setIsButtonEnabled(allFieldsFilled)
-    }, [name, gender, birthday, phoneNumberString])
     const handleButtonClick = () => {
         localStorage.setItem('name', name)
         localStorage.setItem('birthday', birthday)
         localStorage.setItem('phoneNumberString', phoneNumberString)
         localStorage.setItem('gender', gender?.toString() || '')
+    }
+    const fieldCheck = () => {
+        if (name && birthday && phoneNumberString && gender) {
+            return true
+        } else {
+            return false
+        }
     }
 
     return (
@@ -123,7 +121,7 @@ export default function Authphone() {
                         />
                     )} */}
 
-                {!(name && birthday && phoneNumberString && gender) && (
+                {!fieldCheck() && (
                     <div>
                         <Buttons
                             title="인증번호 받기"
@@ -133,7 +131,7 @@ export default function Authphone() {
                     </div>
                 )}
 
-                {name && birthday && phoneNumberString && gender && (
+                {fieldCheck() && (
                     <Buttons title="인증번호 받기" href="/user/signupintro/signup" click={handleButtonClick}></Buttons>
                 )}
             </span>
