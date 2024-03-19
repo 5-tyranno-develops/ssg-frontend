@@ -9,7 +9,7 @@ function Signup() {
     return (
         <div>
             <HeaderTitle title="회원가입" />
-            <h3 style={{ padding: '2%', fontWeight: 'bold', fontSize: '20px' }}>
+            <h3 style={{ padding: '2%' }}>
                 믿고 사는 즐거움 <br />
                 SSG.COM에 오신것을 환영합니다.
             </h3>
@@ -18,12 +18,10 @@ function Signup() {
             </div>
             <div>
                 <span>
-                    <Buttons title="멤버십 혜택 받고 통합회원 가입하기" />
+                    <Buttons title="인증번호 받기" href="/user/signupintro/auth" />
                 </span>
                 <label>
-                    <button className="button-groups" style={{ backgroundColor: '#f0f0f0' }}>
-                        <Link href="/user/signupintro/auth"> 통합회원만 가입하기 </Link>
-                    </button>
+                    <Buttons title="통합회원만 가입하기" color="#f0f0f0" href="/user/signupintro/auth" />
                 </label>
             </div>
         </div>
