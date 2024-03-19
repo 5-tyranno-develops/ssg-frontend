@@ -4,7 +4,7 @@ import './signup.css'
 import { useState, useEffect } from 'react'
 import PostcodeButton from '@/components/common/address'
 import Buttons from '@/components/ui/buttons'
-import { useRouter } from 'next/navigation'
+
 function signup() {
     const [loginId, setLoginId] = useState('')
     const [password, setpassword] = useState('')
@@ -25,28 +25,10 @@ function signup() {
     const [passwordValue, setPasswordValue] = useState('')
     const [passwordConfirm, setpasswordConfirm] = useState('')
 
-    // const router = useRouter()
-    // const { param1, param2 } = router.query
-    // if (typeof window !== 'undefined') {
-    //     const storedName = localStorage.getItem('name')
-    //     const storedBirthday = localStorage.getItem('birthday')
-    //     const storedPhoneNumberString = localStorage.getItem('phoneNumberString')
-    //     console.log(storedName, storedBirthday, storedPhoneNumberString)
-
-    //     // localStorage를 사용한 로직 계속...
-    // }
-    const [storedName, setStoredName] = useState('')
-    const [storedBirthday, setStoredBirthday] = useState('')
-    const [storedPhoneNumberString, setStoredPhoneNumberString] = useState('')
-
     useEffect(() => {
-        const name = localStorage.getItem('name')
-        const birthday = localStorage.getItem('birthday')
-        const phoneNumberString = localStorage.getItem('phoneNumberString')
-
-        setStoredName(name || '')
-        setStoredBirthday(birthday || '')
-        setStoredPhoneNumberString(phoneNumberString || '')
+        setName(localStorage.getItem('name') || '')
+        setBirth(localStorage.getItem('birthday') || '')
+        setPhoneNumber(localStorage.getItem('phoneNumberString') || '')
     }, [])
 
     const handleAddressChange = (address: string) => {
@@ -82,6 +64,24 @@ function signup() {
         }
     }
 
+    const sendUserApi = () => {
+        const user = {
+            loginId: loginId,
+            password: password,
+            name: name,
+            addressBase: addressBase,
+            addressDetail: addressDetail,
+            zipCode: zipCode,
+            phoneNumber: phoneNumber,
+            email: email,
+            gender: gender,
+            birth: birth,
+            shinsegaeMarketingAgree: shinsegaeMarketingAgree,
+            shinsegaeOptionAgree: shinsegaeOptionAgree,
+            ssgMarketingAgree: ssgMarketingAgree,
+        }
+        console.log(user)
+    }
     return (
         <div>
             <HeaderTitle title="신세계포인트 통합회원 가입" />
@@ -154,7 +154,7 @@ function signup() {
                             </span>
                             <label>이름</label>
                         </dt>
-                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{storedName}</span>
+                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{name}</span>
                     </dl>
                 </div>
                 <div className="box">
@@ -182,7 +182,7 @@ function signup() {
                             </span>
                             <label>휴대폰번호</label>
                         </dt>
-                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{storedPhoneNumberString}</span>
+                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{phoneNumber}</span>
                     </dl>
                 </div>
                 <div className="box">
@@ -250,7 +250,7 @@ function signup() {
             </p>
             <div className="w-full">
                 <label>
-                    <Buttons title="가입하기" href="/" />
+                    <Buttons title="가입하기" href="/" click={sendUserApi} />
                 </label>
             </div>
         </div>
