@@ -167,7 +167,6 @@ function Product() {
                 ))}
                 {!expanded && images.length > 2 && (
                     <div>
-                        <div></div>
                         <button
                             type="button"
                             onClick={toggleExpand}
@@ -184,7 +183,6 @@ function Product() {
                             type="button"
                             onClick={toggleExpand}
                             className=" w-full h-12 bg-white text-base text-center"
-                            style={{ boxShadow: '0px -30px 15px rgba(0, 0, 0, 0.1)' }}
                         >
                             상세정보 접기
                         </button>
