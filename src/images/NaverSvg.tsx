@@ -1,8 +1,8 @@
 function NaverIcon() {
     return (
-        <svg width="54" height="54" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="51" height="51" viewBox="0 0 54 54" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect width="54" height="54" rx="27" fill="#03C75A" />
-            <g clip-path="url(#clip0_288_84)">
+            <g clipPath="url(#clip0_288_84)">
                 <path
                     d="M30.5614 27.7033L23.1461 17H17V37H23.4386V26.295L30.8539 37H37V17H30.5614V27.7033Z"
                     fill="white"
