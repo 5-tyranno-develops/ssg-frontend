@@ -16,7 +16,7 @@ export default function Home() {
     // 버튼 클릭 이벤트 핸들러
     const handleButtonClick = async () => {
         try {
-            const response = await fetch('http://15.164.246.181:8080/api/v1/category')
+            const response = await fetch('https://tyrannoback.com/api/v1/category')
             if (!response.ok) {
                 throw new Error('서버 웨러')
             }
