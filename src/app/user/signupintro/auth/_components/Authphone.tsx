@@ -1,11 +1,12 @@
 'use client'
 import Buttons from '@/components/ui/buttons'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 export default function Authphone() {
     const [name, setName] = useState('')
     const [gender, setGender] = useState<number>()
     const [birthday, setBirthday] = useState('')
     const [phoneNumberString, setPhoneNumberString] = useState('')
+    const [isButtonEnabled, setIsButtonEnabled] = useState(false)
 
     const settingName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
@@ -23,6 +24,15 @@ export default function Authphone() {
     const genderHandler = (genderType: number) => {
         setGender(genderType)
     }
+
+    useEffect(() => {
+        // 모든 필드가 채워져 있는지 확인합니다.
+        const allFieldsFilled =
+            name.trim() !== '' && gender !== undefined && birthday.trim() !== '' && phoneNumberString.trim() !== ''
+
+        // 버튼 활성화 상태를 설정합니다.
+        setIsButtonEnabled(allFieldsFilled)
+    }, [name, gender, birthday, phoneNumberString])
     const handleButtonClick = () => {
         localStorage.setItem('name', name)
         localStorage.setItem('birthday', birthday)
@@ -112,7 +122,20 @@ export default function Authphone() {
                             click={handleButtonClick}
                         />
                     )} */}
-                <Buttons title="인증번호 받기" href="/user/signupintro/signup" click={handleButtonClick}></Buttons>
+
+                {!(name && birthday && phoneNumberString && gender) && (
+                    <div>
+                        <Buttons
+                            title="인증번호 받기"
+                            href="/user/signupintro/auth"
+                            click={() => alert('모든 항목을 체크해주세요')}
+                        ></Buttons>
+                    </div>
+                )}
+
+                {name && birthday && phoneNumberString && gender && (
+                    <Buttons title="인증번호 받기" href="/user/signupintro/signup" click={handleButtonClick}></Buttons>
+                )}
             </span>
         </>
     )
