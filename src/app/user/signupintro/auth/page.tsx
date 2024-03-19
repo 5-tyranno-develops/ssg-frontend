@@ -6,7 +6,7 @@ import Agree from './_components/agree'
 import Authphone from './_components/Authphone'
 function Auth() {
     return (
-        <div>
+        <main>
             <HeaderTitle title="신세계포인트 통합회원 가입" />
             <div className="non-header">
                 <Agree />
@@ -23,7 +23,7 @@ function Auth() {
                     </ul>
                 </div>
             </div>
-        </div>
+        </main>
     )
 }
 

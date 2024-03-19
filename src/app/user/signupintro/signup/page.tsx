@@ -29,6 +29,7 @@ function signup() {
         setName(localStorage.getItem('name') || '')
         setBirth(localStorage.getItem('birthday') || '')
         setPhoneNumber(localStorage.getItem('phoneNumberString') || '')
+        setGender(Number(localStorage.getItem('gender')) || 1)
     }, [])
 
     const handleAddressChange = (address: string) => {
@@ -61,6 +62,21 @@ function signup() {
             setpasswordConfirm('비밀번호가 일치하지 않습니다.')
         } else {
             setpasswordConfirm('')
+        }
+    }
+    const handleCheckboxChange = (type: string) => {
+        switch (type) {
+            case 'shinsegaeMarketing':
+                setShinsegaeMarketingAgree(11)
+                break
+            case 'shinsegaeOption':
+                setShinsegaeOptionAgree(11)
+                break
+            case 'ssgMarketing':
+                setSsgMarketingAgree(11)
+                break
+            default:
+                break
         }
     }
 
@@ -208,10 +224,10 @@ function signup() {
                 <h3> 마케팅 정보 수신동의</h3>
             </div>
             <div>
-                <h4 className="m-3 ml-5 font-semibold">신세게포인트</h4>
+                ㄴ<h4 className="m-3 ml-5 font-semibold">신세게포인트</h4>
                 <div className="terms-box">
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={() => handleCheckboxChange('shinsegaeMarketing')} />
                         <span style={{ padding: '10px' }}>
                             {' '}
                             (선택) 마케팅 정보 제공을 위한 개인정보 수집 및 이용 동의{' '}
@@ -230,7 +246,6 @@ function signup() {
                     <span className="terms-content">내용 보기</span>
                 </div>
                 <h4 className="m-3 ml-5 font-semibold">SSG.COM</h4>
-
                 <div className="terms-box">
                     <label>
                         <input type="checkbox" />
