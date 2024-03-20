@@ -1,7 +1,7 @@
 import React from 'react'
-import ProductBottomHeader from './ProductBottomHeader'
+
 import ProductDetail from './ProductDetail'
-import Thumnail from './Thumbnail'
+import Thumnail from '../../../../components/pages/product/Thumbnail'
 
 function Product() {
     return (
@@ -9,8 +9,6 @@ function Product() {
             <Thumnail />
 
             <ProductDetail />
-
-            <ProductBottomHeader />
         </div>
     )
 }
