@@ -39,9 +39,22 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                     </div>
 
                     {/* 모달 바디 */}
-                    <div className="flex w-full max-w-full max-h-full ">
-                        <ul className="block ">
-                            <li></li>
+                    <div className="flex w-full max-w-full max-h-full">
+                        <ul className="block">
+                            <li style={{ display: 'flex', fontSize: '13px' }}>
+                                <label className="flex items-center">
+                                    <div className="py-5 px-4">
+                                        <input type="radio" className="block relative w-5 h-5" />
+                                    </div>
+                                    <div className="flex-col ml-4">
+                                        <div>
+                                            <strong>자취방</strong>
+                                        </div>
+                                        <p>[13213] 부산광역시 수영구 1103호</p>
+                                        <p>홍길동 / 010-1234-4567</p>
+                                    </div>
+                                </label>
+                            </li>
                         </ul>
                     </div>
                 </div>
