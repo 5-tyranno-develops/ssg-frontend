@@ -1,9 +1,10 @@
 'use client'
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import './signup.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PostcodeButton from '@/components/common/address'
 import Buttons from '@/components/ui/buttons'
+
 function signup() {
     const [loginId, setLoginId] = useState('')
     const [password, setpassword] = useState('')
@@ -23,6 +24,14 @@ function signup() {
     const [loginIdValue, setLoginIdValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
     const [passwordConfirm, setpasswordConfirm] = useState('')
+
+    useEffect(() => {
+        setName(localStorage.getItem('name') || '')
+        setBirth(localStorage.getItem('birthday') || '')
+        setPhoneNumber(localStorage.getItem('phoneNumberString') || '')
+        setGender(Number(localStorage.getItem('gender')) || 1)
+    }, [])
+
     const handleAddressChange = (address: string) => {
         setAddressBase(address)
     }
@@ -55,7 +64,40 @@ function signup() {
             setpasswordConfirm('')
         }
     }
+    const handleCheckboxChange = (type: string) => {
+        switch (type) {
+            case 'shinsegaeMarketing':
+                setShinsegaeMarketingAgree(11)
+                break
+            case 'shinsegaeOption':
+                setShinsegaeOptionAgree(11)
+                break
+            case 'ssgMarketing':
+                setSsgMarketingAgree(11)
+                break
+            default:
+                break
+        }
+    }
 
+    const sendUserApi = () => {
+        const user = {
+            loginId: loginId,
+            password: password,
+            name: name,
+            addressBase: addressBase,
+            addressDetail: addressDetail,
+            zipCode: zipCode,
+            phoneNumber: phoneNumber,
+            email: email,
+            gender: gender,
+            birth: birth,
+            shinsegaeMarketingAgree: shinsegaeMarketingAgree,
+            shinsegaeOptionAgree: shinsegaeOptionAgree,
+            ssgMarketingAgree: ssgMarketingAgree,
+        }
+        console.log(user)
+    }
     return (
         <div>
             <HeaderTitle title="신세계포인트 통합회원 가입" />
@@ -128,7 +170,7 @@ function signup() {
                             </span>
                             <label>이름</label>
                         </dt>
-                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">이지민</span>
+                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{name}</span>
                     </dl>
                 </div>
                 <div className="box">
@@ -156,7 +198,7 @@ function signup() {
                             </span>
                             <label>휴대폰번호</label>
                         </dt>
-                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">010-6877-4842</span>
+                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{phoneNumber}</span>
                     </dl>
                 </div>
                 <div className="box">
@@ -185,7 +227,7 @@ function signup() {
                 <h4 className="m-3 ml-5 font-semibold">신세게포인트</h4>
                 <div className="terms-box">
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={() => handleCheckboxChange('shinsegaeMarketing')} />
                         <span style={{ padding: '10px' }}>
                             {' '}
                             (선택) 마케팅 정보 제공을 위한 개인정보 수집 및 이용 동의{' '}
@@ -195,7 +237,7 @@ function signup() {
                 </div>
                 <div className="terms-box">
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={() => handleCheckboxChange('shinsegaeOption')} />
                         <span style={{ padding: '10px' }}>
                             {' '}
                             (선택) 정보 이마트/신세계백화점 공동 개인정보 수집 및 이용동의{' '}
@@ -204,10 +246,9 @@ function signup() {
                     <span className="terms-content">내용 보기</span>
                 </div>
                 <h4 className="m-3 ml-5 font-semibold">SSG.COM</h4>
-
                 <div className="terms-box">
                     <label>
-                        <input type="checkbox" />
+                        <input type="checkbox" onChange={() => handleCheckboxChange('ssgMarketing')} />
                         <span style={{ padding: '10px' }}>
                             {' '}
                             (선택) 마케팅 정보 제공을 위한 개인정보 수집 및 이용 동의{' '}
@@ -224,7 +265,7 @@ function signup() {
             </p>
             <div className="w-full">
                 <label>
-                    <Buttons title="가입하기" href="/" />
+                    <Buttons title="가입하기" href="/" click={sendUserApi} />
                 </label>
             </div>
         </div>
