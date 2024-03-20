@@ -10,6 +10,7 @@ import SearchIcon from '@/images/SearchIcon.png'
 import 'swiper/css'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
+import Thumnail from './_components/Thumbnail'
 
 function Product() {
     return (
@@ -27,6 +28,7 @@ function Product() {
 
                 <Image src={SearchIcon} alt="검색아이콘"></Image>
             </div>
+            <Thumnail />
 
             <ProductInformation />
             <ProductDetail />

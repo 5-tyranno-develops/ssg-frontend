@@ -41,7 +41,7 @@ export default function ProductDetail() {
         }
     }
     return (
-        <main className='className="mb-12"'>
+        <main className="mb-12">
             {getImagesToShow().map((image, index) => (
                 <div key={index}>
                     <img
