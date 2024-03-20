@@ -1,4 +1,8 @@
 export interface ProductDataType {
     id: number
-    imageUrl: string
+    productName: string
+    price: number
+    detailContent: string
+    vendor: string
+    discount: number
 }
