@@ -65,16 +65,26 @@
     flex-wrap: wrap;
     margin: 0 -5px;
 }
-.tag-group span {
-    height: 22px;
+.tag {
+    height: 25px;
     padding: 1px 10px 0;
     background-color: #fff;
     border: 1px solid #c6cdd0;
     border-radius: 13px;
     font-size: 14px;
+    font-weight: 600;
     line-height: 22px;
     color: #222;
     text-align: center;
+    margin-right: 10px;
+}
+.tag input {
+    opacity: 0;
+    display: none;
+}
+.checked {
+    background-color: black;
+    color: white;
 }
 .select-sex {
     display: flex;

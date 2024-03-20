@@ -1,13 +1,17 @@
+// PostcodeButton.js
 'use client'
-import React from 'react'
+import React, { useState } from 'react'
 import { useDaumPostcodePopup } from 'react-daum-postcode'
 import HeaderTitle from '../ui/HeaderTitle'
 
-const PostcodeButton = () => {
+const PostcodeButton = ({ onAddressChange }) => {
+    const [fullAddress, setFullAddress] = useState('')
+    const [zipCode, setZipCode] = useState('')
     const open = useDaumPostcodePopup('//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js')
 
     const handleComplete = (data: any) => {
         let fullAddress = data.address
+        let zipCode = data.zonecode
         let extraAddress = ''
 
         if (data.addressType === 'R') {
@@ -20,7 +24,10 @@ const PostcodeButton = () => {
             fullAddress += extraAddress !== '' ? ` (${extraAddress})` : ''
         }
 
-        console.log(fullAddress) // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+        // fullAddress 값을 부모 컴포넌트로 전달
+        onAddressChange(fullAddress, zipCode)
+        setFullAddress(fullAddress)
+        setZipCode(zipCode)
     }
 
     const handleClick = () => {
