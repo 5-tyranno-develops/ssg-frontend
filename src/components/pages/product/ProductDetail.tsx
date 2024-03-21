@@ -7,13 +7,6 @@ import DetailIcon from '@/images/DetailIcon.png'
 
 function ProductInformation() {
     const [expanded, setExpanded] = useState(false)
-    // const [product, setProduct] = useState([])
-    // useEffect(() => {
-    //     ;(async () => {
-    //         const data = await (await fetch(`https://tyrannoback.com/api/v1/product/detail/${productId}`)).json()
-    //         console.log(data)
-    //     })()
-    // }, [])
 
     const productsDetail: ProductDataType[] = [
         {
