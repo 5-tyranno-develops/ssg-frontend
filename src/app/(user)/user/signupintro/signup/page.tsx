@@ -106,12 +106,10 @@ function signup() {
             </div>
             <div className="flex-col">
                 <div className="box">
-                    <dl className="cmem_ip">
+                    <dl>
                         <dt>
-                            <span className="cmem_require">
-                                <span className="star" aria-hidden="true" style={{ color: 'red' }}>
-                                    *
-                                </span>
+                            <span>
+                                <span style={{ color: 'red' }}>*</span>
                                 <label>아이디</label>
                             </span>
                         </dt>
@@ -119,7 +117,7 @@ function signup() {
                     <input
                         name="loginId"
                         type="text"
-                        className=" mt-1 p-2 ml-7 h-10 w-full  border text-sm"
+                        // className=" mt-1 p-2 ml-7 h-10 w-full  border text-sm"
                         placeholder="영어 또는 숫자로 6~20자리"
                         onChange={checkLoginId}
                     />
@@ -137,9 +135,7 @@ function signup() {
                     <dl className="cmem_ip">
                         <dt>
                             <span className="cmem_require">
-                                <span className="star" aria-hidden="true" style={{ color: 'red' }}>
-                                    *
-                                </span>
+                                <span style={{ color: 'red' }}>*</span>
                                 <label>비밀번호</label>
                             </span>
                         </dt>
@@ -147,44 +143,36 @@ function signup() {
                     <div className="flex-col w-full ">
                         <input
                             type="password"
-                            className=" mt-1 p-2 ml-30 h-10 w-full mb-2 border text-sm "
                             placeholder="영문, 숫자 조합 8~20자리"
                             name="password"
                             onChange={checkPassword}
                         />
                         <div style={{ color: 'red', fontSize: '13px', padding: '10px' }}>{passwordValue}</div>
-                        <input
-                            type="password"
-                            className=" p-2 ml-30 h-10 w-full  border text-sm "
-                            placeholder="비밀번호 재확인"
-                            onChange={checkPasswordConfirm}
-                        />
+                        <input type="password" placeholder="비밀번호 재확인" onChange={checkPasswordConfirm} />
                         <div style={{ color: 'red', fontSize: '13px', padding: '10px' }}>{passwordConfirm}</div>
                     </div>
                 </div>
                 <div className="box">
                     <dl className="flex">
                         <dt>
-                            <span className="star" aria-hidden="true" style={{ color: 'red' }}>
-                                *
-                            </span>
+                            <span style={{ color: 'red' }}>*</span>
                             <label>이름</label>
                         </dt>
-                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{name}</span>
+                        <span className=" mt-1 p-2 ml-6 h-10  mb-1 text-sm ">{name}</span>
                     </dl>
                 </div>
                 <div className="box">
-                    <dl className="cmem_ip">
+                    <dl>
                         <dt>
-                            <span className="cmem_require">
-                                <span className="star" aria-hidden="true" style={{ color: 'red' }}>
-                                    *
-                                </span>
+                            <span>
+                                <span style={{ color: 'red' }}>*</span>
                                 <label>주소</label>
                             </span>
                         </dt>
                     </dl>
-                    <input type="text" className=" mt-1 p-2 ml-7 h-10 w-full  border text-sm" />
+
+                    <input type="text" />
+
                     <PostcodeButton onAddressChange={handleAddressChange} />
                 </div>
                 <div className="ml-10">
@@ -193,31 +181,23 @@ function signup() {
                 <div className="box">
                     <dl className="flex">
                         <dt>
-                            <span className="star" aria-hidden="true" style={{ color: 'red' }}>
-                                *
-                            </span>
+                            <span style={{ color: 'red' }}>*</span>
                             <label>휴대폰번호</label>
                         </dt>
-                        <span className=" mt-1 p-2 ml-6 h-10 w-full mb-1 text-sm ">{phoneNumber}</span>
+                        <span className=" mt-1 p-2 ml-6 h-10 mb-1 text-sm ">{phoneNumber}</span>
                     </dl>
                 </div>
                 <div className="box">
                     <dl className="cmem_ip">
                         <dt>
                             <span className="cmem_require">
-                                <span className="star" aria-hidden="true" style={{ color: 'red' }}>
-                                    *
-                                </span>
+                                <span style={{ color: 'red' }}>*</span>
                                 <label>이메일주소</label>
                             </span>
                         </dt>
                     </dl>
 
-                    <input
-                        type="text"
-                        className=" mt-1 p-2 ml-30 h-10 w-full mb-1 border text-sm "
-                        placeholder="이메일 주소"
-                    />
+                    <input type="text" placeholder="이메일 주소" />
                 </div>
             </div>
             <div style={{ backgroundColor: '#f8f8f8', padding: '15px 20px' }}>
@@ -263,7 +243,7 @@ function signup() {
             <p style={{ color: '#666', marginTop: '10px', marginLeft: '10px', fontSize: '13px', marginBottom: '30px' }}>
                 <strong>선택 항목에 동의하지 않더라도 SSG.COM회원가입 및 기본 서비스를 이용하실 수 있습니다.</strong>
             </p>
-            <div className="w-full">
+            <div className="w-full mb-7">
                 <label>
                     <Buttons title="가입하기" href="/" click={sendUserApi} />
                 </label>
