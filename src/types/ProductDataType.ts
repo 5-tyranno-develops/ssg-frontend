@@ -1,5 +1,5 @@
 export interface ProductDataType {
-    productId: number
+    productId: string
     productName: string
     price: number
     detailContent: string
