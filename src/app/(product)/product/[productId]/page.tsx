@@ -1,22 +1,17 @@
-async function getProductData({ productId }: { productId: string }) {
+import { ProductDataType } from '@/types/ProductDataType'
+export async function GetProductData(productId: string): Promise<ProductDataType> {
     const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/${productId}`)
     if (!res.ok) {
-        throw new Error('Network Error')
+        throw new Error('Failed to fetch data')
     }
-    const data = await res.json()
+    const data: ProductDataType = await res.json()
     return data
 }
 
-export default async function Page({
-    params,
-}: {
-    params: {
-        productName: string
-    }
-}) {
+export default async function Page({params}) {
     return (
         <div>
-            <h1>{params.productName}</h1>
+
         </div>
     )
 }

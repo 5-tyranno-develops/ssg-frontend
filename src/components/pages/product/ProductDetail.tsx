@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ProductDataType } from '@/types/ProductDataType'
 import ShareIcon from '@/images/ShareSvg'
 import Image from 'next/image'
@@ -7,10 +7,17 @@ import DetailIcon from '@/images/DetailIcon.png'
 
 function ProductInformation() {
     const [expanded, setExpanded] = useState(false)
+    // const [product, setProduct] = useState([])
+    // useEffect(() => {
+    //     ;(async () => {
+    //         const data = await (await fetch(`https://tyrannoback.com/api/v1/product/detail/${productId}`)).json()
+    //         console.log(data)
+    //     })()
+    // }, [])
 
     const productsDetail: ProductDataType[] = [
         {
-            id: 1,
+            productId: 1,
             vendor: '살로몬',
             productName: ' 살로몬 남녀공용 레이스플래그 WP 자켓 [블랙] S241001SJK12 / LC2393200',
             price: 320000,
@@ -36,7 +43,7 @@ function ProductInformation() {
     return (
         <div>
             {productsDetail.map((product) => (
-                <div key={product.id}>
+                <div key={product.productId}>
                     <div className=" flex items-center justify-between border-b-2  ">
                         <span className=" text-xs font-bold mb-2 ml-2">
                             <p>신세계백화점</p>
