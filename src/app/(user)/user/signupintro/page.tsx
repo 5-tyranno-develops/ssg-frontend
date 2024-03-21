@@ -2,7 +2,6 @@ import React from 'react'
 import Image from 'next/image'
 import signupcoupon from '@/images/signupcoupon.png'
 import HeaderTitle from '@/components/ui/HeaderTitle'
-import Link from 'next/link'
 import Buttons from '@/components/ui/buttons'
 
 function Signup() {
@@ -18,12 +17,10 @@ function Signup() {
             </div>
             <div>
                 <span>
-                    <Buttons title="인증번호 받기" />
+                    <Buttons title="인증번호 받기" href="/user/signupintro/auth" />
                 </span>
                 <label>
-                    <button className="button-groups" style={{ backgroundColor: '#f0f0f0' }}>
-                        <Link href="/user/signupintro/auth"> 통합회원만 가입하기 </Link>
-                    </button>
+                    <Buttons title="통합회원만 가입하기" color="#f0f0f0" href="/user/signupintro/auth" />
                 </label>
             </div>
         </div>
