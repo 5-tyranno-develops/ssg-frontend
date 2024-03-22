@@ -2,7 +2,6 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import './signup.css'
 import { useState, useEffect } from 'react'
-import PostcodeButton from '@/components/common/address'
 import Buttons from '@/components/ui/buttons'
 import Postcode from '@/app/address/Addaddress/add'
 
@@ -39,9 +38,6 @@ function signup() {
         setGender(Number(localStorage.getItem('gender')) || 1)
     }, [])
 
-    const handleAddressChange = (address: string) => {
-        setAddressBase(address)
-    }
     const checkLoginId = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newId = event.target.value
         var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,20}$/
@@ -97,24 +93,53 @@ function signup() {
         }
     }
 
-    const sendUserApi = () => {
-        const user = {
-            loginId: loginId,
-            password: password,
-            name: name,
-            addressBase: addressBase,
-            addressDetail: addressDetail,
-            zipCode: zipCode,
-            phoneNumber: phoneNumber,
-            email: email,
-            gender: gender,
-            birth: birth,
-            shinsegaeMarketingAgree: shinsegaeMarketingAgree,
-            shinsegaeOptionAgree: shinsegaeOptionAgree,
-            ssgMarketingAgree: ssgMarketingAgree,
+    const sendUserApi = async () => {
+        try {
+            const response = await fetch('https://tyrannoback.com/api/v1/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    loginId: loginId,
+                    password: password,
+                    name: name,
+                    deliveryBase: addressBase,
+                    deliveryDetail: addressDetail,
+                    zipCode: zipCode,
+                    phoneNumber: phoneNumber,
+                    email: email,
+                    gender: gender,
+                    birth: birth,
+                    shinsegaeMarketingAgree: shinsegaeMarketingAgree,
+                    shinsegaeOptionAgree: shinsegaeOptionAgree,
+                    ssgMarketingAgree: ssgMarketingAgree,
+                }),
+            })
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok')
+            }
+
+            const data = await response.json()
+            console.log('Response from server:', data)
+        } catch (error) {
+            console.error('Error:', error)
         }
-        console.log(user)
+        console.log(
+            loginId,
+            password,
+            name,
+            addressBase,
+            addressDetail,
+            zipCode,
+            phoneNumber,
+            email,
+            birth,
+            ssgMarketingAgree,
+        )
     }
+
     return (
         <div>
             <Postcode
@@ -208,8 +233,12 @@ function signup() {
                     </button>
                 </div>
                 <div className="ml-10">
-                    <span>
-                        {addressBase} {addressDetail}
+                    <span className="flex">
+                        <span className="terms-content">도로명</span>
+                        <span className="ml-14">
+                            {addressBase}
+                            {addressDetail}
+                        </span>
                     </span>
                 </div>
                 <div className="box">
