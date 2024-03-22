@@ -24,6 +24,7 @@ function signup() {
     const [loginIdValue, setLoginIdValue] = useState('')
     const [passwordValue, setPasswordValue] = useState('')
     const [passwordConfirm, setpasswordConfirm] = useState('')
+    const [emailValue, setEmailValue] = useState('')
 
     useEffect(() => {
         setName(localStorage.getItem('name') || '')
@@ -62,6 +63,16 @@ function signup() {
             setpasswordConfirm('비밀번호가 일치하지 않습니다.')
         } else {
             setpasswordConfirm('')
+        }
+    }
+    const checkEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newEmail = event.target.value
+        var regExp = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/
+        if (!regExp.test(newEmail)) {
+            setEmailValue('이메일 형식이 올바르지 않습니다.')
+        } else {
+            setEmailValue('')
+            setEmail(newEmail)
         }
     }
     const handleCheckboxChange = (type: string) => {
@@ -197,8 +208,9 @@ function signup() {
                         </dt>
                     </dl>
 
-                    <input type="text" placeholder="이메일 주소" />
+                    <input type="text" placeholder="이메일 주소" onChange={checkEmail} />
                 </div>
+                <div style={{ color: 'red', fontSize: '13px', padding: '10px' }}>{emailValue}</div>
             </div>
             <div style={{ backgroundColor: '#f8f8f8', padding: '15px 20px' }}>
                 <h3> 마케팅 정보 수신동의</h3>
