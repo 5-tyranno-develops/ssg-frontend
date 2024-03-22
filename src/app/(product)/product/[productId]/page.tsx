@@ -8,4 +8,5 @@ export async function GetProductData(productId: string): Promise<ProductDataType
     const data: ProductDataType = await res.json()
     return data
 }
+
 export default GetProductData

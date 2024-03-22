@@ -4,7 +4,15 @@ import { ProductDataType } from '@/types/ProductDataType'
 import ShareIcon from '@/images/ShareSvg'
 import Image from 'next/image'
 import DetailIcon from '@/images/DetailIcon.png'
-import { GetProductData } from '@/app/(product)/product/[productId]/page'
+
+export async function GetProductData(): Promise<ProductDataType> {
+    const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/101`)
+    if (!res.ok) {
+        throw new Error('Failed to fetch data')
+    }
+    const data: ProductDataType = await res.json()
+    return data
+}
 
 function ProductInformation() {
     const [expanded, setExpanded] = useState(false)
@@ -13,13 +21,14 @@ function ProductInformation() {
     useEffect(() => {
         ;(async () => {
             try {
-                const product = await GetProductData('productId')
+                const product = await GetProductData()
                 setProduct(product)
             } catch (error) {
                 console.error('Error fetching product data:', error)
             }
         })()
     }, [])
+
     const toggleExpand = () => {
         setExpanded(!expanded)
     }
@@ -45,14 +54,7 @@ function ProductInformation() {
                         </button>
                     </div>
                     <div className="m-4 ">
-                        <div className="mt-2 mb-1">
-                            <a
-                                href="https://m.ssg.com/disp/brandShop.ssg?brandId=2011010806&ctgId=6000204818&_mpop=new"
-                                className=" text-sm font-bold"
-                            >
-                                {product.vendor}
-                            </a>
-                        </div>
+                        <div className="mt-2 mb-1"> {product.vendor.length > 0 && product.vendor[0].vendorName}</div>
                         <span className=" text-base ">{product.productName}</span>
 
                         <div>
@@ -123,7 +125,7 @@ function ProductInformation() {
 
                     {getImagesToShow().map((image, index) => (
                         <div key={index}>
-                            <img src={image} alt={`상품이미지${index + 1}`} className="w-full" />{' '}
+                            <img src={image} alt={`상품이미지${index + 1}`} className="w-full" />
                         </div>
                     ))}
 
