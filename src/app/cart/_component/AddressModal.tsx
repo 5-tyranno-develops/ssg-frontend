@@ -1,6 +1,7 @@
 'use client'
 import X_icon from '@/images/X_icon.png'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface AddressModalProps {
     modalOpen: boolean
@@ -56,6 +57,13 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                                 </label>
                             </li>
                         </ul>
+                    </div>
+                    <div className="px-4">
+                        <Link href={'/cart/address'}>
+                            <button className="w-full border h-14 mt-5" type="button">
+                                <span className="text-sm font-light">+ 주소 추가하기</span>
+                            </button>
+                        </Link>
                     </div>
                 </div>
             </div>

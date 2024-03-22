@@ -1,10 +1,8 @@
 'use client'
 import React from 'react'
-import { useDaumPostcodePopup } from 'react-daum-postcode'
+import DaumPostcodeEmbed from 'react-daum-postcode'
 
 const Postcode = () => {
-    const open = useDaumPostcodePopup('//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js')
-
     const handleComplete = (data: any) => {
         let fullAddress = data.address
         let extraAddress = ''
@@ -22,15 +20,7 @@ const Postcode = () => {
         console.log(fullAddress) // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     }
 
-    const handleClick = () => {
-        open({ onComplete: handleComplete })
-    }
-
-    return (
-        <button type="button" onClick={handleClick}>
-            Open
-        </button>
-    )
+    return <DaumPostcodeEmbed onComplete={handleComplete} />
 }
 
 export default Postcode

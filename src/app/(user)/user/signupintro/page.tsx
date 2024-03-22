@@ -17,7 +17,7 @@ function Signup() {
             </div>
             <div>
                 <span>
-                    <Buttons title="인증번호 받기" href="/user/signupintro/auth" />
+                    <Buttons title="멤버십 혜택 받고 통홥회원 가입하기" href="/user/signupintro/auth" />
                 </span>
                 <label>
                     <Buttons title="통합회원만 가입하기" color="#f0f0f0" href="/user/signupintro/auth" />
