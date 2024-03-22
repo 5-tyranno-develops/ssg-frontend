@@ -7,7 +7,7 @@ import HeartIcon from '@/images/HeartIcon.png'
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <>
-            {/* <div className="fixed top-0 w-full flex items-center justify-between h-12  font-bold bg-white px-2 z-[900]">
+            <div className="fixed top-0 w-full flex items-center justify-between h-12  font-bold bg-white px-2 z-[900]">
                 <span className="ml-4">
                     <BackIcon />
                 </span>
@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <span>
                     <Image src={SearchIcon} alt="검색아이콘" width={24} height={24} />
                 </span>
-            </div> */}
+            </div>
             {children}
             <div className="fixed bottom-0 w-full z-[900]">
                 <ul className="flex items-center h-12">
