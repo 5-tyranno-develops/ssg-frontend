@@ -10,8 +10,15 @@ export default function Authphone() {
     const settingName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
     }
-    const settingBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setBirthday(e.target.value)
+    // const settingBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     setBirthday(e.target.value)
+    // }
+
+    const parsingBirthday = (num: string) => {
+        return num
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,4})(\d{0,2})(\d{0,2})$/g, '$1-$2-$3')
+            .replace(/(\-{1,2})$/g, '')
     }
     const parsingPhoneNumber = (num: string) => {
         return num
@@ -65,9 +72,10 @@ export default function Authphone() {
                     <input
                         type="text"
                         className="input-content"
-                        name="birthday"
+                        value={birthday}
                         placeholder="생년월일 8자리(예. 20100101)"
-                        onChange={settingBirthday}
+                        maxLength={10}
+                        onChange={(e) => setBirthday(parsingBirthday(e.target.value))}
                     />
 
                     <select id="currency" name="foriegn" style={{ fontSize: '14px', color: '#000', width: '10%' }}>
@@ -102,7 +110,7 @@ export default function Authphone() {
                         placeholder="-없이 휴대폰번호 입력"
                     />
                 </span>
-                <label className="userName"></label>
+                {/* <label className="u"></label> */}
             </div>
             <span>
                 {/* {checkedItem.length === terms.length ? (
