@@ -38,11 +38,8 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
             full += extraAddress !== '' ? ` (${extraAddress})` : ''
         }
         setFullAddr(full)
-
         setzCode(zonecode)
-
         setFullAddress(full)
-
         setZipCode(zonecode)
         console.log(full, detailAddr, zonecode) // detailAddress 출력
     }
@@ -53,8 +50,9 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
 
         // setFullAddress(full)
         setDetailAddress(detailAddr)
-        // setZipCode(zonecode)
+
         setModalOpen(false)
+        console.log(full, detailAddr, zonecode) // detailAddress 출력
     }
 
     return (
