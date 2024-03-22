@@ -35,18 +35,13 @@ const PostcodeButton = ({ onAddressChange }: { onAddressChange: (fullAddress: st
     }
 
     return (
-        <div>
-            {/* <div style={{ backgroundColor: '#f8f8f8', padding: '15px 20px' }}> */}
-            {/* <h3>배송지 정보</h3> */}
-            {/* </div> */}
-            <button
-                className=" mt-1 ml-2 h-10 w-28 text-sm  "
-                style={{ backgroundColor: '#d1d1d1', fontWeight: 'bold' }}
-                onClick={handleClick}
-            >
-                중복확인
-            </button>
-        </div>
+        <button
+            className=" mt-1 ml-2 h-10 w-28 text-sm  "
+            style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
+            onAbort={handleClick}
+        >
+            주소 찾기
+        </button>
     )
 }
 
