@@ -233,12 +233,17 @@ function signup() {
                     </button>
                 </div>
                 <div className="ml-10">
+<<<<<<< HEAD
                     <span className="flex">
                         <span className="terms-content">도로명</span>
                         <span className="ml-14">
                             {addressBase}
                             {addressDetail}
                         </span>
+=======
+                    <span>
+                        {addressBase} {addressDetail}
+>>>>>>> 018eb01 (fix : 주소 추가)
                     </span>
                 </div>
                 <div className="box">

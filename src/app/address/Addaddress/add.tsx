@@ -48,7 +48,12 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     const closeModal = () => {
         setDetailAddr(detailAddr)
         setDetailAddress(detailAddr)
+<<<<<<< HEAD
+=======
+
+>>>>>>> 018eb01 (fix : 주소 추가)
         setModalOpen(false)
+        console.log(full, detailAddr, zonecode) // detailAddress 출력
     }
 
     return (
