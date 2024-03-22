@@ -2,8 +2,8 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import './signup.css'
 import { useState, useEffect } from 'react'
-import PostcodeButton from '@/components/common/address'
 import Buttons from '@/components/ui/buttons'
+import Postcode from '@/app/address/Addaddress/add'
 
 function signup() {
     const [loginId, setLoginId] = useState('')
@@ -11,7 +11,7 @@ function signup() {
     const [name, setName] = useState('')
     const [addressBase, setAddressBase] = useState('')
     const [addressDetail, setAddressDetail] = useState('')
-    const [zipCode, setZipCode] = useState(0)
+    const [zipCode, setZipCode] = useState<string>('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [email, setEmail] = useState('')
     const [gender, setGender] = useState(0)
@@ -26,6 +26,11 @@ function signup() {
     const [passwordConfirm, setpasswordConfirm] = useState('')
     const [emailValue, setEmailValue] = useState('')
 
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+    // const [fullAddress, setFullAddress] = useState('')
+    // const [detailAddress, setDetailAddress] = useState('')
+    // const [zipCode, setZipCode] = useState<string>()
+
     useEffect(() => {
         setName(localStorage.getItem('name') || '')
         setBirth(localStorage.getItem('birthday') || '')
@@ -33,9 +38,6 @@ function signup() {
         setGender(Number(localStorage.getItem('gender')) || 1)
     }, [])
 
-    const handleAddressChange = (address: string) => {
-        setAddressBase(address)
-    }
     const checkLoginId = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newId = event.target.value
         var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,20}$/
@@ -91,26 +93,62 @@ function signup() {
         }
     }
 
-    const sendUserApi = () => {
-        const user = {
-            loginId: loginId,
-            password: password,
-            name: name,
-            addressBase: addressBase,
-            addressDetail: addressDetail,
-            zipCode: zipCode,
-            phoneNumber: phoneNumber,
-            email: email,
-            gender: gender,
-            birth: birth,
-            shinsegaeMarketingAgree: shinsegaeMarketingAgree,
-            shinsegaeOptionAgree: shinsegaeOptionAgree,
-            ssgMarketingAgree: ssgMarketingAgree,
+    const sendUserApi = async () => {
+        try {
+            const response = await fetch('https://tyrannoback.com/api/v1/users/signup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    loginId: loginId,
+                    password: password,
+                    name: name,
+                    deliveryBase: addressBase,
+                    deliveryDetail: addressDetail,
+                    zipCode: zipCode,
+                    phoneNumber: phoneNumber,
+                    email: email,
+                    gender: gender,
+                    birth: birth,
+                    shinsegaeMarketingAgree: shinsegaeMarketingAgree,
+                    shinsegaeOptionAgree: shinsegaeOptionAgree,
+                    ssgMarketingAgree: ssgMarketingAgree,
+                }),
+            })
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok')
+            }
+
+            const data = await response.json()
+            console.log('Response from server:', data)
+        } catch (error) {
+            console.error('Error:', error)
         }
-        console.log(user)
+        console.log(
+            loginId,
+            password,
+            name,
+            addressBase,
+            addressDetail,
+            zipCode,
+            phoneNumber,
+            email,
+            birth,
+            ssgMarketingAgree,
+        )
     }
+
     return (
         <div>
+            <Postcode
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                setFullAddress={setAddressBase}
+                setDetailAddress={setAddressDetail}
+                setZipCode={setZipCode}
+            />
             <HeaderTitle title="신세계포인트 통합회원 가입" />
             <div style={{ backgroundColor: '#f8f8f8', padding: '15px 20px' }}>
                 <h3>회원 정보</h3>
@@ -182,12 +220,26 @@ function signup() {
                         </dt>
                     </dl>
 
-                    <input type="text" />
+                    <input type="text" value={zipCode} readOnly />
 
-                    <PostcodeButton onAddressChange={handleAddressChange} />
+                    <button
+                        className=" mt-1 ml-2 h-10 w-28 text-sm  "
+                        style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
+                        onClick={() => {
+                            setModalOpen(true)
+                        }}
+                    >
+                        주소 찾기
+                    </button>
                 </div>
                 <div className="ml-10">
-                    <span>{addressBase}</span>
+                    <span className="flex">
+                        <span className="terms-content">도로명</span>
+                        <span className="ml-14">
+                            {addressBase}
+                            {addressDetail}
+                        </span>
+                    </span>
                 </div>
                 <div className="box">
                     <dl className="flex">
