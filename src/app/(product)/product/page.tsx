@@ -1,7 +1,7 @@
 import React from 'react'
 
-import ProductDetail from '../../../../components/pages/product/ProductDetail'
-import Thumnail from '../../../../components/pages/product/Thumbnail'
+import ProductDetail from '../../../components/pages/product/ProductDetail'
+import Thumnail from '../../../components/pages/product/Thumbnail'
 
 function Product() {
     return (

@@ -1,8 +1,12 @@
 export interface ProductDataType {
-    id: number
+    productId: number
     productName: string
     price: number
     detailContent: string
-    vendor: string
+    vendor: {
+        vendorName: string
+        vendorImageUrl: string | null
+        vendorId: number
+    }[]
     discount: number
 }

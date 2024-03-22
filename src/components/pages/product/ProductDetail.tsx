@@ -1,42 +1,49 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ProductDataType } from '@/types/ProductDataType'
 import ShareIcon from '@/images/ShareSvg'
 import Image from 'next/image'
 import DetailIcon from '@/images/DetailIcon.png'
 
+export async function GetProductData(): Promise<ProductDataType> {
+    const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/101`)
+    if (!res.ok) {
+        throw new Error('Failed to fetch data')
+    }
+    const data: ProductDataType = await res.json()
+    return data
+}
+
 function ProductInformation() {
     const [expanded, setExpanded] = useState(false)
+    const [product, setProduct] = useState<ProductDataType | null>(null)
 
-    const productsDetail: ProductDataType[] = [
-        {
-            id: 1,
-            vendor: '살로몬',
-            productName: ' 살로몬 남녀공용 레이스플래그 WP 자켓 [블랙] S241001SJK12 / LC2393200',
-            price: 320000,
-            discount: 5,
-            detailContent: `
-            <div className="cdtl_detail_img">
-            <img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i1_1200.jpg" alt="상품이미지1" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i2_1200.jpg" alt="상품이미지2" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i3_1200.jpg" alt="상품이미지3" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i4_1200.jpg" alt="상품이미지4" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i5_1200.jpg" alt="상품이미지5" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i6_1200.jpg" alt="상품이미지6" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i7_1200.jpg" alt="상품이미지7" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i8_1200.jpg" alt="상품이미지8" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i9_1200.jpg" alt="상품이미지9" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"><img src="https://sitem.ssgcdn.com/19/39/55/item/1000581553919_i10_1200.jpg" alt="상품이미지10" onerror="this.onerror=null;this.src='https://simg.ssgcdn.com/trans.ssg?src=/ui/ssg/img/common/img_ready_500x500.jpg&amp;w=1200&amp;h=1200&amp;t=2ca8e91106bfe8f410b8440ea403e5acdc70084a'"></div>`,
-        },
-    ]
+    useEffect(() => {
+        ;(async () => {
+            try {
+                const product = await GetProductData()
+                setProduct(product)
+            } catch (error) {
+                console.error('Error fetching product data:', error)
+            }
+        })()
+    }, [])
 
     const toggleExpand = () => {
         setExpanded(!expanded)
     }
 
     const getImagesToShow = () => {
-        const images = productsDetail[0].detailContent.match(/src="([^"]+)"/g)?.map((match) => match.slice(5, -1)) || []
-        if (expanded) {
-            return images
-        } else {
-            return images.slice(0, 2)
+        if (product) {
+            const images = product.detailContent.match(/src="([^"]+)"/g)?.map((match) => match.slice(5, -1)) || []
+            return expanded ? images : images.slice(0, 2)
         }
+        return []
     }
     return (
         <div>
-            {productsDetail.map((product) => (
-                <div key={product.id}>
+            {product && (
+                <div>
                     <div className=" flex items-center justify-between border-b-2  ">
                         <span className=" text-xs font-bold mb-2 ml-2">
                             <p>신세계백화점</p>
@@ -47,14 +54,7 @@ function ProductInformation() {
                         </button>
                     </div>
                     <div className="m-4 ">
-                        <div className="mt-2 mb-1">
-                            <a
-                                href="https://m.ssg.com/disp/brandShop.ssg?brandId=2011010806&ctgId=6000204818&_mpop=new"
-                                className=" text-sm font-bold"
-                            >
-                                {product.vendor}
-                            </a>
-                        </div>
+                        <div className="mt-2 mb-1"> {product.vendor.length > 0 && product.vendor[0].vendorName}</div>
                         <span className=" text-base ">{product.productName}</span>
 
                         <div>
@@ -125,7 +125,7 @@ function ProductInformation() {
 
                     {getImagesToShow().map((image, index) => (
                         <div key={index}>
-                            <img src={image} alt={`상품이미지${index + 1}`} className="w-full" />{' '}
+                            <img src={image} alt={`상품이미지${index + 1}`} className="w-full" />
                         </div>
                     ))}
 
@@ -159,7 +159,7 @@ function ProductInformation() {
                         </div>
                     )}
                 </div>
-            ))}
+            )}
         </div>
     )
 }
