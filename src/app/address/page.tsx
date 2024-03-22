@@ -1,8 +1,25 @@
+'use client'
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import Link from 'next/link'
+import { useState } from 'react'
+import Postcode from './Addaddress/add'
+
 function Address() {
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const [fullAddress, setFullAddress] = useState('')
+    const [detailAddress, setDetailAddress] = useState('')
+    const [zipCode, setZipCode] = useState<string>()
+    console.log(fullAddress, detailAddress, zipCode) // detailAddress 출력
+
     return (
-        <main>
+        <div>
+            <Postcode
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                setFullAddress={setFullAddress}
+                setDetailAddress={setDetailAddress}
+                setZipCode={setZipCode}
+            />
             <HeaderTitle title="배송지 추가" />
             <div className="px-3">
                 <ul>
@@ -77,12 +94,33 @@ function Address() {
                                     <input type="number" className="w-full" />
                                 </span>
                             </span>
-                            <button className="inline-block h-9 w-20 ml-2 text-sm font-bold text-red-500 border border-red-500 bg-white rounded-md">
+
+                            {/* <Link href={'/address/Addaddress'}> */}
+
+                            <button
+                                className="inline-block h-9 w-20 ml-2 text-sm font-bold text-red-500 border border-red-500 bg-white rounded-md"
+                                onClick={() => setModalOpen(true)}
+                            >
                                 우편번호
                             </button>
                         </div>
+                        <div>
+                            <span>
+                                {' '}
+                                {fullAddress} <br />
+                            </span>
+                            <span>
+                                {detailAddress}
+                                <br />
+                            </span>
+                            <span>
+                                {zipCode}
+                                <br />
+                            </span>
+                        </div>
                     </li>
                 </ul>
+
                 <div className="py-3 text-center flex justify-between w-full mb-6">
                     <button className="h-10 flex-1 mr-2 text-xs" style={{ color: '#666', border: '1px solid #ccc' }}>
                         초기화
@@ -95,7 +133,7 @@ function Address() {
                     </button>
                 </div>
             </div>
-        </main>
+        </div>
     )
 }
 export default Address
