@@ -4,6 +4,7 @@ import './signup.css'
 import { useState, useEffect } from 'react'
 import PostcodeButton from '@/components/common/address'
 import Buttons from '@/components/ui/buttons'
+import Postcode from '@/app/address/Addaddress/add'
 
 function signup() {
     const [loginId, setLoginId] = useState('')
@@ -11,7 +12,7 @@ function signup() {
     const [name, setName] = useState('')
     const [addressBase, setAddressBase] = useState('')
     const [addressDetail, setAddressDetail] = useState('')
-    const [zipCode, setZipCode] = useState(0)
+    const [zipCode, setZipCode] = useState<string>('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [email, setEmail] = useState('')
     const [gender, setGender] = useState(0)
@@ -25,6 +26,11 @@ function signup() {
     const [passwordValue, setPasswordValue] = useState('')
     const [passwordConfirm, setpasswordConfirm] = useState('')
     const [emailValue, setEmailValue] = useState('')
+
+    const [modalOpen, setModalOpen] = useState<boolean>(false)
+    // const [fullAddress, setFullAddress] = useState('')
+    // const [detailAddress, setDetailAddress] = useState('')
+    // const [zipCode, setZipCode] = useState<string>()
 
     useEffect(() => {
         setName(localStorage.getItem('name') || '')
@@ -111,6 +117,13 @@ function signup() {
     }
     return (
         <div>
+            <Postcode
+                modalOpen={modalOpen}
+                setModalOpen={setModalOpen}
+                setFullAddress={setAddressBase}
+                setDetailAddress={setAddressDetail}
+                setZipCode={setZipCode}
+            />
             <HeaderTitle title="신세계포인트 통합회원 가입" />
             <div style={{ backgroundColor: '#f8f8f8', padding: '15px 20px' }}>
                 <h3>회원 정보</h3>
@@ -182,12 +195,22 @@ function signup() {
                         </dt>
                     </dl>
 
-                    <input type="text" />
+                    <input type="text" value={zipCode} readOnly />
 
-                    <PostcodeButton onAddressChange={handleAddressChange} />
+                    <button
+                        className=" mt-1 ml-2 h-10 w-28 text-sm  "
+                        style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
+                        onClick={() => {
+                            setModalOpen(true)
+                        }}
+                    >
+                        주소 찾기
+                    </button>
                 </div>
                 <div className="ml-10">
-                    <span>{addressBase}</span>
+                    <span>
+                        {addressBase} {addressDetail}
+                    </span>
                 </div>
                 <div className="box">
                     <dl className="flex">
