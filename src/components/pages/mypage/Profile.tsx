@@ -9,7 +9,7 @@ function Profile() {
         { id: 2, src: 'https://sui.ssgcdn.com/cmpt/banner/202307/2023073120492185002872124287_711.png', alt: '광고2' },
     ]
     return (
-        <section className="p-4">
+        <section>
             <div>
                 <h1>신세계 님</h1>
                 <h2 className="font-bold">SSG에서 즐거운 쇼핑 되세요!</h2>
@@ -29,7 +29,7 @@ function Profile() {
                     <p>통합회원전환하기</p>
                 </div>
             </div>
-            <div className="relative">
+            <div className="relative ">
                 <Swiper
                     loop={true}
                     autoplay={{ delay: 3500 }}

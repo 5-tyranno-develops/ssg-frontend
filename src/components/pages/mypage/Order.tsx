@@ -1,6 +1,6 @@
 function Order() {
     return (
-        <section className="p-4">
+        <section className="mt-5">
             <h1 className=" font-bold">주문/배송 조회</h1>
             <ul className="flex p-1 mt-3 ">
                 <li className="flex-1 ">
