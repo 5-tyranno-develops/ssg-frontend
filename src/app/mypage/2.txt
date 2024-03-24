@@ -1,0 +1,44 @@
+import HeaderTitle from '@/components/ui/HeaderTitle'
+import Image from 'next/image'
+import Ad1 from '@/images/Ad1.png'
+import Ad2 from '@/images/Ad2.png'
+import Like from '@/images/Like.png'
+import Freq from '@/images/Freq.png'
+import Event from '@/images/Event.png'
+import Qna from '@/images/Qna.png'
+import Notification from '@/images/Notification.png'
+import Gift from '@/images/Gift.png'
+import GiftCard from '@/images/GiftCard.png'
+import Albi from '@/images/Albi.png'
+import Delivery from '@/images/Delivery.png'
+import Regular from '@/images/Regular.png'
+import Alert from '@/images/Alert.png'
+import Chat from '@/images/Chat.png'
+import Universe from '@/images/Universe.png'
+import Modify from '@/images/Modify.png'
+import Manage from '@/images/Manage.png'
+
+function Mypage() {
+    return (
+        <div>
+            <div className="flex">
+                <Image src={Like} alt="좋아요" />
+                <Image src={Freq} alt="자주구매" />
+                <Image src={Event} alt="이벤트현황" />
+                <Image src={Qna} alt="상품QnA" />
+                <Image src={Notification} alt="입고알림" />
+                <Image src={Gift} alt="선물함" />
+                <Image src={GiftCard} alt="상품권전환" />
+                <Image src={Albi} alt="알비백관리" />
+                <Image src={Delivery} alt="배송지관리" />
+                <Image src={Regular} alt="정기배송관리" />
+                <Image src={Alert} alt="알림함" />
+                <Image src={Chat} alt="고객센터톡" />
+                <Image src={Universe} alt="유니버스클럽" />
+                <Image src={Modify} alt="회원정보변경" />
+                <Image src={Manage} alt="내정보관리" />
+            </div>
+        </div>
+    )
+}
+export default Mypage
