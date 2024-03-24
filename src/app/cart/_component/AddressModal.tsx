@@ -59,7 +59,7 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                         </ul>
                     </div>
                     <div className="px-4">
-                        <Link href={'/cart/address'}>
+                        <Link href={'/address'}>
                             <button className="w-full border h-14 mt-5" type="button">
                                 <span className="text-sm font-light">+ 주소 추가하기</span>
                             </button>

@@ -91,7 +91,7 @@ function Address() {
                                     style={{ border: '1px solid #ccc', borderRadius: '2px' }}
                                 >
                                     {/* <Link href="/cart/address"/> */}
-                                    <input type="number" className="w-full" />
+                                    <input type="number" className="w-full" value={zipCode} readOnly />
                                 </span>
                             </span>
 
@@ -104,21 +104,22 @@ function Address() {
                                 우편번호
                             </button>
                         </div>
-                        <div>
-                            <span>
-                                {' '}
-                                {fullAddress} <br />
-                            </span>
-                            <span>
-                                {detailAddress}
-                                <br />
-                            </span>
-                            <span>
-                                {zipCode}
-                                <br />
-                            </span>
-                        </div>
                     </li>
+                    {fullAddress && (
+                        <div className="mt-2 text-sm leading-5  ">
+                            <div className="flex">
+                                <div
+                                    className=" w-10 mt-1 mr-3 mb-1 pt-1 text-xs leading-5 font-normal text-center "
+                                    style={{ backgroundColor: '#f6f6f6', color: '#888 ' }}
+                                >
+                                    도로명
+                                </div>
+                                <span className="mt-2">
+                                    {fullAddress} <br />
+                                </span>
+                            </div>
+                        </div>
+                    )}
                 </ul>
 
                 <div className="py-3 text-center flex justify-between w-full mb-6">
