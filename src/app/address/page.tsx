@@ -1,8 +1,7 @@
 'use client'
 import HeaderTitle from '@/components/ui/HeaderTitle'
-import Link from 'next/link'
 import { useState } from 'react'
-import Postcode from './Addaddress/add'
+import Postcode from '../../components/pages/address/add'
 
 function Address() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)

@@ -3,7 +3,9 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import './signup.css'
 import { useState, useEffect } from 'react'
 import Buttons from '@/components/ui/buttons'
-import Postcode from '@/app/address/Addaddress/add'
+import Postcode from '@/components/pages/address/add'
+import { sign } from 'crypto'
+import signupAPI from '@/api/user'
 
 function signup() {
     const [loginId, setLoginId] = useState('')
@@ -25,11 +27,7 @@ function signup() {
     const [passwordValue, setPasswordValue] = useState('')
     const [passwordConfirm, setpasswordConfirm] = useState('')
     const [emailValue, setEmailValue] = useState('')
-
     const [modalOpen, setModalOpen] = useState<boolean>(false)
-    // const [fullAddress, setFullAddress] = useState('')
-    // const [detailAddress, setDetailAddress] = useState('')
-    // const [zipCode, setZipCode] = useState<string>()
 
     useEffect(() => {
         setName(localStorage.getItem('name') || '')
@@ -78,66 +76,40 @@ function signup() {
         }
     }
     const handleCheckboxChange = (type: string) => {
-        switch (type) {
-            case 'shinsegaeMarketing':
-                setShinsegaeMarketingAgree(11)
-                break
-            case 'shinsegaeOption':
-                setShinsegaeOptionAgree(11)
-                break
-            case 'ssgMarketing':
-                setSsgMarketingAgree(11)
-                break
-            default:
-                break
+        const handlers: { [key: string]: () => void } = {
+            shinsegaeMarketing: () => setShinsegaeMarketingAgree(11),
+            shinsegaeOption: () => setShinsegaeOptionAgree(11),
+            ssgMarketing: () => setSsgMarketingAgree(11),
+        }
+
+        const handler = handlers[type]
+        if (handler) {
+            handler()
         }
     }
 
     const sendUserApi = async () => {
+        const requestData = {
+            loginId: loginId,
+            password: password,
+            name: name,
+            deliveryBase: addressBase,
+            deliveryDetail: addressDetail,
+            zipCode: parseInt(zipCode),
+            phoneNumber: phoneNumber,
+            email: email,
+            gender: gender,
+            birth: birth,
+            shinsegaeMarketingAgree: shinsegaeMarketingAgree,
+            shinsegaeOptionAgree: shinsegaeOptionAgree,
+            ssgMarketingAgree: ssgMarketingAgree,
+        }
         try {
-            const response = await fetch('https://tyrannoback.com/api/v1/users/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    loginId: loginId,
-                    password: password,
-                    name: name,
-                    deliveryBase: addressBase,
-                    deliveryDetail: addressDetail,
-                    zipCode: zipCode,
-                    phoneNumber: phoneNumber,
-                    email: email,
-                    gender: gender,
-                    birth: birth,
-                    shinsegaeMarketingAgree: shinsegaeMarketingAgree,
-                    shinsegaeOptionAgree: shinsegaeOptionAgree,
-                    ssgMarketingAgree: ssgMarketingAgree,
-                }),
-            })
-
-            if (!response.ok) {
-                throw new Error('Network response was not ok')
-            }
-
-            const data = await response.json()
-            console.log('Response from server:', data)
+            await signupAPI(requestData)
+            console.log(requestData)
         } catch (error) {
             console.error('Error:', error)
         }
-        console.log(
-            loginId,
-            password,
-            name,
-            addressBase,
-            addressDetail,
-            zipCode,
-            phoneNumber,
-            email,
-            birth,
-            ssgMarketingAgree,
-        )
     }
 
     return (
@@ -307,11 +279,10 @@ function signup() {
             <p style={{ color: '#666', marginTop: '10px', marginLeft: '10px', fontSize: '13px', marginBottom: '30px' }}>
                 <strong>선택 항목에 동의하지 않더라도 SSG.COM회원가입 및 기본 서비스를 이용하실 수 있습니다.</strong>
             </p>
-            <div className="w-full mb-7">
-                <label>
-                    <Buttons title="가입하기" href="/" click={sendUserApi} />
-                </label>
-            </div>
+
+            <label className="w-full mb-7">
+                <Buttons title="가입하기" href="/" click={sendUserApi} />
+            </label>
         </div>
     )
 }

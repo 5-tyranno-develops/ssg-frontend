@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import AddressModal from './_component/AddressModal'
+import AddressModal from '../../components/pages/address/AddressModal'
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import LocationIcon from '@/images/locationIcon.png'
 import Image from 'next/image'
