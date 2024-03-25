@@ -5,6 +5,7 @@ import StillPinIcon from '@/images/StillPinIcon.png'
 import StillRedPinIcon from '@/images/StillRedPinIcon.png'
 import trash from '@/images/Trash.png'
 import './../../..//app/cart/cart.css'
+import Buttons from '@/components/ui/buttons'
 
 export default function CartList() {
     const productData = [
@@ -269,6 +270,16 @@ export default function CartList() {
                     <span className="text-base font-bold mt-2">총 결제예정금액</span>
                     <span className="text-lg font-bold mt-2">{(totalMoney + discountMoney).toLocaleString()} 원</span>
                 </div>
+            </div>
+            <div className="fixed bottom-0 left-0 right-0 z-[100] bg-white">
+                <div className="relative p-4 ">
+                    <p className="text-xs text-black">
+                        전체상품 {filteredProductList.length}개 {(totalMoney + discountMoney).toLocaleString()} 원 +
+                        배송비 0원 = {(totalMoney + discountMoney).toLocaleString()} 원
+                    </p>
+                    <p className="text-rose-600 text-xs">할인혜택 없음</p>
+                </div>
+                <Buttons title="주문하기" href="/cart" />
             </div>
         </>
     )
