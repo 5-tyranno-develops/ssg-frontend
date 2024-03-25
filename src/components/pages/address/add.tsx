@@ -2,8 +2,6 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import React, { useState } from 'react'
 import DaumPostcodeEmbed from 'react-daum-postcode'
-import { useRouter } from 'next/navigation'
-
 interface AddaddressProps {
     modalOpen: boolean
     setModalOpen: (value: boolean) => void
@@ -15,6 +13,7 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     const [fullAddr, setFullAddr] = useState('')
     const [detailAddr, setDetailAddr] = useState('')
     const [zCode, setzCode] = useState('')
+    const [jibunAddr, setJibunAddr] = useState('')
 
     const settingDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDetailAddr(e.target.value)
@@ -22,11 +21,14 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     let zonecode = ''
     let full = ''
     let extraAddress = ''
+    let jibunAddress = ''
 
     const handleComplete = (data: any) => {
         zonecode = data.zonecode
         full = data.address
         extraAddress = ''
+        jibunAddress = data.jibunAddress
+        jibunAddress = data.jibunAddress
 
         if (data.addressType === 'R') {
             if (data.bname !== '') {
@@ -41,18 +43,15 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
         setzCode(zonecode)
         setFullAddress(full)
         setZipCode(zonecode)
-        console.log(full, detailAddr, zonecode) // detailAddress 출력
+        setJibunAddr(jibunAddress)
+        console.log(full, detailAddr, zonecode, jibunAddress) // detailAddress 출력
+        setJibunAddr(jibunAddress)
+        console.log(full, detailAddr, zonecode, jibunAddress) // detailAddress 출력
     }
     const closeModal = () => {
-        // setFullAddr(full)
         setDetailAddr(detailAddr)
-        // setzCode(zonecode)
-
-        // setFullAddress(full)
         setDetailAddress(detailAddr)
-
         setModalOpen(false)
-        console.log(full, detailAddr, zonecode) // detailAddress 출력
     }
 
     return (
@@ -64,22 +63,46 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
                 </div>
                 <div className="flex justify-center">{zCode}</div>
                 <div className="flex justify-center">{fullAddr}</div>
-
-                <input
-                    type="text"
-                    className="w-full h-10"
-                    style={{ border: '1px solid ' }}
-                    onChange={settingDetailAddress}
-                />
-
-                <button
-                    className="w-full h-10"
-                    onClick={() => {
-                        closeModal()
-                    }}
-                >
-                    확인
-                </button>
+                <div className="flex justify-center">{jibunAddr}</div>
+                <div className="m-10 ">
+                    <input
+                        type="text"
+                        className=" w-full h-10 "
+                        style={{ border: '1px solid ' }}
+                        onChange={settingDetailAddress}
+                    />
+                    <div className="flex justify-center">
+                        <button
+                            className="w-20 h-10 mt-3 font-bold"
+                            onClick={() => {
+                                closeModal()
+                            }}
+                            style={{ backgroundColor: 'red', color: 'white' }}
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
+                <div className="flex justify-center">{jibunAddr}</div>
+                <div className="m-10 ">
+                    <input
+                        type="text"
+                        className=" w-full h-10 "
+                        style={{ border: '1px solid ' }}
+                        onChange={settingDetailAddress}
+                    />
+                    <div className="flex justify-center">
+                        <button
+                            className="w-20 h-10 mt-3 font-bold"
+                            onClick={() => {
+                                closeModal()
+                            }}
+                            style={{ backgroundColor: 'red', color: 'white' }}
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
             </div>
         )
     )

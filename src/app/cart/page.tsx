@@ -1,21 +1,14 @@
-'use client'
-import { useState } from 'react'
-import Buttons from '@/components/ui/buttons'
-import AddressModal from './_component/AddressModal'
-
+import HeaderTitle from '@/components/ui/HeaderTitle'
+import CartList from '@/components/pages/cart/CartList'
+import DeliveryAddress from '@/components/pages/cart/DeliveryAddress'
+import ChangeAddress from '@/components/pages/cart/ChangeAddress'
 function Cart() {
-    const [modalOpen, setModalOpen] = useState<boolean>(false)
-
     return (
         <main>
-            <button
-                onClick={() => {
-                    setModalOpen(true)
-                }}
-            >
-                버튼
-            </button>
-            <AddressModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
+            <HeaderTitle title="장바구니" />
+            <DeliveryAddress />
+            <ChangeAddress />
+            <CartList />
         </main>
     )
 }

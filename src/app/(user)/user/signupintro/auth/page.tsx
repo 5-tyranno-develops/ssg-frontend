@@ -2,8 +2,8 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import './terms.css'
 import React from 'react'
 
-import Agree from './_components/Agree'
-import Authphone from './_components/Authphone'
+import Agree from '../../../../../components/pages/signup/auth/Agree'
+import Authphone from '../../../../../components/pages/signup/auth/Authphone'
 function Auth() {
     return (
         <main>

@@ -1,24 +1,13 @@
-'use client'
 import X_icon from '@/images/X_icon.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import AddressList from './AddressList'
 
 interface AddressModalProps {
     modalOpen: boolean
     setModalOpen: (value: boolean) => void
 }
 function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
-    const deliveryData = {
-        deliveryId: 1,
-        isBaseDelivery: 11,
-        deliveryName: '자취방',
-        zipCode: 12345,
-        deliveryBase: '서울시 강남구',
-        deliveryDetail: '역삼동 123-456',
-        receiverName: '홍길동',
-        phoneNumber: 123456789,
-        homeNumber: 123456789,
-    }
     return modalOpen ? (
         <div>
             <div className="bg-black/60 absolute inset-0 z-50">
@@ -39,27 +28,10 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                         </button>
                     </div>
 
-                    {/* 모달 바디 */}
-                    <div className="flex w-full max-w-full max-h-full">
-                        <ul className="block">
-                            <li style={{ display: 'flex', fontSize: '13px' }}>
-                                <label className="flex items-center">
-                                    <div className="py-5 px-4">
-                                        <input type="radio" className="block relative w-5 h-5" />
-                                    </div>
-                                    <div className="flex-col ml-4">
-                                        <div>
-                                            <strong>자취방</strong>
-                                        </div>
-                                        <p>[13213] 부산광역시 수영구 1103호</p>
-                                        <p>홍길동 / 010-1234-4567</p>
-                                    </div>
-                                </label>
-                            </li>
-                        </ul>
-                    </div>
+                    <AddressList />
+
                     <div className="px-4">
-                        <Link href={'/cart/address'}>
+                        <Link href={'/address'}>
                             <button className="w-full border h-14 mt-5" type="button">
                                 <span className="text-sm font-light">+ 주소 추가하기</span>
                             </button>
