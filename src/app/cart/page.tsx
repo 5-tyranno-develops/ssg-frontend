@@ -8,7 +8,6 @@ function Cart() {
             <HeaderTitle title="장바구니" />
             <DeliveryAddress />
             <ChangeAddress />
-            {/* <div className="flex justify-center px-3 py-4"></div> */}
             <CartList />
         </main>
     )
