@@ -57,6 +57,25 @@ export default function CartList() {
             setFilteredProductList(updatedFilteredProductList)
         }
     }
+    const checkDeletedProduct = (checkedItemDelete: number[]) => {
+        const confirm = window.confirm('선택된 상품을 삭제하시겠습니까?')
+        if (confirm) {
+            const updatedFilteredProductList = filteredProductList.map((product) => {
+                if (checkedItemDelete.includes(product.productId)) {
+                    return { ...product, isIncluded: 99 }
+                }
+                return product
+            })
+            setFilteredProductList(updatedFilteredProductList)
+        }
+    }
+    const [showOnlySelectedProducts, setShowOnlySelectedProducts] = useState(false)
+
+    // 선택상품만 보기 체크박스의 onChange 핸들러
+    const handleShowOnlySelectedProductsChange = () => {
+        setShowOnlySelectedProducts((prevState) => !prevState)
+    }
+
     const [allChecked, setAllChecked] = useState(false)
     const [checkedItem, setCheckedItem] = useState<number[]>([])
     const checkItemhandler = (id: number, ischecked: boolean) => {
@@ -91,10 +110,25 @@ export default function CartList() {
                 <label>
                     <span className="mx-3 "> 전체</span>
                 </label>
-                |<button className="ml-3 px-2 py-1">선택삭제</button>|
+                |
+                <button
+                    className="ml-3 px-2 py-1"
+                    onClick={() => {
+                        checkDeletedProduct(checkedItem)
+                    }}
+                >
+                    선택삭제
+                </button>
+                |
                 <div className="flex ">
                     <label className="mx-3">
-                        선택상품만 보기 <input type="checkbox" id="switch" />
+                        선택상품만 보기{' '}
+                        <input
+                            type="checkbox"
+                            id="switch"
+                            onChange={handleShowOnlySelectedProductsChange}
+                            checked={showOnlySelectedProducts}
+                        />
                         <label htmlFor="switch" className="switch_label">
                             <span className="onf_btn" />
                         </label>
@@ -105,7 +139,8 @@ export default function CartList() {
             <ul>
                 {filteredProductList.map(
                     (product, index) =>
-                        product.isIncluded === 11 && (
+                        product.isIncluded === 11 &&
+                        (!showOnlySelectedProducts || checkedItem.includes(product.productId)) && (
                             <li key={product.productId} className="flex items-center py-5 px-4 border-t">
                                 <div className="flex items-start relative w-full">
                                     <label className="relative mr-3">
