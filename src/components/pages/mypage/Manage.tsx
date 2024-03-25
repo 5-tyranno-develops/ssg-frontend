@@ -48,11 +48,11 @@ function Manage() {
         },
     ]
     return (
-        <section className="">
+        <section>
             {ManageList.map((list, index) => (
                 <div key={list.id} className="mt-4">
                     <h3 className="font-extrabold mb-3">{list.title}</h3>
-                    <ul className="grid grid-cols-2 gap-2 text-sm text-gray-500 mb-4">
+                    <ul className="grid grid-cols-2 gap-2  text-gray-500 mb-4">
                         {list.items?.map((item, idx) => (
                             <li key={idx} className="">
                                 <Link href="#">{item}</Link>
