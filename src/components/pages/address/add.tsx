@@ -14,7 +14,6 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     const [detailAddr, setDetailAddr] = useState('')
     const [zCode, setzCode] = useState('')
     const [jibunAddr, setJibunAddr] = useState('')
-    const [jibunAddr, setJibunAddr] = useState('')
 
     const settingDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDetailAddr(e.target.value)
@@ -22,7 +21,6 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     let zonecode = ''
     let full = ''
     let extraAddress = ''
-    let jibunAddress = ''
     let jibunAddress = ''
 
     const handleComplete = (data: any) => {
