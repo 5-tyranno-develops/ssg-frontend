@@ -14,7 +14,7 @@ function Footer() {
             <footer>
                 <div className="px-4" style={{ backgroundColor: '#717178' }}>
                     <div className="table w-full min-h-14 py-3 items-center">
-                        <Image src={FooterImage} alt="footerImage" width={40} height={27} />
+                        <Image src={FooterImage} alt="footerImage" className="w-10 h-auto" />
                         <p className="table-cell relative text-xs text-white align-middle ">
                             <span>SSG.COM 고객센터 / 전자금융거래 분쟁처리</span>
                             <br />
