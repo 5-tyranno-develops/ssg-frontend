@@ -1,7 +1,6 @@
 import X_icon from '@/images/X_icon.png'
 import Image from 'next/image'
 import Link from 'next/link'
-import { AddressDataType } from '@/types/AddressDataType'
 import AddressList from './AddressList'
 
 interface AddressModalProps {
