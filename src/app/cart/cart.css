@@ -1,0 +1,41 @@
+#switch {
+    /* hidden */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.switch_label {
+    position: relative;
+    display: inline-block;
+    width: 26px;
+    height: 16px;
+    background: #d8d8d8;
+    border-radius: 20px;
+    transition: 0.2s;
+}
+.switch_label:hover {
+    background: #efefef;
+}
+.onf_btn {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border-radius: 020px;
+    background: white;
+    transition: 0.2s;
+}
+
+/* checking style */
+#switch:checked + .switch_label {
+    background: #222222;
+}
+
+/* move */
+#switch:checked + .switch_label .onf_btn {
+    left: 11px;
+    background: #fff;
+}
