@@ -224,7 +224,6 @@ export default function CartList() {
                                                 width={20}
                                                 height={20}
                                                 onClick={() => isKeepHandle(product.productId, product.isKeep)}
-                                                color="red"
                                             />
                                             <button onClick={() => deletedProduct(index)}>
                                                 <Image src={trash} alt="삭제" width={20} height={20} />
