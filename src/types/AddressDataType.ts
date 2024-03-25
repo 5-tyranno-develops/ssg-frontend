@@ -1,4 +1,4 @@
-export interface Address {
+export interface AddressDataType {
     deliveryId: Number
     isBaseDelivery: Number
     deliveryName: string
@@ -6,6 +6,6 @@ export interface Address {
     deliveryBase: string
     deliveryDetail: string
     receiverName: string
-    phoneNumber: Number
-    homeNumber: Number
+    phoneNumber: string
+    homeNumber: string
 }
