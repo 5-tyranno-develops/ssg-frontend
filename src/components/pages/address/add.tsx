@@ -14,6 +14,7 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     const [detailAddr, setDetailAddr] = useState('')
     const [zCode, setzCode] = useState('')
     const [jibunAddr, setJibunAddr] = useState('')
+    const [jibunAddr, setJibunAddr] = useState('')
 
     const settingDetailAddress = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDetailAddr(e.target.value)
@@ -22,11 +23,13 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
     let full = ''
     let extraAddress = ''
     let jibunAddress = ''
+    let jibunAddress = ''
 
     const handleComplete = (data: any) => {
         zonecode = data.zonecode
         full = data.address
         extraAddress = ''
+        jibunAddress = data.jibunAddress
         jibunAddress = data.jibunAddress
 
         if (data.addressType === 'R') {
@@ -42,6 +45,8 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
         setzCode(zonecode)
         setFullAddress(full)
         setZipCode(zonecode)
+        setJibunAddr(jibunAddress)
+        console.log(full, detailAddr, zonecode, jibunAddress) // detailAddress 출력
         setJibunAddr(jibunAddress)
         console.log(full, detailAddr, zonecode, jibunAddress) // detailAddress 출력
     }
@@ -60,6 +65,26 @@ const Postcode = ({ modalOpen, setModalOpen, setFullAddress, setDetailAddress, s
                 </div>
                 <div className="flex justify-center">{zCode}</div>
                 <div className="flex justify-center">{fullAddr}</div>
+                <div className="flex justify-center">{jibunAddr}</div>
+                <div className="m-10 ">
+                    <input
+                        type="text"
+                        className=" w-full h-10 "
+                        style={{ border: '1px solid ' }}
+                        onChange={settingDetailAddress}
+                    />
+                    <div className="flex justify-center">
+                        <button
+                            className="w-20 h-10 mt-3 font-bold"
+                            onClick={() => {
+                                closeModal()
+                            }}
+                            style={{ backgroundColor: 'red', color: 'white' }}
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
                 <div className="flex justify-center">{jibunAddr}</div>
                 <div className="m-10 ">
                     <input

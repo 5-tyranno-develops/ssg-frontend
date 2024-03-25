@@ -2,6 +2,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import StillPinIcon from '@/images/StillPinIcon.png'
+import StillRedPinIcon from '@/images/StillRedPinIcon.png'
 import trash from '@/images/Trash.png'
 import './../../..//app/cart/cart.css'
 
@@ -94,6 +95,26 @@ export default function CartList() {
             setCheckedItem([])
         }
         console.log(checkedItem)
+    }
+    const isKeepHandle = (id: number, isKeep: number) => {
+        if (isKeep == 99) {
+            const updatedFilteredProductList = filteredProductList.map((product) => {
+                if (product.productId === id) {
+                    return { ...product, isKeep: 11 }
+                }
+                return product
+            })
+            setFilteredProductList(updatedFilteredProductList)
+        } else {
+            const updatedFilteredProductList = filteredProductList.map((product) => {
+                if (product.productId === id) {
+                    return { ...product, isKeep: 99 }
+                }
+                return product
+            })
+            setFilteredProductList(updatedFilteredProductList)
+        }
+        console.log(filteredProductList)
     }
 
     return (
@@ -194,18 +215,36 @@ export default function CartList() {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="absolute top-0 right-0 flex items-start">
-                                        <Image
-                                            className="mr-5"
-                                            src={StillPinIcon}
-                                            alt="계속담아두기"
-                                            width={20}
-                                            height={20}
-                                        />
-                                        <button onClick={() => deletedProduct(index)}>
-                                            <Image src={trash} alt="삭제" width={20} height={20} />
-                                        </button>
-                                    </div>
+                                    {product.isKeep === 11 ? (
+                                        <div className="absolute top-0 right-0 flex items-start">
+                                            <Image
+                                                className="mr-5"
+                                                src={StillRedPinIcon}
+                                                alt="계속담아두기"
+                                                width={20}
+                                                height={20}
+                                                onClick={() => isKeepHandle(product.productId, product.isKeep)}
+                                            />
+                                            <button onClick={() => deletedProduct(index)}>
+                                                <Image src={trash} alt="삭제" width={20} height={20} />
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="absolute top-0 right-0 flex items-start">
+                                            <Image
+                                                className="mr-5"
+                                                src={StillPinIcon}
+                                                alt="계속담아두기"
+                                                width={20}
+                                                height={20}
+                                                onClick={() => isKeepHandle(product.productId, product.isKeep)}
+                                                color="red"
+                                            />
+                                            <button onClick={() => deletedProduct(index)}>
+                                                <Image src={trash} alt="삭제" width={20} height={20} />
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </li>
                         ),
