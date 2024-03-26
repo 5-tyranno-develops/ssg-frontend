@@ -7,7 +7,7 @@ function MainHeader() {
         <div className="flex flex-1 items-center">
             <Link href={'/'}>
                 <img
-                    className="m-4"
+                    className="m-3 "
                     src={
                         'https://sui.ssgcdn.com/ui/mssgmall-ssg/images/badge/mall/logo/ssg.svg?q=f323cd4fb4bb4db63ae1e7055690d6316ba74006'
                     }
@@ -16,7 +16,7 @@ function MainHeader() {
                     height={40}
                 />
             </Link>
-            <div className="relative w-full ml-3">
+            <div className="relative w-full pl-5">
                 <input type="text" className="border-4 rounded-full w-full pl-5 pr-4 py-2" />
                 <button className="absolute inset-y-0 right-4 flex items-center ">
                     <Image src="https://img.icons8.com/ios/50/search--v1.png" alt="search--v1" width={24} height={24} />

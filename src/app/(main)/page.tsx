@@ -4,10 +4,10 @@ import MainHeader from '@/components/ui/MainHeader'
 
 export default function Home() {
     return (
-        <main>
-            <h1>SSG FRONT-END</h1>
-            <MainHeader />
-            <div className="z-[900]">{/* <MainEventSection /> */}</div>
+        <main className="">
+            {/* <div > */}
+            <MainEventSection />
+            {/* </div> */}
         </main>
     )
 }
