@@ -16,16 +16,16 @@ export default function MainEventSection() {
     }
 
     return (
-        <section className=" overflow-hidden pb-bottom ">
+        <section className="relative overflow-hidden pb-bottom min-h-[60vh] w-full  ">
             <div
-                className="absolute overflow-hidden top-0 right-0 bottom-[50px] left-0 bg-cover border-solid border-0"
+                className="absolute overflow-hidden top-0 right-0 bottom-[50px] left-0 bg-cover border-solid border-0 "
                 style={{
                     backgroundImage: `url(${backgroundImage})`,
                     filter: 'blur(5px)',
-                    transition: 'background-image 1s ease-in-out',
+                    transition: 'background-image 1s ease-in-out ',
                 }}
             ></div>
-            <div className="absolute left-4 right-4 bottom-0 top-4 overflow-hidden block">
+            <div className="absolute left-4 right-4 bottom-0 top-4 min-w overflow-hidden block">
                 <Swiper
                     className="relative w-full h-full"
                     slidesPerView={1}
