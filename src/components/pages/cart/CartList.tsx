@@ -1,8 +1,6 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import StillPinIcon from '@/images/StillPinIcon.png'
-import StillRedPinIcon from '@/images/StillRedPinIcon.png'
 import trash from '@/images/Trash.png'
 import './../../..//app/cart/cart.css'
 import Buttons from '@/components/ui/buttons'
@@ -220,10 +218,10 @@ export default function CartList() {
                                         <div className="absolute top-0 right-0 flex items-start">
                                             <Image
                                                 className="mr-5"
-                                                src={StillRedPinIcon}
-                                                alt="계속담아두기"
                                                 width={20}
                                                 height={20}
+                                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABkUlEQVR4nO2Vv0oDQRDGfwTUIhYinFirIATBFIr4CPoANirY5RUkWFlY+go+gPoeFlZXREEr/zY2Wqio8ZOFCS6XS+6S3F2afLDc7e3OfN/NzszCCBlDUBkmeVXwIdgfBnlZ0BDIxkHRAk6M+F7wY+/FREKwZYQu/Ms2/y4kEoJ5wauR1SKi8hUhGBNcGMlZzHq+IgTH5vxOMN1hz+AiBBOCPcG54EbwKLgS/Aq+BOsJ9tt9J6ZgU/DslVd0JDoULFl1tBI1XbMS1AVNM3wRHApWBIFgzsSVEnzUBO/mw0WtmpZ8UhCa4adgMZXhv/2U4NSLlOsTZXp0EnginPrZlHargluzexPs9ETcRYR7Bl32llxOeFl/KVhgUCilCMsJWXW4Eh0fmLwXEdYV3XqDPCCoePXcJkIwY2sPeZAHXgSacSIEa/b9Ok/y0CLRdhyCo073QlbkjVYpxpRoxZqVm+/mQR7GnHkQaVbu+ZRJ9qvDn6fIjY2sycNuzSeyv144uX93kAXUB3mmUMKZjzACGeMPq1Fs+5EYcb4AAAAASUVORK5CYII="
+                                                alt="계속담아두기"
                                                 onClick={() => isKeepHandle(product.productId, product.isKeep)}
                                             />
                                             <button onClick={() => deletedProduct(index)}>
@@ -234,12 +232,11 @@ export default function CartList() {
                                         <div className="absolute top-0 right-0 flex items-start">
                                             <Image
                                                 className="mr-5"
-                                                src={StillPinIcon}
+                                                src="https://img.icons8.com/windows/32/pin.png"
                                                 alt="계속담아두기"
                                                 width={20}
                                                 height={20}
                                                 onClick={() => isKeepHandle(product.productId, product.isKeep)}
-                                                color="red"
                                             />
                                             <button onClick={() => deletedProduct(index)}>
                                                 <Image src={trash} alt="삭제" width={20} height={20} />
