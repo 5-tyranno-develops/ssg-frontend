@@ -10,10 +10,10 @@ function Profile() {
     ]
 
     return (
-        <section>
+        <section className="p-4">
             <div>
                 <h1 className="text-3xl">신세계 님</h1>
-                <h2 className="font-bold text-2xl mt-4">SSG에서 즐거운 쇼핑 되세요!</h2>
+                <h2 className="font-extrabold text-2xl mt-4">SSG에서 즐거운 쇼핑 되세요!</h2>
             </div>
 
             <div className="flex text-center space-x-2 mt-4 mb-4">

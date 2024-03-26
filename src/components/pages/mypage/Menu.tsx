@@ -19,11 +19,11 @@ function Menu() {
         { id: 15, src: 'https://sui.ssgcdn.com/ui/m_ssg/img/myssg_main/img_manage.svg', alt: '내정보관리' },
     ]
     return (
-        <section>
-            <p className="font-bold text-2xl">자주찾는 메뉴</p>
-            <div className="grid grid-cols-5 gap-y-3 gap-x-2 mb-10 mt-2">
+        <section className="p-4">
+            <p className="font-extrabold text-2xl">자주찾는 메뉴</p>
+            <div className="grid grid-cols-5 md:grid-cols-10 gap-y-3 gap-x-2 mb-10 mt-2">
                 {MenuIcon.map((icon) => (
-                    <div key={icon.id} className="">
+                    <div key={icon.id}>
                         <Image
                             src={icon.src}
                             alt={icon.alt}
@@ -35,14 +35,14 @@ function Menu() {
                             width={61}
                             height={61}
                         />
-                        <p className="text-sm text-center">{icon.alt}</p>
+                        <p className="text-center">{icon.alt}</p>
                     </div>
                 ))}
             </div>
             <div className="flex items-center border py-2 rounded-xl">
-                <p className="flex-1 text-center text-sm">고객센터</p>
+                <p className="flex-1 text-center ">고객센터</p>
                 <p className="text-gray-200 text-sm">|</p>
-                <p className="flex-1 text-center text-sm">e-mail 상담/답변</p>
+                <p className="flex-1 text-center">e-mail 상담/답변</p>
             </div>
         </section>
     )
