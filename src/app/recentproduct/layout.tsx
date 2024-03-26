@@ -1,5 +1,4 @@
 'use client'
-import EditButton from '@/components/pages/RecentProduct/page'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
