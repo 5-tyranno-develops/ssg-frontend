@@ -5,8 +5,9 @@ import Manage from '@/components/pages/mypage/Manage'
 
 function Mypage() {
     return (
-        <div className="p-4">
+        <div className="">
             <Profile />
+
             <Order />
             <Menu />
             <div className=" bg-gray-100 h-2 mb-2 mt-4"></div>
