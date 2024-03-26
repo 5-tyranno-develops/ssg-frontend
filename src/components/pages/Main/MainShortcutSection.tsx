@@ -6,17 +6,12 @@ import { MainShortcutType } from '@/types/MainShortcutType'
 import { mainShortcutData } from '@/lib/mainShortcutData'
 
 export default function MainShortcutSection() {
-    const [scrollPercent, setScrollPercent] = useState(20)
+    const [scrollPercent, setScrollPercent] = useState(0)
 
     const progress = (event: any) => {
         const { scrollLeft } = event.target
-        console.log('scrollLeft >>', scrollLeft)
 
-        // 스크롤한 비율 계산
-        const percentScrolled = Math.ceil((scrollLeft / 320) * 100)
-        // scrollPercent 상태 변수 업데이트
-        console.log(percentScrolled, '%')
-        console.log(screen.width)
+        const percentScrolled = Math.ceil((scrollLeft / (event.target.scrollWidth - screen.width)) * 80)
         setScrollPercent(percentScrolled)
     }
 
@@ -62,7 +57,7 @@ export default function MainShortcutSection() {
                 })}
             </ul>
             <div className="h-0.5 w-11/12 mx-auto my-2 bg-slate-300 ">
-                <div className={`bg-black h-0.5 `} style={{ width: `${scrollPercent}%` }}></div>
+                <div className={`bg-black h-0.5 `} style={{ width: `${scrollPercent + 20}%` }}></div>
             </div>
         </section>
     )
