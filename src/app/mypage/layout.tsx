@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     }
     return (
         <>
-            <div className="flex items-center py-2  border  border-gray-200">
+            {/* <div className="w-full flex items-center py-2  border  border-gray-200">
                 <span className="ml-4" onClick={back}>
                     <Image width="50" height="50" src="https://img.icons8.com/ios/50/left--v1.png" alt="left--v1" />
                 </span>
@@ -28,7 +28,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     alt="home"
                     className="mr-5"
                 />
-            </div>
+            </div> */}
             {children}
         </>
     )
