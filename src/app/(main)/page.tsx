@@ -1,15 +1,13 @@
-import Image from 'next/image'
-import MainEventSection from '../../components/pages/Main/MainEventSection'
-import MainHeader from '@/components/ui/MainHeader'
+import MainEventSection from './MainEventSection'
 import MainShortcutSection from '@/components/pages/Main/MainShortcutSection'
+import MainSecondNav from '@/components/pages/Main/MainSecondNav'
 
 export default function Home() {
     return (
         <main className="">
-            {/* <div > */}
+            <MainSecondNav />
             <MainEventSection />
             <MainShortcutSection />
-            {/* </div> */}
         </main>
     )
 }
