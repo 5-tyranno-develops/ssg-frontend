@@ -1,3 +1,5 @@
+import Image from 'next/image'
+import Link from 'next/link'
 function Order() {
     const OrderList = [
         { id: 1, name: '주문접수' },
@@ -6,43 +8,95 @@ function Order() {
         { id: 4, name: '배송중' },
         { id: 5, name: '배송완료' },
     ]
-    const OrderList1 = [
+    const OrderState = [
         { id: 1, name: '취소' },
         { id: 2, name: '교환' },
         { id: 3, name: '반품' },
         { id: 4, name: '구매확정' },
     ]
     return (
-        <section className="mt-5">
-            <h1 className="font-bold text-2xl ">주문/배송 조회</h1>
-            <ul className="flex p-1 mt-3 ">
-                {OrderList.map((list) => (
-                    <li key={list.id} className="">
-                        <div className="grid grid-cols-5  ">
-                            <span className=" flex justify-center items-center w-24 h-24 bg-gray-100 rounded-3xl text-gray-300 text-3xl mb-3">
-                                0
-                            </span>
-                        </div>
-                        <span className=" text-lg text-gray-600">{list.name}</span>
-                    </li>
-                ))}
-            </ul>
-            <div className="flex mt-2 border rounded-xl border-gray-100 bg-gray-100 ">
-                <div className="flex-1 py-2 ml-4">
-                    <span>취소</span>
-                </div>
-                <div className="flex-1 py-2 ml-4">
-                    <span>교환</span>
-                </div>
-                <div className="flex-1 py-2 ml-4">
-                    <span>반품</span>
-                </div>
-                <div className="flex-1 py-2 ml-4">
-                    <span>구매확정</span>
+        <section>
+            <div
+                className="mt-10 border-t-2 rounded-t-3xl"
+                style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
+            >
+                <div className="p-4 mt-10">
+                    <div className="flex justify-between ">
+                        <h1 className="flex font-extrabold text-xl">
+                            주문/배송 조회
+                            <Image
+                                width={30}
+                                height={30}
+                                src="https://img.icons8.com/ios-glyphs/30/back.png"
+                                alt="back"
+                                style={{ transform: 'rotate(180deg)' }}
+                            />
+                        </h1>
+                        <Link
+                            href="/cart"
+                            className="flex items-center justify-center border rounded-md font-bold px-3"
+                        >
+                            <Image
+                                width={20}
+                                height={20}
+                                src="https://img.icons8.com/fluency-systems-regular/48/marker--v1.png"
+                                alt="marker--v1"
+                            />
+                            배송지 관리
+                        </Link>
+                    </div>
+                    <div className=" justify-around mt-2">
+                        <ul className="flex flex-wrap">
+                            {OrderList.map((list, index) => (
+                                <li key={list.id} className="flex-1 items-center w-full mb-3">
+                                    <div className="flex  items-center relative">
+                                        <div className="flex items-center justify-center  w-16 h-16 bg-gray-100 rounded-3xl  text-gray-300 text-3xl">
+                                            0
+                                        </div>
+                                        {index !== OrderList.length - 1 && (
+                                            <div className="absolute right-0  w-6 h-6 ">
+                                                <Image
+                                                    src="https://img.icons8.com/sf-ultralight/25/000000/back.png"
+                                                    alt="back"
+                                                    style={{ transform: 'rotate(180deg)' }}
+                                                    fill
+                                                />
+                                            </div>
+                                        )}
+                                    </div>
+                                    <span className=" text-lg text-gray-600 ml-3 whitespace-nowrap">{list.name}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div className="flex justify-center items-center mt-2 border rounded-xl border-gray-100 bg-gray-100 text-lg h-16">
+                        {OrderState.map((state, index) =>
+                            index == OrderState.length - 1 ? (
+                                <div key={state.id} className="flex flex-1 ml-4 mr-4 whitespace-nowrap">
+                                    <span>{state.name}</span>
+                                    <div className="text-gray-200 ml-auto">0 </div>
+                                </div>
+                            ) : (
+                                <div key={state.id} className="flex flex-1 ml-4 whitespace-nowrap">
+                                    <span>{state.name}</span>
+                                    <div className="text-gray-200 ml-auto ">0 |</div>
+                                </div>
+                            ),
+                        )}
+                    </div>
                 </div>
             </div>
-            <div className="mt-2 border"></div>
-            <p className="mt-4 text-center ">주문/배송 조회 보러가기</p>
+
+            <p className="flex justify-center mt-4  text-xl">
+                주문/배송 조회 보러가기
+                <img
+                    width="25"
+                    height="25"
+                    src="https://img.icons8.com/sf-ultralight/25/000000/back.png"
+                    alt="back"
+                    style={{ transform: 'rotate(180deg)' }}
+                />
+            </p>
         </section>
     )
 }
