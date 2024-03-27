@@ -4,8 +4,12 @@ import Image from 'next/image'
 import trash from '@/images/Trash.png'
 import './../../..//app/cart/cart.css'
 import Buttons from '@/components/ui/buttons'
+import { useRecoilState } from 'recoil'
+import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 
 export default function CartList() {
+    const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
+    console.log(recoilSample)
     const productData = [
         {
             productId: 1,
@@ -79,6 +83,8 @@ export default function CartList() {
     const [allChecked, setAllChecked] = useState(false)
     const [checkedItem, setCheckedItem] = useState<number[]>([])
     const checkItemhandler = (id: number, ischecked: boolean) => {
+        setRecoilSample([...recoilSample, id])
+
         console.log(id, ischecked)
         if (ischecked) {
             setCheckedItem((prev) => [...prev, id])
