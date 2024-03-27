@@ -12,7 +12,7 @@ export default function DeliveryAddress() {
         },
     ]
     return (
-        <div className="my-5 mx-5 ">
+        <section className="my-5 mx-5 ">
             <div className="flex mb-2 ">
                 <Image src={LocationIcon} alt="위치" width={20} />
                 <h3 className="text- base font-bold">{addData[0].name}</h3>
@@ -24,6 +24,6 @@ export default function DeliveryAddress() {
             <p className="text-sm">
                 [{addData[0].zipCode}] {addData[0].addressBase} {addData[0].addressDetail}{' '}
             </p>
-        </div>
+        </section>
     )
 }
