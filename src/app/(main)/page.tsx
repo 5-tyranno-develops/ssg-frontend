@@ -1,14 +1,13 @@
-import Image from 'next/image'
-import MainEventSection from './MainEventSection'
+import MainEventSection from '../../components/pages/Main/MainEventSection'
+import MainShortcutSection from '@/components/pages/Main/MainShortcutSection'
+import MainSecondNav from '@/components/pages/Main/MainSecondNav'
 
 export default function Home() {
     return (
-        <main>
-            <h1>SSG FRONT-END</h1>
-
-            <div className="z-[900]">
-                <MainEventSection />
-            </div>
+        <main className="">
+            <MainSecondNav />
+            <MainEventSection />
+            <MainShortcutSection />
         </main>
     )
 }
