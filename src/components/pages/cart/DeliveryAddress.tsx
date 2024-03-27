@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import LocationIcon from '@/images/locationIcon.png'
+import Buttons from '@/components/ui/buttons'
 export default function DeliveryAddress() {
     const addData = [
         {
@@ -12,11 +13,20 @@ export default function DeliveryAddress() {
         },
     ]
     return (
-        <div className="my-5 mx-5 ">
+        <div className="my-5 mx-5 z-[2]">
             <div className="flex mb-2 ">
-                <Image src={LocationIcon} alt="위치" width={20} />
+                {/* <Image src={LocationIcon} alt="위치" width={20} /> */}
+                <Image
+                    width={20}
+                    height={20}
+                    src="https://img.icons8.com/ios/50/place-marker--v1.png"
+                    alt="place-marker--v1"
+                />
                 <h3 className="text- base font-bold">{addData[0].name}</h3>
-                <span className="ml-1 px-2 text-sm" style={{ backgroundColor: '#ff5452', color: 'white' }}>
+                <span
+                    className="ml-1 px-2 text-sm justify-center items-center flex"
+                    style={{ backgroundColor: '#ff5452', color: 'white' }}
+                >
                     {addData[0].isMain}
                 </span>
             </div>
