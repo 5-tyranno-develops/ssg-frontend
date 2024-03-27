@@ -40,7 +40,7 @@ function Order() {
                                 width={20}
                                 height={20}
                                 src="https://img.icons8.com/fluency-systems-regular/48/marker--v1.png"
-                                alt="marker--v1"
+                                alt="배송지관리"
                             />
                             배송지 관리
                         </Link>
@@ -49,12 +49,12 @@ function Order() {
                         <ul className="flex flex-wrap">
                             {OrderList.map((list, index) => (
                                 <li key={list.id} className="flex-1 items-center w-full mb-3">
-                                    <div className="flex  items-center relative">
-                                        <div className="flex items-center justify-center  w-16 h-16 bg-gray-100 rounded-3xl  text-gray-300 text-3xl">
+                                    <div className="flex items-center relative">
+                                        <div className="flex items-center justify-center  w-16 h-16 bg-gray-100 rounded-3xl  text-gray-300 text-3xl ">
                                             0
                                         </div>
                                         {index !== OrderList.length - 1 && (
-                                            <div className="absolute right-0  w-6 h-6 ">
+                                            <div className="flex absolute  w-6 h-6 ">
                                                 <Image
                                                     src="https://img.icons8.com/sf-ultralight/25/000000/back.png"
                                                     alt="back"
