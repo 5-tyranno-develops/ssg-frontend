@@ -28,18 +28,9 @@ export default function Recent() {
         router.back()
     }
     const [deleted, setDeleted] = useState(false)
-    const [checkedItem, setCheckedItem] = useState<number[]>([])
 
     const handleEditClick = () => {
         setDeleted(!deleted)
-    }
-    const checkItemhandler = (id: number, ischecked: boolean) => {
-        console.log(id, ischecked)
-        if (ischecked) {
-            setCheckedItem((prev) => [...prev, id])
-        } else {
-            setCheckedItem(checkedItem.filter((item) => item !== id))
-        }
     }
 
     return (
@@ -90,13 +81,6 @@ export default function Recent() {
                                     <input
                                         type="checkbox"
                                         key={product.productId}
-                                        onChange={() =>
-                                            checkItemhandler(
-                                                product.productId,
-                                                !checkedItem.includes(product.productId) ? true : false,
-                                            )
-                                        }
-                                        checked={checkedItem.includes(product.productId)}
                                         className="absolute top-3 left-2 w-4 h-4"
                                     />
                                 </label>
