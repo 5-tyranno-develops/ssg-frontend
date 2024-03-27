@@ -1,4 +1,4 @@
-import MainEventSection from './MainEventSection'
+import MainEventSection from '../../components/pages/Main/MainEventSection'
 import MainShortcutSection from '@/components/pages/Main/MainShortcutSection'
 import MainSecondNav from '@/components/pages/Main/MainSecondNav'
 
