@@ -9,7 +9,6 @@ import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 
 export default function CartList() {
     const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
-    console.log(recoilSample)
     const productData = [
         {
             productId: 1,
@@ -81,14 +80,16 @@ export default function CartList() {
     }
 
     const [allChecked, setAllChecked] = useState(false)
-    const [checkedItem, setCheckedItem] = useState<number[]>([])
+    const [checkedItem, setCheckedItem] = useState<number[]>(recoilSample)
     const checkItemhandler = (id: number, ischecked: boolean) => {
-        setRecoilSample([...recoilSample, id])
-
         console.log(id, ischecked)
         if (ischecked) {
+            if (!recoilSample.includes(id)) {
+                setRecoilSample([...recoilSample, id])
+            }
             setCheckedItem((prev) => [...prev, id])
         } else {
+            setRecoilSample([...checkedItem.filter((item) => item !== id)])
             setCheckedItem(checkedItem.filter((item) => item !== id))
         }
     }
@@ -179,7 +180,10 @@ export default function CartList() {
                                                     !checkedItem.includes(product.productId) ? true : false,
                                                 )
                                             }
-                                            checked={checkedItem.includes(product.productId)}
+                                            checked={
+                                                checkedItem.includes(product.productId) ||
+                                                recoilSample.includes(product.productId)
+                                            }
                                             className="absolute top-0 left-0 w-4 h-4"
                                         />
                                         <Image src={product.imageUrl} alt="상품" width={85} height={85} />
