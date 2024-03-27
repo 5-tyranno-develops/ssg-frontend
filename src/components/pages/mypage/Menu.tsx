@@ -20,7 +20,7 @@ function Menu() {
     ]
     return (
         <section className="p-4">
-            <p className="font-extrabold text-2xl">자주찾는 메뉴</p>
+            <p className="font-extrabold text-xl">자주찾는 메뉴</p>
             <div className="grid grid-cols-5 md:grid-cols-10 gap-y-3 gap-x-2 mb-10 mt-2">
                 {MenuIcon.map((icon) => (
                     <div key={icon.id}>
@@ -35,7 +35,7 @@ function Menu() {
                             width={61}
                             height={61}
                         />
-                        <p className="text-center">{icon.alt}</p>
+                        <p className="text-center whitespace-nowrap">{icon.alt}</p>
                     </div>
                 ))}
             </div>

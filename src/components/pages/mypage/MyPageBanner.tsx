@@ -10,26 +10,28 @@ function MyPageBanner() {
     ]
 
     return (
-        <div className="relative ">
-            <Swiper
-                loop={true}
-                autoplay={{ delay: 3500 }}
-                pagination={{
-                    type: 'fraction',
-                    el: '.swiper-pagination',
-                }}
-                modules={[Pagination, Autoplay]}
-            >
-                {MyPageAd.map((ad) => (
-                    <SwiperSlide key={ad.id}>
-                        <img className="w-full h-full rounded-lg" src={ad.src} alt={ad.alt}></img>
-                    </SwiperSlide>
-                ))}
-            </Swiper>
-            <div className="absolute bottom-0 right-0 z-10 text-white text-sm bg-black  px-3 py-1  bg-opacity-80  rounded ">
-                <div className="swiper-pagination  "></div>
+        <section className="p-4">
+            <div className="relative ">
+                <Swiper
+                    loop={true}
+                    autoplay={{ delay: 3500 }}
+                    pagination={{
+                        type: 'fraction',
+                        el: '.swiper-pagination',
+                    }}
+                    modules={[Pagination, Autoplay]}
+                >
+                    {MyPageAd.map((ad) => (
+                        <SwiperSlide key={ad.id}>
+                            <img className="w-full h-full rounded-lg" src={ad.src} alt={ad.alt}></img>
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+                <div className="absolute bottom-0 right-0 z-10 text-white text-sm bg-black  px-3 py-1  bg-opacity-80  rounded ">
+                    <div className="swiper-pagination  "></div>
+                </div>
             </div>
-        </div>
+        </section>
     )
 }
 

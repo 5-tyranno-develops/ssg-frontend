@@ -1,7 +1,7 @@
 function MyPoint() {
     return (
-        <section>
-            <div className="flex text-center space-x-2 mt-4 mb-4">
+        <section className="p-4">
+            <div className="flex text-center space-x-2  overflow-x-scroll">
                 <div className=" border border-gray-300 rounded-lg p-3">
                     <p className=" text-lg mb-1">쿠폰</p>
                     <p className=" text-lg">0장</p>
