@@ -24,7 +24,12 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                             setModalOpen(false)
                         }}
                     >
-                        <Image src={X_icon} alt="클로즈" width={30} height={30}></Image>
+                        <img
+                            width="24"
+                            height="24"
+                            src="https://img.icons8.com/fluency-systems-regular/48/x.png"
+                            alt="x"
+                        />
                     </button>
                 </div>
 
