@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { Pagination, Navigation } from 'swiper/modules'
-import { mainEventImageData } from '@/lib/mainEventImageData'
+import { mainEventImageData } from '@/lib/MainEventImageData'
 import Image from 'next/image'
 
 export default function MainEventSection() {
