@@ -1,16 +1,7 @@
 import React from 'react'
 
-import ProductDetail from '../../../components/pages/product/ProductDetail'
-import Thumnail from '../../../components/pages/product/Thumbnail'
-
 function Product() {
-    return (
-        <div>
-            <Thumnail />
-
-            <ProductDetail />
-        </div>
-    )
+    return <div>상품</div>
 }
 
 export default Product
