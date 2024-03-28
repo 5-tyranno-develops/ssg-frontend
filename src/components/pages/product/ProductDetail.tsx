@@ -113,7 +113,7 @@ function ProductInformation({ data }: { data: any }) {
                                 <button
                                     type="button"
                                     onClick={toggleExpand}
-                                    className="w-full h-32 bg-white text-base text-center flex justify-center items-center"
+                                    className="w-fulll h-32 bg-white text-base text-center flex justify-center items-center"
                                 >
                                     상세정보 접기
                                     <Image
