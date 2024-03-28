@@ -32,13 +32,11 @@ function ProductInformation({ data }: { data: any }) {
                         <div>
                             <div className="mt-4">
                                 <del className="line-through text-bases text-gray-500">
-                                    <p>{data.price}원</p>
+                                    {/* <p>{data.price}원</p> */}
                                 </del>
                             </div>
                             <div className="flex space-x-2 text-2xl font-bold">
-                                <div>
-                                    <span className=" text-red-600 ">{data.discount}%</span>
-                                </div>
+                                <div>{/* <span className=" text-red-600 ">{data.discount}%</span> */}</div>
                                 <div>
                                     <span>{data.price * (1 - data.discount / 100)}원</span>
                                 </div>
@@ -93,15 +91,15 @@ function ProductInformation({ data }: { data: any }) {
                             </div>
                         </div>
                     </div>
-                    <div className=" bg-gray-100 h-4 mb-2"></div>
+                    <div className=" bg-gray-100 h-4 mb-5 "></div>
 
                     {!expanded && (
-                        <div className="flex items-center justify-center">
+                        <div className="flex items-center justify-center ">
                             <button
                                 type="button"
                                 onClick={toggleExpand}
-                                className=" w-full h-32 bg-white text-base text-center flex justify-center items-center"
-                                style={{ boxShadow: '0px -100px 30px rgba(255,255,255,0.7)' }}
+                                className="w-full h-32 bg-white text-base text-center flex justify-center items-center"
+                                style={{ boxShadow: '0px -50px 30px rgba(255,255,255,0.7)' }}
                             >
                                 상세정보 펼쳐보기
                                 <Image src={DetailIcon} alt="더보기" className="  w-6 h-8"></Image>

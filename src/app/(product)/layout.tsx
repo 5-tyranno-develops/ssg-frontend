@@ -1,10 +1,15 @@
+'use client'
 import Image from 'next/image'
 import BackIcon from '@/images/back'
 import CartIcon from '@/images/CartIcon.png'
 import SearchIcon from '@/images/SearchIcon.png'
 import HeartIcon from '@/images/HeartIcon.png'
+import { useState } from 'react'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+    const [showModal, setShowModal] = useState(false)
+    const clickModal = () => setShowModal(!showModal)
+
     return (
         <>
             <div className="fixed top-0 w-full flex items-center justify-between h-12  font-bold bg-white px-2 z-[900]">
