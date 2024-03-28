@@ -1,5 +1,3 @@
-import X_icon from '@/images/X_icon.png'
-import Image from 'next/image'
 import Link from 'next/link'
 import AddressList from './AddressList'
 import Buttons from '@/components/ui/buttons'

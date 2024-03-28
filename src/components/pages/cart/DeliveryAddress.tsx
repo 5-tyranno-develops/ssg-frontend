@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import LocationIcon from '@/images/locationIcon.png'
-import Buttons from '@/components/ui/buttons'
+
 export default function DeliveryAddress() {
     const addData = [
         {
