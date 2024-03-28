@@ -28,14 +28,23 @@ export default function Recent() {
         router.back()
     }
     const [deleted, setDeleted] = useState(false)
+    const [checkedItem, setCheckedItem] = useState<number[]>([])
 
     const handleEditClick = () => {
         setDeleted(!deleted)
     }
+    const checkItemhandler = (id: number, ischecked: boolean) => {
+        console.log(id, ischecked)
+        if (ischecked) {
+            setCheckedItem((prev) => [...prev, id])
+        } else {
+            setCheckedItem(checkedItem.filter((item) => item !== id))
+        }
+    }
 
     return (
         <>
-            <div className=" bg-gray-100 p-4">
+            <div className=" bg-gray-100 p-4 h-screen">
                 <div className="flex items-center ">
                     <span onClick={back}>
                         <Image width="35" height="50" src="https://img.icons8.com/ios/50/left--v1.png" alt="뒤로가기" />
@@ -77,23 +86,42 @@ export default function Recent() {
                     <div key={product.productId}>
                         <div className="flex justify-between bg-white rounded w-full  mt-4">
                             {deleted && (
-                                <label className="relative mr-4">
+                                <label className="relative  flex justify-between w-full">
                                     <input
                                         type="checkbox"
                                         key={product.productId}
+                                        onChange={() =>
+                                            checkItemhandler(
+                                                product.productId,
+                                                !checkedItem.includes(product.productId) ? true : false,
+                                            )
+                                        }
+                                        checked={checkedItem.includes(product.productId)}
                                         className="absolute top-3 left-2 w-4 h-4"
-                                    />
+                                    ></input>
+                                    <div className="flex justify-between w-full ml-5">
+                                        <div className=" max-w-56 text-sm p-3">
+                                            [{product.vendorName}] {product.name}
+                                            <p className="mt-1 font-semibold">
+                                                {(product.price * (1 - product.discount / 100)).toLocaleString()}원
+                                            </p>
+                                        </div>
+                                        <Image src={product.imageUrl} alt="상품썸네일" width={100} height={100}></Image>
+                                    </div>
                                 </label>
                             )}
-                            <Link href="./" className="flex justify-between w-full" passHref>
-                                <div className=" max-w-56 text-sm p-3">
-                                    [{product.vendorName}] {product.name}
-                                    <p className="mt-1 font-semibold">
-                                        {(product.price * (1 - product.discount / 100)).toLocaleString()}원
-                                    </p>
-                                </div>
-                                <Image src={product.imageUrl} alt="상품썸네일" width={100} height={100}></Image>
-                            </Link>
+
+                            {!deleted && (
+                                <Link href="./" className="flex justify-between w-full" passHref>
+                                    <div className="max-w-56 text-sm p-3">
+                                        [{product.vendorName}] {product.name}
+                                        <p className="mt-1 font-semibold">
+                                            {(product.price * (1 - product.discount / 100)).toLocaleString()}원
+                                        </p>
+                                    </div>
+                                    <Image src={product.imageUrl} alt="상품썸네일" width={100} height={100}></Image>
+                                </Link>
+                            )}
 
                             <div className="flex flex-col">
                                 <button className="flex justify-center items-center  w-14 h-14">
