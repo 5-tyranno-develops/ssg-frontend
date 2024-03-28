@@ -1,18 +1,58 @@
+'use client'
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import React from 'react'
 import Link from 'next/link'
 import EasyIcon from '@/components/ui/easyIcon'
 import Buttons from '@/components/ui/buttons'
+import { signIn } from 'next-auth/react'
+import Server_Url from '@/api/constraints'
 
 function Login() {
+    const handleSumbit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
+        const loginId = event.currentTarget.loginId
+        const password = event.currentTarget.password
+
+        // const result = await signIn('credentials', {
+        //     loginId,
+        //     password,
+        // })
+
+        const result = await fetch('https://tyrannoback.com/api/v1/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                loginId: loginId,
+                password: password,
+            }),
+        })
+        console.log('Response', Response)
+        console.log('result:', result)
+    }
+
     return (
         <div>
             <HeaderTitle title="로그인" />
             <div>
-                <form className=" p-8 flex flex-col  ">
+                <form className=" p-8 flex flex-col ">
                     <div className=" mb-1">
-                        <input type="text" placeholder="아이디" className=" mt-1 p-2 w-full h-11  border text-sm " />
-                        <input type="text" placeholder="비밀번호" className="p-2 w-full h-11  border text-sm" />
+                        <input
+                            type="text"
+                            id="loginId"
+                            placeholder="아이디"
+                            className=" mt-1 p-2 w-full h-11  border text-sm "
+                            required
+                        />
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="비밀번호"
+                            className="p-2 w-full h-11  border text-sm"
+                            required
+                        />
                     </div>
 
                     <div>
@@ -22,21 +62,21 @@ function Login() {
                         </span>
                     </div>
                     <div className="mt-6">
-                        <Buttons title="로그인" href="/" />
-                    </div>
-
-                    <div className=" flex justify-center mt-4 space-x-1 text-xs">
-                        <Link href="/user/findid" passHref>
-                            아이디 찾기
-                        </Link>
-                        <span>|</span>
-                        <Link href="/user/findpw " passHref>
-                            비밀번호 찾기
-                        </Link>
-                        <span>|</span>
-                        <Link href="/user/signupintro">회원가입</Link>
+                        <Buttons title="로그인" href="/" click={handleSumbit} />
                     </div>
                 </form>
+
+                <div className=" flex justify-center mt-4 space-x-1 text-xs">
+                    <Link href="/user/findid" passHref>
+                        아이디 찾기
+                    </Link>
+                    <span>|</span>
+                    <Link href="/user/findpw " passHref>
+                        비밀번호 찾기
+                    </Link>
+                    <span>|</span>
+                    <Link href="/user/signupintro">회원가입</Link>
+                </div>
                 <EasyIcon />
 
                 <div className=" p-4 mt-20 ">
