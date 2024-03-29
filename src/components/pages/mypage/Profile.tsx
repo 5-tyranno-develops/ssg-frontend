@@ -1,7 +1,4 @@
-'use client'
-import 'swiper/css'
-import { Swiper, SwiperSlide } from 'swiper/react'
-import { Pagination, Autoplay } from 'swiper/modules'
+
 
 function Profile() {
     return (
