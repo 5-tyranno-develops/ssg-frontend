@@ -1,13 +1,13 @@
 export interface ProductDataType {
-    productId: string
-    productName: string
-    price: number
-    detailContent: string
-    imageUrl: string[]
-    vendor: {
-        vendorName: string
-        vendorImageUrl: string | null
-        vendorId: number
-    }[]
-    discount: number
+  id: number;
+  src: string;
+  store: string | null;
+  brand: string | null;
+  name: string;
+  subtitle: string | null;
+  price: number;
+  sale: number | null;
+  salePrice: number | null;
+  reviewRating: number;
+  reviewCount: number;
 }
