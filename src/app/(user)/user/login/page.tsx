@@ -5,31 +5,26 @@ import Link from 'next/link'
 import EasyIcon from '@/components/ui/easyIcon'
 import Buttons from '@/components/ui/buttons'
 import { signIn } from 'next-auth/react'
-import Server_Url from '@/api/constraints'
+import Server_Url from '@/app/api/constraints'
 
 function Login() {
+    const [loginId, setLoginId] = React.useState('')
+    const [password, setPassword] = React.useState('')
+    const handleLoginId = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setLoginId(event.target.value)
+    }
+    const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value)
+    }
     const handleSumbit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const loginId = event.currentTarget.loginId
-        const password = event.currentTarget.password
-
-        // const result = await signIn('credentials', {
-        //     loginId,
-        //     password,
-        // })
-
-        const result = await fetch('https://tyrannoback.com/api/v1/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                loginId: loginId,
-                password: password,
-            }),
+        const result = await signIn('credentials', {
+            loginId,
+            password,
+            redirect: true,
+            callbackUrl: 'http://localhost:3000/',
         })
-        console.log('Response', Response)
         console.log('result:', result)
     }
 
@@ -44,6 +39,7 @@ function Login() {
                             id="loginId"
                             placeholder="아이디"
                             className=" mt-1 p-2 w-full h-11  border text-sm "
+                            onChange={handleLoginId}
                             required
                         />
                         <input
@@ -51,6 +47,7 @@ function Login() {
                             id="password"
                             placeholder="비밀번호"
                             className="p-2 w-full h-11  border text-sm"
+                            onChange={handlePassword}
                             required
                         />
                     </div>
