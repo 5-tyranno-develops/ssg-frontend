@@ -4,12 +4,20 @@ import React from 'react'
 import Link from 'next/link'
 import EasyIcon from '@/components/ui/easyIcon'
 import Buttons from '@/components/ui/buttons'
-import { signIn } from 'next-auth/react'
-import Server_Url from '@/app/api/constraints'
+import { getSession, signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import options from '@/app/api/auth/[...nextauth]/options'
 
+interface UserType {
+    isSuccess: boolean
+    message: string
+    code: number
+    result?: string
+}
 function Login() {
     const [loginId, setLoginId] = React.useState('')
     const [password, setPassword] = React.useState('')
+    const router = useRouter()
     const handleLoginId = (event: React.ChangeEvent<HTMLInputElement>) => {
         setLoginId(event.target.value)
     }
@@ -19,13 +27,19 @@ function Login() {
     const handleSumbit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        const result = await signIn('credentials', {
+        await signIn('credentials', {
             loginId,
             password,
-            redirect: true,
-            callbackUrl: 'http://localhost:3000/',
+            redirect: false,
         })
-        console.log('result:', result)
+
+        const session = await getSession(options)
+        const sessionUser = session?.user as UserType
+        if (sessionUser.isSuccess === true) {
+            router.push('/')
+        } else {
+            alert(sessionUser.message)
+        }
     }
 
     return (
