@@ -7,6 +7,23 @@ import HeartIcon from '@/images/HeartIcon.png'
 import { useState } from 'react'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+    const OptionList = [
+        {
+            optionId: 1,
+
+            color: [
+                { id: 1, color: '빨강' },
+                { id: 2, color: '파랑' },
+            ],
+            size: [
+                {
+                    id: 11,
+                    size: 'S',
+                },
+                { id: 12, size: 'M' },
+            ],
+        },
+    ]
     const [showModal, setShowModal] = useState(false)
     const [selectedColor, setSelectedColor] = useState('')
 
@@ -55,7 +72,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             onClick={openModal}
                         >
                             <span className=" font-semibold text-white">구매하기</span>
-                        </button>{' '}
+                        </button>
                     </ul>
                 )}
 
@@ -75,9 +92,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                                 onChange={handleColorChange}
                             >
                                 <option value="">선택하세요. (색상)</option>
-                                <option value="red">빨강</option>
-                                <option value="blue">파랑</option>
-                                <option value="green">초록</option>
+                                {OptionList.map((list) => (
+                                    <div key={list.optionId}>
+                                        {list.color?.map((color, idx) => (
+                                            <option key={idx}>{color.color}</option>
+                                        ))}
+                                    </div>
+                                ))}
                             </select>
                         </div>
                         <div className="flex items-center h-12">
