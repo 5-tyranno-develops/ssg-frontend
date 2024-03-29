@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image'
-import BackIcon from '@/images/back'
+import BackIcon from '@/images/Back'
 import CartIcon from '@/images/CartIcon.png'
 import SearchIcon from '@/images/SearchIcon.png'
 import HeartIcon from '@/images/HeartIcon.png'

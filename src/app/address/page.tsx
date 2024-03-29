@@ -1,7 +1,7 @@
 'use client'
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import { useState } from 'react'
-import Postcode from '../../components/pages/address/add'
+import Postcode from '../../components/pages/address/Add'
 
 function Address() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
