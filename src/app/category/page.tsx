@@ -58,7 +58,7 @@ export default function CategoryPage() {
     )
 }
 
-export const GroupNav = ({
+const GroupNav = ({
     group,
     gx,
     handleOpen,
@@ -159,8 +159,7 @@ export const GroupNav = ({
         </div>
     )
 }
-
-export const NavItem = ({
+const NavItem = ({
     item,
     value,
     handleOpen,
