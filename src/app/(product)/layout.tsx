@@ -5,38 +5,16 @@ import CartIcon from '@/images/CartIcon.png'
 import SearchIcon from '@/images/SearchIcon.png'
 import HeartIcon from '@/images/HeartIcon.png'
 import { useState } from 'react'
+import OptinModal from '@/components/modal/product/OptionModal'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const OptionList = [
-        {
-            optionId: 1,
-
-            color: [
-                { id: 1, color: '빨강' },
-                { id: 2, color: '파랑' },
-            ],
-            size: [
-                {
-                    id: 11,
-                    size: 'S',
-                },
-                { id: 12, size: 'M' },
-            ],
-        },
-    ]
-    const [showModal, setShowModal] = useState(false)
-    const [selectedColor, setSelectedColor] = useState('')
-
-    const openModal = () => setShowModal(true)
-    const closeModal = () => setShowModal(false)
-
-    const handleColorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setSelectedColor(e.target.value)
+    const [isModal, setIsModal] = useState<boolean>(false)
+    function openModal() {
+        setIsModal(true)
     }
 
-    const handleSubmit = () => {
-        console.log(selectedColor)
-        closeModal()
+    function closeModal() {
+        setIsModal(false)
     }
 
     return (
@@ -62,61 +40,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             {children}
             <div className="fixed bottom-0 w-screen z-[900]">
-                {!showModal && (
+                {!isModal && (
                     <ul className="flex items-center h-12">
                         <li className=" flex justify-center items-center w-14 bg-white h-12">
                             <Image src={HeartIcon} alt="하트아이콘"></Image>
                         </li>
                         <button
-                            className="flex justify-center items-center bg-red-500 flex-grow h-12"
+                            className="flex justify-center items-center font-semibold text-white bg-red-500 flex-grow h-12"
                             onClick={openModal}
                         >
-                            <span className=" font-semibold text-white">구매하기</span>
+                            구매하기
                         </button>
                     </ul>
                 )}
-
-                {showModal && (
-                    <div>
-                        <div
-                            className="fixed bottom-12 bg-white p-4  w-screen rounded-t-xl h-auto "
-                            style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
-                        >
-                            <button className=" w-full h-7 flex items-center justify-center mb-2" onClick={closeModal}>
-                                닫기
-                            </button>
-
-                            <select
-                                className="w-full border p-2 bg-white rounded-md py-3 "
-                                value={selectedColor}
-                                onChange={handleColorChange}
-                            >
-                                <option value="">선택하세요. (색상)</option>
-                                {OptionList.map((list) => (
-                                    <div key={list.optionId}>
-                                        {list.color?.map((color, idx) => (
-                                            <option key={idx}>{color.color}</option>
-                                        ))}
-                                    </div>
-                                ))}
-                            </select>
-                        </div>
-                        <div className="flex items-center h-12">
-                            <button
-                                className="flex justify-center items-center bg-black flex-grow h-12"
-                                onClick={handleSubmit}
-                            >
-                                <span className=" font-semibold text-white">장바구니</span>
-                            </button>
-                            <button
-                                className="flex justify-center items-center bg-red-500 flex-grow h-12"
-                                onClick={handleSubmit}
-                            >
-                                <span className=" font-semibold text-white">바로구매</span>
-                            </button>
-                        </div>
-                    </div>
-                )}
+                {isModal && <OptinModal open={isModal} close={closeModal}></OptinModal>}
             </div>
         </>
     )
