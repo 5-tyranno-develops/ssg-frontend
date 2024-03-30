@@ -4,7 +4,7 @@ import './signup.css'
 import { useState, useEffect } from 'react'
 import Buttons from '@/components/ui/buttons'
 import Postcode from '@/components/pages/address/Add'
-import signupAPI from '@/app/api/user'
+import { signupAPI, validLoginId } from '@/app/api/user'
 
 function signup() {
     const [loginId, setLoginId] = useState('')
@@ -109,6 +109,14 @@ function signup() {
             console.error('Error:', error)
         }
     }
+    const handleValidLoginId = async () => {
+        try {
+            const res = await validLoginId(loginId)
+            alert(res.result)
+        } catch (error) {
+            console.error('Error:', error)
+        }
+    }
 
     return (
         <div>
@@ -143,6 +151,7 @@ function signup() {
                     <button
                         className=" mt-1 ml-2 h-10 w-28 text-sm  "
                         style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
+                        onClick={handleValidLoginId}
                     >
                         중복확인
                     </button>
