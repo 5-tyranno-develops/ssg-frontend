@@ -4,7 +4,6 @@ import { getSession } from 'next-auth/react'
 
 export { default } from 'next-auth/middleware'
 
-console.log('middleware ')
 export async function middleware(request: NextRequest) {
     let cookie = request.cookies.get('next-auth.session-token')
 
