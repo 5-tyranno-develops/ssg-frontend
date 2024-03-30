@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { MainShortcutType } from '@/types/MainShortcutType'
-import { mainShortcutData } from '@/lib/mainShortcutData'
+import { mainShortcutData } from '@/lib/MainShortcutData'
 
 export default function MainShortcutSection() {
     const [scrollPercent, setScrollPercent] = useState(0)

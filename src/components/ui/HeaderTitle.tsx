@@ -1,5 +1,5 @@
 'use client'
-import BackIcon from '@/images/back'
+import BackIcon from '@/images/Back'
 import { useRouter } from 'next/navigation'
 export default function HeaderTitle({ title }: { title: string }) {
     const router = useRouter()

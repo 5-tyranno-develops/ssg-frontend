@@ -3,8 +3,8 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import './signup.css'
 import { useState, useEffect } from 'react'
 import Buttons from '@/components/ui/buttons'
-import Postcode from '@/components/pages/address/add'
-import signupAPI from '@/api/user'
+import Postcode from '@/components/pages/address/Add'
+import signupAPI from '@/app/api/user'
 
 function signup() {
     const [loginId, setLoginId] = useState('')

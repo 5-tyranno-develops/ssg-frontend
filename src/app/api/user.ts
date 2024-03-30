@@ -1,9 +1,10 @@
 import { UserDataType } from '@/types/UserDataType'
-import ServerUrl from './ServerUrl'
+import Server_Url from './constraints'
+import constraints from './constraints'
 async function signupAPI(requestData: UserDataType) {
     try {
         console.log('Request to server:', requestData)
-        const response = await fetch(`${ServerUrl}/api/v1/users/signup`, {
+        const response = await fetch(`${constraints.Server_Url}/api/v1/auth/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

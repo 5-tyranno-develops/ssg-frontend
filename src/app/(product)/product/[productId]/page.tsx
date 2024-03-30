@@ -1,9 +1,9 @@
 import Thumbnail from '@/components/pages/product/Thumbnail'
 import ProductDetail from '@/components/pages/product/ProductDetail'
-import { ProductDataType } from '@/types/ProductDataType'
+import { ProductDataType } from '@/types/ProductDetailDataType'
 
 async function GetProductData(productId: string) {
-    const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/${productId}`,{cache: 'force-cache'})
+    const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/${productId}`, { cache: 'force-cache' })
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }

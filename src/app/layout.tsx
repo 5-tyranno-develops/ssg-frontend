@@ -5,6 +5,7 @@ import Footer from '@/components/ui/Footer'
 import { RecoilRoot } from 'recoil'
 import RecoilProvider from '@/providers/RecoilProvider'
 
+import AuthProvider from '@/providers/AuthProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -18,12 +19,14 @@ export default function RootLayout({
     children: React.ReactNode
 }>) {
     return (
-        <html lang="en">
-            <body className={inter.className}>
-                <RecoilProvider>
-                    {children} <Footer />
-                </RecoilProvider>
-            </body>
-        </html>
+        <AuthProvider>
+            <html lang="ko">
+                <body className={inter.className}>
+                    <RecoilProvider>
+                        {children} <Footer />
+                    </RecoilProvider>
+                </body>
+            </html>
+        </AuthProvider>
     )
 }
