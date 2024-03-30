@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import ItemCard from '../../ui/ItemCard'
+// import ItemCard from '../../ui/ItemCard'
 import Checkbox from '../../ui/Checkbox'
 import ClipCancleButton from './ClipCancleButton'
 import ClipEditButton from './ClipEditButton'
@@ -107,9 +107,9 @@ export default function ClipMain({ itemIds }: ClipMainPropsType) {
                                         checkboxShape="square absolute mt-2 w-[19px] h-[19px]"
                                     />
                                 )}
-                                <Link href={'#'}>
+                                {/* <Link href={'#'}>
                                     <ItemCard itemId={itemId} />
-                                </Link>
+                                </Link> */}
                             </div>
                         ))}
                     </div>
