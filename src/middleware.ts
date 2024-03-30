@@ -8,8 +8,6 @@ console.log('middleware ')
 export async function middleware(request: NextRequest) {
     let cookie = request.cookies.get('next-auth.session-token')
 
-    // if (token )
-    console.log('middleware', cookie)
     if (cookie === undefined) {
         if (request.nextUrl.pathname.startsWith('/mypage')) {
             const redirectUrl = new URL('/user/login', request.nextUrl.origin)
