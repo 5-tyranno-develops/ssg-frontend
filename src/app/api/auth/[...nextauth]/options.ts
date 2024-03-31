@@ -3,6 +3,7 @@ import { NextAuthOptions } from 'next-auth'
 import NextAuth, { Session } from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import KakaoProvider from 'next-auth/providers/kakao'
 
 export const options: NextAuthOptions = {
     providers: [
@@ -30,14 +31,16 @@ export const options: NextAuthOptions = {
                 console.log('res', res)
                 if (res.ok) {
                     const user = await res.json()
-
-                    console.log('fdmklsaf', user)
                     return user
                 } else {
                     console.log('error')
                 }
                 // return res
             },
+        }),
+        KakaoProvider({
+            clientId: process.env.KAKAO_CLIENT_ID || '',
+            clientSecret: process.env.KAKAO_CLIENT_SECRET || '',
         }),
     ],
     callbacks: {

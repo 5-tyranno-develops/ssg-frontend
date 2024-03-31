@@ -4,6 +4,7 @@ import Image from 'next/image'
 import KakaoIcon from '@/images/kakaoIcon.png'
 import TossIcon from '@/images/tossIcon.png'
 import PhoneIcon from '@/images/phoneIcon.png'
+import { signIn } from 'next-auth/react'
 
 function EasyIcon() {
     return (
@@ -15,7 +16,7 @@ function EasyIcon() {
                 <span className="m-2 ">네이버</span>
             </li>
             <li>
-                <div className="mb-2">
+                <div className="mb-2" onClick={() => signIn('kakao')}>
                     <Image src={KakaoIcon} alt="카카오아이콘" className="w-51 h-51" />
                 </div>
                 <span className="ml-2">카카오</span>
