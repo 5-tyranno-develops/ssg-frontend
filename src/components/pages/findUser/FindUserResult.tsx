@@ -5,7 +5,6 @@ export default function FindUserResult() {
     useEffect(() => {
         setFindid(localStorage.getItem('findID') || '')
     }, [])
-    console.log(findid)
     return (
         <p className="mt-3 text-sm text-gray-500">
             아이디

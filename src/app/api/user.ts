@@ -1,6 +1,7 @@
 import { FindUserDataType } from './../../types/FindUserDataType'
 import { UserDataType } from '@/types/UserDataType'
-import { PostAPI } from './FetchAPI'
+import { PostAPI, PutAPI } from './FetchAPI'
+import { ChangePasswordDataType } from '@/types/ChangePassword'
 
 async function validLoginId(loginId: string) {
     const response = await PostAPI('/api/v1/auth/id_check', { loginId: loginId })
@@ -15,4 +16,8 @@ async function findIdAPI(authForm: FindUserDataType) {
     return response
 }
 
-export { signupAPI, validLoginId, findIdAPI }
+async function changePasswordAPI(idPW: ChangePasswordDataType) {
+    const response = await PutAPI('/api/v1/auth/change_pw', idPW)
+    return response
+}
+export { signupAPI, validLoginId, findIdAPI, changePasswordAPI }
