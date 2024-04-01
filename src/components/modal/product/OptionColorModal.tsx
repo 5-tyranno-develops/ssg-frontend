@@ -1,6 +1,6 @@
 'use client'
 
-import { OptionDataType } from '@/types/OprionDataType'
+import { OptionDataType } from '@/types/OptionDataType'
 import { useState, useEffect } from 'react'
 
 interface props {
