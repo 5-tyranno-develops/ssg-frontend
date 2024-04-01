@@ -16,7 +16,7 @@ async function GetProductData(productId: string) {
 }
 
 async function GetOptionStringData(productId: string) {
-    const res = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`)
+    const res = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, { cache: 'force-cache' })
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }
@@ -29,13 +29,14 @@ export default async function Page({ params }: { params: { productId: string } }
     const data = await GetProductData(productId)
     const option = await GetOptionStringData(productId)
 
-    const apple = option.result
-    console.log(apple)
+    const optionstring = option.result
+    console.log(typeof optionstring)
+
     return (
         <main>
             <Thumbnail data={data.imageUrl} />
             <ProductDetail data={data} />
-            <ProductOptions option={apple} />
+            <ProductOptions option={optionstring} />
         </main>
     )
 }
