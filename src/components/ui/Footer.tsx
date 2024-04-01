@@ -11,7 +11,7 @@ function Footer() {
     ]
     return (
         <>
-            {/* <footer>
+            <footer>
                 <div className="px-4" style={{ backgroundColor: '#717178' }}>
                     <div className="table w-full min-h-14 py-3 items-center">
                         <Image src={FooterImage} alt="footerImage" className="w-10 h-auto" />
@@ -93,7 +93,7 @@ function Footer() {
                     </div>
                     <p style={{ fontSize: '10px', color: '#888' }}>Copyright ⓒ SSG.COM Corp. All rights reserved.</p>
                 </div>
-            </footer> */}
+            </footer>
         </>
     )
 }

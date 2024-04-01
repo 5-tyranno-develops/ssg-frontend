@@ -3,7 +3,7 @@ export const mainEventImageData = [
         id: 1,
         src: 'https://simg.ssgcdn.com/cmpt/banner/202402/2024022915414545781336912233_874.jpg',
         title1: '신세계 백화점',
-        title2: '반품비용 완전 무료',
+        title2: '반품 비용 완전 무료',
         subTitle: '유니버스 클럽 고객님, 걱정없이 쇼핑 하세요',
     },
     {
