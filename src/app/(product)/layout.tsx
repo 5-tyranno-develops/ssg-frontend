@@ -1,60 +1,13 @@
 'use client'
-import Image from 'next/image'
-import BackIcon from '@/images/Back'
-import CartIcon from '@/images/CartIcon.png'
-import SearchIcon from '@/images/SearchIcon.png'
-import HeartIcon from '@/images/HeartIcon.png'
-import { useState } from 'react'
-import OptinModal from '@/components/modal/product/OptionModal'
+import ProductFooter from '@/components/ui/ProductFooter'
+import ProductHeader from '@/components/ui/ProductHeader'
 
 export default function Layout({ children }: { children: React.ReactNode }) {
-    const [isModal, setIsModal] = useState<boolean>(false)
-    function openModal() {
-        setIsModal(true)
-    }
-
-    function closeModal() {
-        setIsModal(false)
-    }
-
     return (
         <>
-            <div className="fixed top-0 w-full flex items-center justify-between h-12  font-bold bg-white px-2 z-[900]">
-                <span className="ml-4">
-                    <BackIcon />
-                </span>
-
-                <div className="flex justify-center flex-grow space-x-5">
-                    <p>상세</p>
-                    <p>리뷰</p>
-                    <p>Q&A</p>
-                </div>
-
-                <span className="mr-2">
-                    <Image src={CartIcon} alt="장바구니아이콘" width={24} height={24} />
-                </span>
-
-                <span>
-                    <Image src={SearchIcon} alt="검색아이콘" width={24} height={24} />
-                </span>
-            </div>
+            <ProductHeader />
             {children}
-            <div className="fixed bottom-0 w-screen z-[900]">
-                {!isModal && (
-                    <ul className="flex items-center h-12">
-                        <li className=" flex justify-center items-center w-14 bg-white h-12">
-                            <Image src={HeartIcon} alt="하트아이콘"></Image>
-                        </li>
-                        <button
-                            className="flex justify-center items-center font-semibold text-white bg-red-500 flex-grow h-12"
-                            onClick={openModal}
-                        >
-                            구매하기
-                        </button>
-                    </ul>
-                )}
-                {isModal && <OptinModal open={isModal} close={closeModal}></OptinModal>}
-            </div>
+            <ProductFooter />
         </>
     )
 }
