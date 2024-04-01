@@ -6,7 +6,7 @@ type Method = 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 
 async function fetchAPI(method: Method, url: string, body?: object) {
     try {
-        console.log('body', body)
+        console.log('호출 body', body)
         const response = await fetch(`${constraints.Server_Url}${url}`, {
             method: method,
             headers: {
