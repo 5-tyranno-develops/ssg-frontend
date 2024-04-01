@@ -102,7 +102,7 @@ function ProductInformation({ data }: { data: any }) {
                                 style={{ boxShadow: '0px -50px 30px rgba(255,255,255,0.7)' }}
                             >
                                 상세정보 펼쳐보기
-                                <Image src={DetailIcon} alt="더보기" className="  w-6 h-8"></Image>
+                                <Image src={DetailIcon} alt="더보기" className="  w-6 h-8" />
                             </button>
                         </div>
                     )}
