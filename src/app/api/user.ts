@@ -4,7 +4,7 @@ import { PostAPI, PutAPI } from './FetchAPI'
 import { ChangePasswordDataType } from '@/types/ChangePassword'
 
 async function validLoginId(loginId: string) {
-    const response = await PostAPI('/api/v1/auth/id_check', { loginId: loginId })
+    const response = await PostAPI('/api/v1/auth/id-check', { loginId: loginId })
     return response
 }
 async function signupAPI(requestData: UserDataType) {

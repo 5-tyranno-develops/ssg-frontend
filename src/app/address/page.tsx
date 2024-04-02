@@ -2,14 +2,37 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import { useState } from 'react'
 import Postcode from '../../components/pages/address/Add'
-
+import { addDelivery } from '../api/delivery'
+import { AddaddressDataType } from '@/types/AddressDataType'
 function Address() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
+    const [addressName, setAddressName] = useState<string>('') // 주소별칭
+    const [zipCode, setZipCode] = useState<string>('')
     const [fullAddress, setFullAddress] = useState('')
     const [detailAddress, setDetailAddress] = useState('')
-    const [zipCode, setZipCode] = useState<string>()
-    console.log(fullAddress, detailAddress, zipCode) // detailAddress 출력
+    const [receiver, setReceiver] = useState<string>('') // 받는 분
+    const [phone, setPhone] = useState<string>('') // 휴대폰
+    const [tel, setTel] = useState<string>('') // 전화번호
 
+    const parsingPhoneNumber = (num: string) => {
+        return num
+            .replace(/[^0-9]/g, '')
+            .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, '$1-$2-$3')
+            .replace(/(-{1,2})$/g, '')
+    }
+    const handleAddAddress = async () => {
+        const addData: AddaddressDataType = {
+            deliveryName: '지민',
+            zipCode: 12312,
+            deliveryBase: '경남 거제시',
+            deliveryDetail: '어딘가',
+            receiverName: '엄마',
+            phoneNumber: '010-2222-3333',
+            homeNumber: '051-293-2912',
+        }
+        const response = await addDelivery(addData)
+        console.log(response)
+    }
     return (
         <div>
             <Postcode
@@ -31,7 +54,12 @@ function Address() {
                                 className="block p-2 w-auto leading-5"
                                 style={{ border: '1px solid #ccc', borderRadius: '2px' }}
                             >
-                                <input className="w-full h-4 " type="text" placeholder="주소별칭 입력" />
+                                <input
+                                    className="w-full h-4 "
+                                    type="text"
+                                    placeholder="주소별칭 입력"
+                                    onChange={(e) => setAddressName(e.target.value)}
+                                />
                             </span>
                         </div>
                     </li>
@@ -44,7 +72,12 @@ function Address() {
                                 className="block p-2 w-auto leading-5"
                                 style={{ border: '1px solid #ccc', borderRadius: '2px' }}
                             >
-                                <input className="w-full h-4 " type="text" placeholder="받는 분 성함 입력" />
+                                <input
+                                    className="w-full h-4 "
+                                    type="text"
+                                    placeholder="받는 분 성함 입력"
+                                    onChange={(e) => setReceiver(e.target.value)}
+                                />
                             </span>
                         </div>
                     </li>
@@ -62,6 +95,7 @@ function Address() {
                                     type="number"
                                     placeholder="휴대폰(숫자만 입력)"
                                     max-length="20"
+                                    onChange={(e) => setPhone(parsingPhoneNumber(e.target.value))}
                                 />
                             </span>
                         </div>
@@ -75,7 +109,12 @@ function Address() {
                                 className="block p-2 w-auto leading-5"
                                 style={{ border: '1px solid #ccc', borderRadius: '2px' }}
                             >
-                                <input className="w-full h-4 " type="number" placeholder="전화번호(숫자만 입력)" />
+                                <input
+                                    className="w-full h-4 "
+                                    type="number"
+                                    placeholder="전화번호(숫자만 입력)"
+                                    onChange={(e) => setTel(parsingPhoneNumber(e.target.value))}
+                                />
                             </span>
                         </div>
                     </li>
@@ -114,7 +153,8 @@ function Address() {
                                     도로명
                                 </div>
                                 <span className="mt-2">
-                                    {fullAddress} <br />
+                                    {fullAddress}
+                                    {detailAddress} <br />
                                 </span>
                             </div>
                         </div>
@@ -128,7 +168,11 @@ function Address() {
                     <button className="h-10 flex-1 mr-2 text-xs" style={{ color: '#666', border: '1px solid #ccc' }}>
                         취소
                     </button>
-                    <button className="h-10 flex-1 text-xs" style={{ color: '#666', border: '1px solid #ccc' }}>
+                    <button
+                        className="h-10 flex-1 text-xs"
+                        style={{ color: '#666', border: '1px solid #ccc' }}
+                        onClick={handleAddAddress}
+                    >
                         등록
                     </button>
                 </div>
