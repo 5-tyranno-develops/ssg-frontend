@@ -1,3 +1,5 @@
+import { getDelivery } from '@/app/api/delivery'
+
 export default function AddressList() {
     const deliveryData = [
         {
@@ -12,6 +14,8 @@ export default function AddressList() {
             homeNumber: 123456789,
         },
     ]
+    const response = getDelivery()
+    console.log(response)
     return (
         <div className="flex w-full max-w-full max-h-full">
             <ul className="block w-full">
