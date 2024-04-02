@@ -4,6 +4,11 @@ import { useEffect, useState } from 'react'
 import OptionModal from './OptionModal'
 import { useParams } from 'next/navigation'
 
+interface OptionListType {
+    name: string,
+    isChecked: boolean
+}
+
 export default function ProductOptions({
     isModal,
     productId,
@@ -16,19 +21,32 @@ export default function ProductOptions({
     // console.log(isModal, productId)
     const params = useParams<{ productId: string }>()
     const [optionData, setOptionData] = useState<string[]>([] as string[])
+    const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
+
+    
 
     const [selectedOptionType, setSelectedOptionType] = useState<string>('')
 
     useEffect(() => {
-        fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, { cache: 'force-cache' })
-            .then((res) => res.json())
-            .then((data) => {
-                setOptionData(data.result)
-                console.log(data.result, 'option')
-            })
-    }, [])
 
-    console.log(optionData)
+        const getOptionData = async () => {
+            const data = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, { cache: 'force-cache' })
+            if(data) {
+                const res = await data.json()
+                setOptionData(res.result)
+                const newData = res.result.map((opt: string, idx:number) =>{
+                    return {
+                        name: opt,
+                        isChecked: idx === 0 ? true : false
+                    }
+                })
+                console.log(newData)
+                setNewOptionList(newData)
+            }
+        }
+        getOptionData()    
+    }, [productId])
+
 
     // for (let i = 0; i < optionData.length; i++) {
     //     if (optionData[i] == 'color') {
@@ -50,7 +68,7 @@ export default function ProductOptions({
         setIsModal(false)
     }
 
-    const handleClickOption = (optionType: string, index : number) => {
+    const handleClickOption = (optionType: string) => {
        
         setSelectedOptionType(optionType)
     }
@@ -69,14 +87,17 @@ export default function ProductOptions({
                         닫기
                     </p>
 
-                    {optionData &&
-                        optionData.map((opt: string, index) => (
+                    {newOptionList &&
+                        newOptionList.map((item: OptionListType, index) => (
                             <div
                                 key={index}
-                                className="w-full border  bg-white rounded-md  mb-2 py-1"
-                                onClick={() => handleClickOption(opt,index)}
+                                className={`${item.isChecked ? '' : 'opacity-30 cursor-not-allowed'}w-full border  bg-white rounded-md mb-2 py-1`}
+                                onClick={
+                                    item.isChecked ?
+                                    () => handleClickOption(item.name) : () => alert('선택할 수 없습니다.')
+                                }
                             >
-                                <div className="ml-2 text-sm"> 선택하세요. ({opt})</div>
+                                <div className="ml-2 text-sm"> 선택하세요. ({item.name})</div>
                             </div>
                         ))}
                     <div className="flex justify-end py-5">
