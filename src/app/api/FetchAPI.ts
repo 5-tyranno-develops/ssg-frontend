@@ -19,7 +19,7 @@ async function fetchAPI(method: Method, url: string, body?: object, token?: stri
         }
 
         // GET 메서드가 아닌 경우에만 body를 추가합니다.
-        if (method !== 'GET' && body) {
+        if (method !== 'GET' && body !== undefined) {
             options.body = JSON.stringify(body)
         }
 
