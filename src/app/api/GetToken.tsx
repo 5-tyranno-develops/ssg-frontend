@@ -1,10 +1,21 @@
 'use client'
 import { getSession } from 'next-auth/react'
 
+interface tokenType {
+    code: number
+    exp: number
+    iat: number
+    isSuccess: boolean
+    jti: string
+    message: string
+    result: string
+}
+
 const GetToken = async () => {
     const session = await getSession()
-    const token = session?.user
-    return token?.result
+    console.log('session', session)
+    const token = session?.user as tokenType
+    return token.result
 }
 
 export { GetToken }
