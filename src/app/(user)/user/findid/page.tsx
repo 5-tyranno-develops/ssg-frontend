@@ -1,3 +1,4 @@
+import FindUserResult from '@/components/pages/findUser/FindUserResult'
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import Link from 'next/link'
 
@@ -11,10 +12,7 @@ function Findid() {
                     <ul className=" border  border-gray-400 rounded-md p-6  bg-white shadow-md  text-center ">
                         <li>
                             <p className="text-xs text-gray-500">고객님께서 가입하신 아이디입니다.</p>
-                            <p className="mt-3 text-sm text-gray-500">
-                                아이디
-                                <span className="ml-3 text-black">hyobin</span>
-                            </p>
+                            <FindUserResult />
                         </li>
                     </ul>
                     <div className="flex mt-5 space-x-2 justify-center">

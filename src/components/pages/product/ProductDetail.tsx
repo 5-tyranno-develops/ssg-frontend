@@ -1,50 +1,22 @@
 'use client'
-import React, { useState, useEffect } from 'react'
-import { ProductDataType } from '@/types/ProductDataType'
+import React, { useState } from 'react'
+
 import ShareIcon from '@/images/ShareSvg'
 import Image from 'next/image'
 import DetailIcon from '@/images/DetailIcon.png'
 
-export async function GetProductData(): Promise<ProductDataType> {
-    const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/101`)
-    if (!res.ok) {
-        throw new Error('Failed to fetch data')
-    }
-    const data: ProductDataType = await res.json()
-    return data
-}
-
-function ProductInformation() {
+function ProductInformation({ data }: { data: any }) {
     const [expanded, setExpanded] = useState(false)
-    const [product, setProduct] = useState<ProductDataType | null>(null)
-
-    useEffect(() => {
-        ;(async () => {
-            try {
-                const product = await GetProductData()
-                setProduct(product)
-            } catch (error) {
-                console.error('Error fetching product data:', error)
-            }
-        })()
-    }, [])
 
     const toggleExpand = () => {
         setExpanded(!expanded)
     }
 
-    const getImagesToShow = () => {
-        if (product) {
-            const images = product.detailContent.match(/src="([^"]+)"/g)?.map((match) => match.slice(5, -1)) || []
-            return expanded ? images : images.slice(0, 2)
-        }
-        return []
-    }
     return (
         <div>
-            {product && (
+            {data && (
                 <div>
-                    <div className=" flex items-center justify-between border-b-2  ">
+                    <div className=" flex items-center justify-between border-b-2 my-4 ">
                         <span className=" text-xs font-bold mb-2 ml-2">
                             <p>신세계백화점</p>
                         </span>
@@ -54,21 +26,19 @@ function ProductInformation() {
                         </button>
                     </div>
                     <div className="m-4 ">
-                        <div className="mt-2 mb-1"> {product.vendor.length > 0 && product.vendor[0].vendorName}</div>
-                        <span className=" text-base ">{product.productName}</span>
+                        {/* <div className="mt-2 mb-1"> {data.vendor.length > 0 && data.vendor[0].vendorName}</div> */}
+                        <span className=" text-base ">{data.productName}</span>
 
                         <div>
                             <div className="mt-4">
                                 <del className="line-through text-bases text-gray-500">
-                                    <p>{product.price}원</p>
+                                    {/* <p>{data.price}원</p> */}
                                 </del>
                             </div>
                             <div className="flex space-x-2 text-2xl font-bold">
+                                <div>{/* <span className=" text-red-600 ">{data.discount}%</span> */}</div>
                                 <div>
-                                    <span className=" text-red-600 ">{product.discount}%</span>
-                                </div>
-                                <div>
-                                    <span>{product.price * (1 - product.discount / 100)}원</span>
+                                    <span>{data.price * (1 - data.discount / 100)}원</span>
                                 </div>
                             </div>
                         </div>
@@ -121,41 +91,38 @@ function ProductInformation() {
                             </div>
                         </div>
                     </div>
-                    <div className=" bg-gray-100 h-4 mb-2"></div>
+                    <div className=" bg-gray-100 h-4 mb-5 "></div>
 
-                    {getImagesToShow().map((image, index) => (
-                        <div key={index}>
-                            <img src={image} alt={`상품이미지${index + 1}`} className="w-full" />
-                        </div>
-                    ))}
-
-                    {!expanded && getImagesToShow().length > 1 && (
-                        <div className="flex items-center justify-center">
-                            <button
-                                type="button"
-                                onClick={toggleExpand}
-                                className=" w-full h-32 bg-white text-base text-center flex justify-center items-center"
-                                style={{ boxShadow: '0px -100px 30px rgba(255,255,255,0.7)' }}
-                            >
-                                상세정보 펼쳐보기
-                                <Image src={DetailIcon} alt="장바구니아이콘" className="  w-6 h-8"></Image>
-                            </button>
-                        </div>
-                    )}
-                    {expanded && (
-                        <div className="flex items-center justify-center">
+                    {!expanded && (
+                        <div className="flex items-center justify-center ">
                             <button
                                 type="button"
                                 onClick={toggleExpand}
                                 className="w-full h-32 bg-white text-base text-center flex justify-center items-center"
+                                style={{ boxShadow: '0px -50px 30px rgba(255,255,255,0.7)' }}
                             >
-                                상세정보 접기{' '}
-                                <Image
-                                    src={DetailIcon}
-                                    alt="장바구니아이콘"
-                                    className="w-6 h-8  transform rotate-180"
-                                ></Image>
+                                상세정보 펼쳐보기
+                                <Image src={DetailIcon} alt="더보기" className="  w-6 h-8" />
                             </button>
+                        </div>
+                    )}
+                    {expanded && (
+                        <div>
+                            <div dangerouslySetInnerHTML={{ __html: data.detailContent }} />
+                            <div className="flex items-center justify-center">
+                                <button
+                                    type="button"
+                                    onClick={toggleExpand}
+                                    className="w-fulll h-32 bg-white text-base text-center flex justify-center items-center"
+                                >
+                                    상세정보 접기
+                                    <Image
+                                        src={DetailIcon}
+                                        alt="더보기"
+                                        className="w-6 h-8  transform rotate-180"
+                                    ></Image>
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

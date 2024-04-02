@@ -3,9 +3,8 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import './signup.css'
 import { useState, useEffect } from 'react'
 import Buttons from '@/components/ui/buttons'
-import Postcode from '@/components/pages/address/add'
-import { sign } from 'crypto'
-import signupAPI from '@/api/user'
+import Postcode from '@/components/pages/address/Add'
+import { signupAPI, validLoginId } from '@/app/api/user'
 
 function signup() {
     const [loginId, setLoginId] = useState('')
@@ -89,24 +88,31 @@ function signup() {
     }
 
     const sendUserApi = async () => {
-        const requestData = {
-            loginId: loginId,
-            password: password,
-            name: name,
-            deliveryBase: addressBase,
-            deliveryDetail: addressDetail,
-            zipCode: parseInt(zipCode),
-            phoneNumber: phoneNumber,
-            email: email,
-            gender: gender,
-            birth: birth,
-            shinsegaeMarketingAgree: shinsegaeMarketingAgree,
-            shinsegaeOptionAgree: shinsegaeOptionAgree,
-            ssgMarketingAgree: ssgMarketingAgree,
-        }
         try {
+            const requestData = {
+                loginId: loginId,
+                password: password,
+                name: name,
+                deliveryBase: addressBase,
+                deliveryDetail: addressDetail,
+                zipCode: parseInt(zipCode),
+                phoneNumber: phoneNumber,
+                email: email,
+                gender: gender,
+                birth: birth,
+                shinsegaeMarketingAgree: shinsegaeMarketingAgree,
+                shinsegaeOptionAgree: shinsegaeOptionAgree,
+                ssgMarketingAgree: ssgMarketingAgree,
+            }
             await signupAPI(requestData)
-            console.log(requestData)
+        } catch (error) {
+            console.error('Error:', error)
+        }
+    }
+    const handleValidLoginId = async () => {
+        try {
+            const res = await validLoginId(loginId)
+            alert(res.result)
         } catch (error) {
             console.error('Error:', error)
         }
@@ -145,6 +151,7 @@ function signup() {
                     <button
                         className=" mt-1 ml-2 h-10 w-28 text-sm  "
                         style={{ backgroundColor: '#f0f0f0', fontWeight: 'bold' }}
+                        onClick={handleValidLoginId}
                     >
                         중복확인
                     </button>

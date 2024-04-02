@@ -1,36 +1,16 @@
 'use client'
 import { useState } from 'react'
 import Image from 'next/image'
-import StillPinIcon from '@/images/StillPinIcon.png'
-import StillRedPinIcon from '@/images/StillRedPinIcon.png'
 import trash from '@/images/Trash.png'
 import './../../..//app/cart/cart.css'
+import Buttons from '@/components/ui/buttons'
+import { useRecoilState } from 'recoil'
+import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
+import { productData } from '@/lib/CartList'
 
 export default function CartList() {
-    const productData = [
-        {
-            productId: 1,
-            vendorName: '노브랜드',
-            name: '상품1',
-            productPrice: 10000,
-            discount: 0,
-            count: 1,
-            isIncluded: 11,
-            isKeep: 99,
-            imageUrl: 'https://sitem.ssgcdn.com/89/11/90/item/1000043901189_i1_750.jpg',
-        },
-        {
-            productId: 12,
-            vendorName: '노브랜드',
-            name: '상품2',
-            productPrice: 20000,
-            discount: 10,
-            count: 2,
-            isIncluded: 11,
-            isKeep: 99,
-            imageUrl: 'https://sitem.ssgcdn.com/89/11/90/item/1000043901189_i1_750.jpg',
-        },
-    ]
+    const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
+
     const [filteredProductList, setFilteredProductList] = useState(
         productData.filter((product) => product.isIncluded === 11),
     )
@@ -78,12 +58,16 @@ export default function CartList() {
     }
 
     const [allChecked, setAllChecked] = useState(false)
-    const [checkedItem, setCheckedItem] = useState<number[]>([])
+    const [checkedItem, setCheckedItem] = useState<number[]>(recoilSample)
     const checkItemhandler = (id: number, ischecked: boolean) => {
         console.log(id, ischecked)
         if (ischecked) {
+            if (!recoilSample.includes(id)) {
+                setRecoilSample([...recoilSample, id])
+            }
             setCheckedItem((prev) => [...prev, id])
         } else {
+            setRecoilSample([...checkedItem.filter((item) => item !== id)])
             setCheckedItem(checkedItem.filter((item) => item !== id))
         }
     }
@@ -174,7 +158,10 @@ export default function CartList() {
                                                     !checkedItem.includes(product.productId) ? true : false,
                                                 )
                                             }
-                                            checked={checkedItem.includes(product.productId)}
+                                            checked={
+                                                checkedItem.includes(product.productId) ||
+                                                recoilSample.includes(product.productId)
+                                            }
                                             className="absolute top-0 left-0 w-4 h-4"
                                         />
                                         <Image src={product.imageUrl} alt="상품" width={85} height={85} />
@@ -219,10 +206,10 @@ export default function CartList() {
                                         <div className="absolute top-0 right-0 flex items-start">
                                             <Image
                                                 className="mr-5"
-                                                src={StillRedPinIcon}
-                                                alt="계속담아두기"
                                                 width={20}
                                                 height={20}
+                                                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABkUlEQVR4nO2Vv0oDQRDGfwTUIhYinFirIATBFIr4CPoANirY5RUkWFlY+go+gPoeFlZXREEr/zY2Wqio8ZOFCS6XS+6S3F2afLDc7e3OfN/NzszCCBlDUBkmeVXwIdgfBnlZ0BDIxkHRAk6M+F7wY+/FREKwZYQu/Ms2/y4kEoJ5wauR1SKi8hUhGBNcGMlZzHq+IgTH5vxOMN1hz+AiBBOCPcG54EbwKLgS/Aq+BOsJ9tt9J6ZgU/DslVd0JDoULFl1tBI1XbMS1AVNM3wRHApWBIFgzsSVEnzUBO/mw0WtmpZ8UhCa4adgMZXhv/2U4NSLlOsTZXp0EnginPrZlHargluzexPs9ETcRYR7Bl32llxOeFl/KVhgUCilCMsJWXW4Eh0fmLwXEdYV3XqDPCCoePXcJkIwY2sPeZAHXgSacSIEa/b9Ok/y0CLRdhyCo073QlbkjVYpxpRoxZqVm+/mQR7GnHkQaVbu+ZRJ9qvDn6fIjY2sycNuzSeyv144uX93kAXUB3mmUMKZjzACGeMPq1Fs+5EYcb4AAAAASUVORK5CYII="
+                                                alt="계속담아두기"
                                                 onClick={() => isKeepHandle(product.productId, product.isKeep)}
                                             />
                                             <button onClick={() => deletedProduct(index)}>
@@ -233,12 +220,11 @@ export default function CartList() {
                                         <div className="absolute top-0 right-0 flex items-start">
                                             <Image
                                                 className="mr-5"
-                                                src={StillPinIcon}
+                                                src="https://img.icons8.com/windows/32/pin.png"
                                                 alt="계속담아두기"
                                                 width={20}
                                                 height={20}
                                                 onClick={() => isKeepHandle(product.productId, product.isKeep)}
-                                                color="red"
                                             />
                                             <button onClick={() => deletedProduct(index)}>
                                                 <Image src={trash} alt="삭제" width={20} height={20} />
@@ -269,6 +255,16 @@ export default function CartList() {
                     <span className="text-base font-bold mt-2">총 결제예정금액</span>
                     <span className="text-lg font-bold mt-2">{(totalMoney + discountMoney).toLocaleString()} 원</span>
                 </div>
+            </div>
+            <div className="fixed bottom-0 left-0 right-0 z-[1] bg-white">
+                <div className="relative p-4 ">
+                    <p className="text-xs text-black">
+                        전체상품 {filteredProductList.length}개 {(totalMoney + discountMoney).toLocaleString()} 원 +
+                        배송비 0원 = {(totalMoney + discountMoney).toLocaleString()} 원
+                    </p>
+                    <p className="text-rose-600 text-xs">할인혜택 없음</p>
+                </div>
+                <Buttons title="주문하기" href="/cart" />
             </div>
         </>
     )
