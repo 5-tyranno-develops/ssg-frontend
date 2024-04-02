@@ -1,4 +1,3 @@
-'use client'
 import ProductFooter from '@/components/ui/ProductFooter'
 import ProductHeader from '@/components/ui/ProductHeader'
 

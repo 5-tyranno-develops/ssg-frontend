@@ -3,22 +3,17 @@ import Image from 'next/image'
 import HeartIcon from '@/images/HeartIcon.png'
 import { useState } from 'react'
 import ProductOptions from '../pages/product/ProductOptions'
-
-
+import { useParams } from 'next/navigation'
 
 
 function ProductFooter() {
-
-
-    const [isModal, setIsModal] = useState(false)
     
-    const clickModal = () => setIsModal(!isModal)
-    const closeModal = () => setIsModal(false)
-  
-    
+    const params = useParams<{ productId: string}>()
+    console.log(params.productId)
+    const [isModal, setIsModal] = useState<boolean>(false)
+
     return (
         <section>
-            {!isModal && (
                 <div className="fixed bottom-0 w-screen z-[900] ">
                     <ul className="flex items-center h-12">
                         <li className=" flex justify-center items-center w-14 bg-white h-12">
@@ -26,15 +21,18 @@ function ProductFooter() {
                         </li>
                         <button
                             className="flex justify-center items-center font-semibold text-white bg-red-500 flex-grow h-12"
-                            onClick={clickModal}
+                            onClick={()=>setIsModal(true)}
                         >
                             구매하기
                         </button>
                     </ul>
                 </div>
-            )}
 
-            {isModal && <ProductOptions closeModal={closeModal}  />}
+            <ProductOptions 
+                isModal={isModal} 
+                setIsModal={setIsModal}
+                productId={params.productId} 
+            />
         </section>
     )
 }
