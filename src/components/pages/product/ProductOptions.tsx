@@ -1,7 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import OptionColorModal from '@/components/modal/product/OptionColorModal'
+import { OptionStringDataType } from '@/types/OptionStringDataType'
 
 
 export default function ProductOptions({ 
@@ -13,6 +14,17 @@ export default function ProductOptions({
 }) {
 
     console.log(isModal, productId)
+
+    const [optionData, setOptionData] = useState<string[]>([] as string[])
+
+    useEffect(() => {
+        fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, { cache: 'force-cache' })
+        .then(res => res.json())
+        .then(data => {
+            setOptionData(data.result)
+            console.log(data.result)
+        })
+    },[])
 
     const handleModal = () => {
         setIsModal(false)
@@ -31,11 +43,11 @@ export default function ProductOptions({
                         닫기
                     </p>
 
-                    {/* {option&& option.map((opt, index) => (
+                    {optionData&& optionData.map((opt:string, index) => (
                         <div key={index} className="w-full border p-2 bg-white rounded-md py-3">
                             선택하세요. ({opt})
                         </div>
-                    ))} */}
+                    ))}
                     <div className="flex  justify-end py-5">
                         <p className="mr-2 font-bold">총 합계</p>
                         <p className=" text-red-500 font-bold  text-xl">0 원</p>
