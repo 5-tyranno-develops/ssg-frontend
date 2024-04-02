@@ -1,23 +1,29 @@
+import { options } from '@/app/api/auth/[...nextauth]/options'
 import constraints from './constraints'
 
-type Method = 'POST' | 'PUT' | 'DELETE' | 'PATCH'
+type Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
 
 async function fetchAPI(method: Method, url: string, body?: object, token?: string) {
     try {
         let headers: { [key: string]: string } = {
             'Content-Type': 'application/json',
         }
-
-        // 토큰이 존재하는 경우에만 헤더에 추가합니다.
         if (token != null || token !== undefined) {
             token = token.replace(/(?:\\[rn]|[\r\n]+)+/g, '')
             headers['Authorization'] = `Bearer ${token}`
         }
-        const response = await fetch(`${constraints.Server_Url}${url}`, {
+
+        let options: RequestInit = {
             method: method,
             headers: headers,
-            body: JSON.stringify(body),
-        })
+        }
+
+        // GET 메서드가 아닌 경우에만 body를 추가합니다.
+        if (method !== 'GET' && body) {
+            options.body = JSON.stringify(body)
+        }
+
+        const response = await fetch(`${constraints.Server_Url}${url}`, options)
         console.log('response', response)
         return response.json()
     } catch (error) {
@@ -25,14 +31,14 @@ async function fetchAPI(method: Method, url: string, body?: object, token?: stri
         throw error
     }
 }
-// function GetAPI(url: string, params?: Record<string, string | number>) {
-//     if (params != undefined) {
-//         const urlParams = new URLSearchParams().toString()
+function GetAPI(url: string, params?: object, token?: string) {
+    if (params != undefined) {
+        const urlParams = new URLSearchParams().toString()
 
-//         url = `${url}?${urlParams}`
-//     }
-//     return fetchAPI('GET', url, undefined)
-// }
+        url = `${url}?${urlParams}`
+    }
+    return fetchAPI('GET', url, undefined, token)
+}
 function PostAPI(url: string, body?: object, token?: string) {
     console.log('body', body)
     // console.log(GetToken())
@@ -48,4 +54,4 @@ function PatchAPI(url: string, body: object, token?: string) {
     return fetchAPI('PATCH', url, body, token)
 }
 
-export { PostAPI, PutAPI, DeleteAPI, PatchAPI }
+export { GetAPI, PostAPI, PutAPI, DeleteAPI, PatchAPI }
