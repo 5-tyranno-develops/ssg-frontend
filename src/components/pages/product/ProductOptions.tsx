@@ -17,10 +17,7 @@ export default function ProductOptions({
     const params = useParams<{ productId: string }>()
     const [optionData, setOptionData] = useState<string[]>([] as string[])
 
-    const [showColorOption, setShowColorOption] = useState<boolean>(false)
-    const [showSizeOption, setShowSizeOption] = useState<boolean>(false)
-    const [showEtcOption, setShowEtcOption] = useState<boolean>(false)
-    const [showExtraOption, setShowExtraOption] = useState<boolean>(false)
+    const [selectedOptionType, setSelectedOptionType] = useState<string>('')
 
     useEffect(() => {
         fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, { cache: 'force-cache' })
@@ -33,24 +30,29 @@ export default function ProductOptions({
 
     console.log(optionData)
 
-    for (let i = 0; i < optionData.length; i++) {
-        if (optionData[i] == 'color') {
-            optionData[i] = '색상'
-        }
-        if (optionData[i] == 'size') {
-            optionData[i] = '사이즈'
-        }
-        if (optionData[i] == 'extra') {
-            optionData[i] = '추가'
-        }
-        if (optionData[i] == 'etc') {
-            optionData[i] = '기타'
-        }
-    }
+    // for (let i = 0; i < optionData.length; i++) {
+    //     if (optionData[i] == 'color') {
+    //         optionData[i] = '색상'
+    //     }
+    //     if (optionData[i] == 'size') {
+    //         optionData[i] = '사이즈'
+    //     }
+    //     if (optionData[i] == 'extra') {
+    //         optionData[i] = '추가'
+    //     }
+    //     if (optionData[i] == 'etc') {
+    //         optionData[i] = '기타'
+    //     }
+    // }
     console.log(optionData)
 
     const handleModal = () => {
         setIsModal(false)
+    }
+
+    const handleClickOption = (optionType: string, index : number) => {
+       
+        setSelectedOptionType(optionType)
     }
     return (
         <>
@@ -72,19 +74,7 @@ export default function ProductOptions({
                             <div
                                 key={index}
                                 className="w-full border  bg-white rounded-md  mb-2 py-1"
-                                onClick={() => {
-                                    if (opt === '색상') {
-                                        setShowColorOption(true)
-                                    } else if (opt === '사이즈') {
-                                        setShowSizeOption(true)
-                                    }
-                                    else if (opt === '추가') {
-                                        setShowEtcOption(true)
-                                    }
-                                    else if (opt === '기타') {
-                                        setShowExtraOption(true)
-                                    }
-                                }}
+                                onClick={() => handleClickOption(opt,index)}
                             >
                                 <div className="ml-2 text-sm"> 선택하세요. ({opt})</div>
                             </div>
@@ -95,27 +85,9 @@ export default function ProductOptions({
                     </div>
                 </div>
                 <OptionModal
-                    showOption={showColorOption}
-                    optionType="color"
-                    setShowOption={setShowColorOption}
-                    productId={params.productId}
-                />
-                <OptionModal
-                    showOption={showSizeOption}
-                    optionType="size"
-                    setShowOption={setShowSizeOption}
-                    productId={params.productId}
-                />
-                <OptionModal
-                    showOption={showEtcOption}
-                    optionType="etc"
-                    setShowOption={setShowEtcOption}
-                    productId={params.productId}
-                />
-                <OptionModal
-                    showOption={showExtraOption}
-                    optionType="extra"
-                    setShowOption={setShowExtraOption}
+                    showOption={selectedOptionType !== ''}
+                    optionType={selectedOptionType}
+                    setShowOption={() => setSelectedOptionType('')}
                     productId={params.productId}
                 />
             </div>
