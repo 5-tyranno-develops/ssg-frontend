@@ -1,10 +1,10 @@
-// 'use client'
-// import { getSession, useSession } from 'next-auth/react'
-// export default function GetToken() {
-//     const { data: session } = useSession()
+'use client'
+import { getSession } from 'next-auth/react'
 
-//     let getSession = session?.user
-//     let token: any = getSession?.result
+const GetToken = async () => {
+    const session = await getSession()
+    const token = session?.user
+    return token?.result
+}
 
-//     return token
-// }
+export { GetToken }
