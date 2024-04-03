@@ -2,8 +2,8 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import { useEffect, useState } from 'react'
 import Postcode from '@/components/pages/address/Add'
-import { addDelivery, getModifyDelivery } from '@/app/api/delivery'
-import { AddaddressDataType } from '@/types/AddressDataType'
+import { getModifyDelivery, modifyDelivery } from '@/app/api/delivery'
+import { AddressDataType, ModifyAddressDataType } from '@/types/AddressDataType'
 import { useParams, useRouter } from 'next/navigation'
 function ChangeAddressForm() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
@@ -15,7 +15,7 @@ function ChangeAddressForm() {
     const [phone, setPhone] = useState<string>('') // 휴대폰
     const [tel, setTel] = useState<string>('') // 전화번호
 
-    const [defaultValue, setDefaultValue] = useState<AddaddressDataType>()
+    const [defaultValue, setDefaultValue] = useState<AddressDataType>()
 
     const parsingPhoneNumber = (num: string) => {
         return num
@@ -33,10 +33,37 @@ function ChangeAddressForm() {
         }
     }
     const params = useParams()
+    const router = useRouter()
     useEffect(() => {
         getDeliveryData(params.addressid[0])
     }, [])
-    console.log('fdskfs', defaultValue)
+    const handleModifyAddress = async () => {
+        try {
+            const addressData: ModifyAddressDataType = {
+                id: parseInt(params.addressid[0]),
+                deliveryName:
+                    addressName === '' || addressName === undefined ? defaultValue?.deliveryName || '' : addressName,
+                zipCode:
+                    zipCode === '' || zipCode === undefined ? defaultValue?.zipCode?.valueOf() || 0 : parseInt(zipCode),
+                deliveryBase:
+                    fullAddress === '' || fullAddress === undefined ? defaultValue?.deliveryBase || '' : fullAddress,
+                deliveryDetail:
+                    detailAddress === '' || detailAddress === undefined
+                        ? defaultValue?.deliveryDetail || ''
+                        : detailAddress,
+                receiverName: receiver === '' || receiver === undefined ? defaultValue?.receiverName || '' : receiver,
+                phoneNumber: phone === '' || phone === undefined ? defaultValue?.phoneNumber || '' : phone,
+                homeNumber: tel === '' || tel === undefined ? defaultValue?.homeNumber || '' : tel,
+            }
+            const response = await modifyDelivery(addressData)
+
+            alert(response)
+            router.back()
+        } catch (err) {
+            console.error(err)
+        }
+    }
+
     return (
         <div>
             <Postcode
@@ -137,7 +164,7 @@ function ChangeAddressForm() {
                                     <input
                                         type="number"
                                         className="w-full"
-                                        defaultValue={defaultValue?.zipCode}
+                                        defaultValue={defaultValue?.zipCode?.toString()}
                                         readOnly
                                     />
                                 </span>
@@ -153,7 +180,7 @@ function ChangeAddressForm() {
                             </button>
                         </div>
                     </li>
-                    {defaultValue?.deliveryBase && (
+                    {fullAddress == '' ? (
                         <div className="mt-2 text-sm leading-5  ">
                             <div className="flex">
                                 <div
@@ -167,6 +194,20 @@ function ChangeAddressForm() {
                                 </span>
                             </div>
                         </div>
+                    ) : (
+                        <div className="mt-2 text-sm leading-5  ">
+                            <div className="flex">
+                                <div
+                                    className=" w-10 mt-1 mr-3 mb-1 pt-1 text-xs leading-5 font-normal text-center "
+                                    style={{ backgroundColor: '#f6f6f6', color: '#888 ' }}
+                                >
+                                    도로명
+                                </div>
+                                <span className="mt-2">
+                                    {fullAddress} {detailAddress}
+                                </span>
+                            </div>
+                        </div>
                     )}
                 </ul>
 
@@ -177,8 +218,12 @@ function ChangeAddressForm() {
                     <button className="h-10 flex-1 mr-2 text-xs" style={{ color: '#666', border: '1px solid #ccc' }}>
                         취소
                     </button>
-                    <button className="h-10 flex-1 text-xs" style={{ color: '#666', border: '1px solid #ccc' }}>
-                        등록
+                    <button
+                        className="h-10 flex-1 text-xs font-bold"
+                        style={{ color: '#666', border: '1px solid #ccc' }}
+                        onClick={() => handleModifyAddress()}
+                    >
+                        수정완료
                     </button>
                 </div>
             </div>

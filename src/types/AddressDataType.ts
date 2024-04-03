@@ -19,5 +19,15 @@ interface AddaddressDataType {
     phoneNumber: string
     homeNumber: string
 }
+interface ModifyAddressDataType {
+    id: number
+    deliveryName: string
+    zipCode: number
+    deliveryBase: string
+    deliveryDetail: string
+    receiverName: string
+    phoneNumber: string
+    homeNumber: string
+}
 
-export type { AddressDataType, AddaddressDataType }
+export type { AddressDataType, AddaddressDataType, ModifyAddressDataType }

@@ -29,4 +29,16 @@ async function getModifyDelivery(deliveryId: number) {
     return response.result
 }
 
-export { addDelivery, getDelivery, getMainDelivery, deleteDelivery, changeMainDelivery, getModifyDelivery }
+async function modifyDelivery(delivery: AddaddressDataType) {
+    const response = await PutAPI('/api/v1/delivery', delivery, await token)
+    return response.result
+}
+export {
+    addDelivery,
+    getDelivery,
+    getMainDelivery,
+    deleteDelivery,
+    changeMainDelivery,
+    getModifyDelivery,
+    modifyDelivery,
+}
