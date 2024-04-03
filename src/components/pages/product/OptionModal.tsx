@@ -8,12 +8,18 @@ export default function OptionModal({
     productId,
     setShowModal,
     setSelectedOption,
+    queryUrl,
+    setQueryUrl,
+
 }: {
     showModal: boolean
     optionType: string
     productId: string
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedOption: React.Dispatch<React.SetStateAction<string>>
+    queryUrl: string
+    setQueryUrl: React.Dispatch<React.SetStateAction<string>>
+
 }) {
     const handleModal = () => {
         setShowModal(false)
@@ -22,7 +28,7 @@ export default function OptionModal({
     const [optionData, setOptionData] = useState<any[]>([])
 
     useEffect(() => {
-        console.log(optionType, 'optionType')
+        // console.log(optionType, 'optionType')
         const getOptionData = async () => {
             const data = await fetch(`https://tyrannoback.com/api/v1/option/list/${productId}`, {
                 cache: 'force-cache',
@@ -30,7 +36,7 @@ export default function OptionModal({
 
             if (data) {
                 const res = await data.json()
-                console.log(res, 'res')
+                // console.log(res, 'res')
                 const optionList = res.result[0][`${optionType}List`]
                 setOptionData(optionList)
                 console.log(optionList, 'options')
@@ -39,9 +45,9 @@ export default function OptionModal({
         getOptionData()
     }, [optionType, productId])
 
-    const handleColorSelection = (selectColor: string) => {
-        setSelectedOption(selectColor)
-        console.log(selectColor, '선택된것')
+    const handleColorSelection = (select: string, data: string, option: string) => {
+        setSelectedOption(select)
+        setQueryUrl(queryUrl === '' ? queryUrl + option + '=' + data : queryUrl + '&' + option + '=' + data)
         setShowModal(false)
     }
 
@@ -50,10 +56,10 @@ export default function OptionModal({
             <div
                 className={`${
                     showModal ? 'bottom-10 ease-in-out ' : '-bottom-[400px] easy-out-in'
-                } fixed transition-all delay-150 z-[13]`}
+                } fixed transition-all delay-150 z-[13] w-full `}
             >
                 <div
-                    className=" bg-white p-4  w-screen rounded-t-xl min-h-[300px]"
+                    className=" bg-white  p-4 rounded-t-xl min-h-[300px]"
                     style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
                 >
                     <p className="close  w-full h-5  flex items-center justify-center mb-2 " onClick={handleModal}>
@@ -68,11 +74,19 @@ export default function OptionModal({
                             <div
                                 key={index}
                                 className="w-full bg-white mb-2 text-sm ml-2"
-                                onClick={() => handleColorSelection(
-                                    opt[`${optionType}`]
-                                )}
+                                onClick={() =>
+                                    handleColorSelection(opt[`${optionType}`], opt[`${optionType}Id`], optionType)
+                                }
                             >
-                                {opt[`${optionType}`]}
+                                {optionType === 'color'
+                                    ? opt.color
+                                    : optionType === 'size'
+                                    ? opt.size
+                                    : optionType === 'etc'
+                                    ? opt.additionalOption
+                                    : optionType === 'extra'
+                                    ? opt.extraName
+                                    : ''}
                             </div>
                         ))}
                 </div>
