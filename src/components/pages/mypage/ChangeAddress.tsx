@@ -4,15 +4,13 @@ import Buttons from '@/components/ui/buttons'
 import { AddressDataType } from '@/types/AddressDataType'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import ChangeAddressForm from './ChangeAddressForm'
 
 export default function ChangeAddress() {
     const [deliveryData, setDeliveryData] = useState<AddressDataType[]>([])
     const [mainAddress, setMainAddress] = useState<string>()
     const router = useRouter()
-    const searchParams = useSearchParams()
 
     // fetchData 함수를 전역 스코프에 선언
     const fetchData = async () => {

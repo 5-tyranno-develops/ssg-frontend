@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import Postcode from '@/components/pages/address/Add'
 import { getModifyDelivery, modifyDelivery } from '@/app/api/delivery'
 import { AddressDataType, ModifyAddressDataType } from '@/types/AddressDataType'
-import { useParams, useRouter } from 'next/navigation'
-function ChangeAddressForm() {
+import { useRouter } from 'next/navigation'
+function ChangeAddressForm({ params }: { params: string }) {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [addressName, setAddressName] = useState<string>('') // 주소별칭
     const [zipCode, setZipCode] = useState<string>('')
@@ -32,15 +32,15 @@ function ChangeAddressForm() {
             console.error(err)
         }
     }
-    const params = useParams()
+
     const router = useRouter()
     useEffect(() => {
-        getDeliveryData(params.addressid[0])
+        getDeliveryData(params)
     }, [])
     const handleModifyAddress = async () => {
         try {
             const addressData: ModifyAddressDataType = {
-                id: parseInt(params.addressid[0]),
+                id: parseInt(params),
                 deliveryName:
                     addressName === '' || addressName === undefined ? defaultValue?.deliveryName || '' : addressName,
                 zipCode:

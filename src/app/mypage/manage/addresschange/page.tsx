@@ -2,8 +2,8 @@ import ChangeAddress from '@/components/pages/mypage/ChangeAddress'
 
 export default function AddressChange() {
     return (
-        <div>
+        <main>
             <ChangeAddress />
-        </div>
+        </main>
     )
 }
