@@ -33,7 +33,7 @@ function Address() {
             homeNumber: tel,
         }
         const response = await addDelivery(addData)
-        alert(response.result)
+        alert(response)
         router.back()
     }
     return (
