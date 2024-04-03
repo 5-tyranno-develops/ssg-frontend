@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Postcode from '../../components/pages/address/Add'
 import { addDelivery } from '../api/delivery'
 import { AddaddressDataType } from '@/types/AddressDataType'
+import { useRouter } from 'next/navigation'
 function Address() {
     const [modalOpen, setModalOpen] = useState<boolean>(false)
     const [addressName, setAddressName] = useState<string>('') // 주소별칭
@@ -14,6 +15,7 @@ function Address() {
     const [phone, setPhone] = useState<string>('') // 휴대폰
     const [tel, setTel] = useState<string>('') // 전화번호
 
+    const router = useRouter()
     const parsingPhoneNumber = (num: string) => {
         return num
             .replace(/[^0-9]/g, '')
@@ -22,16 +24,17 @@ function Address() {
     }
     const handleAddAddress = async () => {
         const addData: AddaddressDataType = {
-            deliveryName: '지민',
-            zipCode: 12312,
-            deliveryBase: '경남 거제시',
-            deliveryDetail: '어딘가',
-            receiverName: '엄마',
-            phoneNumber: '010-2222-3333',
-            homeNumber: '051-293-2912',
+            deliveryName: addressName,
+            zipCode: parseInt(zipCode),
+            deliveryBase: fullAddress,
+            deliveryDetail: detailAddress,
+            receiverName: receiver,
+            phoneNumber: phone,
+            homeNumber: tel,
         }
         const response = await addDelivery(addData)
-        console.log(response)
+        alert(response.result)
+        router.back()
     }
     return (
         <div>
