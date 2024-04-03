@@ -5,7 +5,7 @@ import OptionModal from './OptionModal'
 import { useParams } from 'next/navigation'
 
 interface OptionListType {
-    name: string,
+    name: string
     isChecked: boolean
 }
 
@@ -23,30 +23,30 @@ export default function ProductOptions({
     const [optionData, setOptionData] = useState<string[]>([] as string[])
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
 
-    
-
     const [selectedOptionType, setSelectedOptionType] = useState<string>('')
+    const [queryUrl, setQueryUrl] = useState<string>('')
 
     useEffect(() => {
-
         const getOptionData = async () => {
-            const data = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, { cache: 'force-cache' })
-            if(data) {
+            const data = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, {
+                cache: 'force-cache',
+            })
+            if (data) {
                 const res = await data.json()
                 setOptionData(res.result)
-                const newData = res.result.map((opt: string, idx:number) =>{
+                console.log(res.result, 'c')
+                const newData = res.result.map((opt: string, idx: number) => {
                     return {
                         name: opt,
-                        isChecked: idx === 0 ? true : false
+                        isChecked: idx === 0 ? true : false,
                     }
                 })
                 console.log(newData)
                 setNewOptionList(newData)
             }
         }
-        getOptionData()    
+        getOptionData()
     }, [productId])
-
 
     // for (let i = 0; i < optionData.length; i++) {
     //     if (optionData[i] == 'color') {
@@ -69,7 +69,6 @@ export default function ProductOptions({
     }
 
     const handleClickOption = (optionType: string) => {
-       
         setSelectedOptionType(optionType)
     }
     return (
@@ -91,10 +90,13 @@ export default function ProductOptions({
                         newOptionList.map((item: OptionListType, index) => (
                             <div
                                 key={index}
-                                className={`${item.isChecked ? '' : 'opacity-30 cursor-not-allowed'}w-full border  bg-white rounded-md mb-2 py-1`}
+                                className={`${
+                                    item.isChecked ? '' : 'opacity-30 cursor-not-allowed'
+                                }w-full border  bg-white rounded-md mb-2 py-1`}
                                 onClick={
-                                    item.isChecked ?
-                                    () => handleClickOption(item.name) : () => alert('선택할 수 없습니다.')
+                                    item.isChecked
+                                        ? () => handleClickOption(item.name)
+                                        : () => alert('선택할 수 없습니다.')
                                 }
                             >
                                 <div className="ml-2 text-sm"> 선택하세요. ({item.name})</div>

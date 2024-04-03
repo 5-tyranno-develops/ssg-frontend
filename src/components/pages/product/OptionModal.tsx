@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-export default function OptionColorModal({
+export default function OptionModal({
     showOption,
     optionType,
     productId,
@@ -18,18 +18,29 @@ export default function OptionColorModal({
     }
 
     const [optionData, setOptionData] = useState<any[]>([])
+    const [selectedColor, setSelectedColor] = useState<string>('')
 
     useEffect(() => {
-        fetch(`https://tyrannoback.com/api/v1/option/list/${productId}`, { cache: 'force-cache' })
-            .then((res) => res.json())
-            .then((data) => {
-                const optionList = data.result[0][`${optionType}List`]
+        const getOptionData = async () => {
+            const data = await fetch(`https://tyrannoback.com/api/v1/option/list/${productId}`, {
+                cache: 'force-cache',
+            })
+
+            if (data) {
+                const res = await data.json()
+                const optionList = res.result[0][`${optionType}List`]
                 setOptionData(optionList)
                 console.log(optionList, 'options')
-            })
+            }
+        }
+        getOptionData()
     }, [optionType, productId])
 
-    console.log(productId)
+    const handleColorSelection = (selectColor: string) => {
+        setSelectedColor(selectColor)
+        console.log(selectColor, '선택된것')
+        setShowOption(false)
+    }
 
     return (
         <>
@@ -51,7 +62,11 @@ export default function OptionColorModal({
 
                     {optionData &&
                         optionData.map((opt: any, index) => (
-                            <div key={index} className="w-full bg-white mb-2 text-sm ml-2">
+                            <div
+                                key={index}
+                                className="w-full bg-white mb-2 text-sm ml-2"
+                                onClick={() => handleColorSelection(opt.color)}
+                            >
                                 {optionType === 'color'
                                     ? opt.color
                                     : optionType === 'size'
