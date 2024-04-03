@@ -5,6 +5,7 @@ import OptionModal from './OptionModal'
 import { useParams } from 'next/navigation'
 
 interface OptionListType {
+    idx: number
     name: string
     isChecked: boolean
 }
@@ -23,7 +24,6 @@ export default function ProductOptions({
     const [optionData, setOptionData] = useState<string[]>([] as string[])
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
 
-    const [selectedOptionType, setSelectedOptionType] = useState<string>('')
     const [queryUrl, setQueryUrl] = useState<string>('')
 
     useEffect(() => {
@@ -37,6 +37,7 @@ export default function ProductOptions({
                 console.log(res.result, 'c')
                 const newData = res.result.map((opt: string, idx: number) => {
                     return {
+                        idx: idx,
                         name: opt,
                         isChecked: idx === 0 ? true : false,
                     }
@@ -68,9 +69,8 @@ export default function ProductOptions({
         setIsModal(false)
     }
 
-    const handleClickOption = (optionType: string) => {
-        setSelectedOptionType(optionType)
-    }
+  
+    
     return (
         <>
             <div
@@ -88,31 +88,20 @@ export default function ProductOptions({
 
                     {newOptionList &&
                         newOptionList.map((item: OptionListType, index) => (
-                            <div
-                                key={index}
-                                className={`${
-                                    item.isChecked ? '' : 'opacity-30 cursor-not-allowed'
-                                }w-full border  bg-white rounded-md mb-2 py-1`}
-                                onClick={
-                                    item.isChecked
-                                        ? () => handleClickOption(item.name)
-                                        : () => alert('선택할 수 없습니다.')
-                                }
-                            >
-                                <div className="ml-2 text-sm"> 선택하세요. ({item.name})</div>
-                            </div>
+                            <OptionSelecter
+                                key={index} 
+                                item={item} 
+                                productId={productId} 
+                                setNewOptionList={setNewOptionList}
+                                newOptionList={newOptionList}
+                            />
                         ))}
                     <div className="flex justify-end py-5">
                         <p className="mr-2 font-bold">총 합계</p>
                         <p className=" text-red-500 font-bold  text-xl">0 원</p>
                     </div>
                 </div>
-                <OptionModal
-                    showOption={selectedOptionType !== ''}
-                    optionType={selectedOptionType}
-                    setShowOption={() => setSelectedOptionType('')}
-                    productId={params.productId}
-                />
+               
             </div>
             <div
                 className={`${
@@ -126,6 +115,63 @@ export default function ProductOptions({
                     <span className="  text-white">바로구매</span>
                 </button>
             </div>
+        </>
+    )
+}
+
+
+const OptionSelecter = ({
+    item, productId, setNewOptionList, newOptionList
+}:{
+    item:OptionListType, 
+    productId:string,
+    newOptionList:OptionListType[],
+    setNewOptionList:React.Dispatch<React.SetStateAction<OptionListType[]>>
+}) => {
+
+    const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. ${item.name}`)
+    const [showModal, setShowModal] = useState<boolean>(false)
+    // const [selectedOptionType, setSelectedOptionType] = useState<string>('')
+
+   useEffect(() => {
+    console.log(selectedOption)
+    console.log(newOptionList, 'newOptionList')
+    console.log(item.idx, 'item')
+        setNewOptionList(
+            newOptionList.map((opt: OptionListType) => {
+                if (opt.idx === item.idx+1 && opt.idx !== newOptionList.length-1) {
+                    return {
+                        ...opt,
+                        isChecked: true,
+                    }
+                }
+                return opt
+            })
+        )
+        
+   }, [selectedOption])
+
+    return (
+        <>
+        <div
+            className={`${
+                item.isChecked ? '' : 'opacity-30 cursor-not-allowed'
+            }w-full border  bg-white rounded-md mb-2 py-1`}
+            onClick={
+                item.isChecked
+                    ? () => setShowModal(true)
+                    : () => alert('선택할 수 없습니다.')
+            }
+        >
+            <div className="ml-2 text-sm">{selectedOption}</div>
+        </div>
+         <OptionModal
+            showModal={showModal}
+            optionType={item.name}
+            setShowModal={setShowModal}
+            setSelectedOption={setSelectedOption}
+            productId={productId}
+        />
         </>
     )
 }

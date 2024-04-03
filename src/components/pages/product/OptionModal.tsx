@@ -3,24 +3,26 @@
 import { useEffect, useState } from 'react'
 
 export default function OptionModal({
-    showOption,
+    showModal,
     optionType,
     productId,
-    setShowOption,
+    setShowModal,
+    setSelectedOption,
 }: {
-    showOption: boolean
+    showModal: boolean
     optionType: string
     productId: string
-    setShowOption: React.Dispatch<React.SetStateAction<boolean>>
+    setShowModal: React.Dispatch<React.SetStateAction<boolean>>
+    setSelectedOption: React.Dispatch<React.SetStateAction<string>>
 }) {
     const handleModal = () => {
-        setShowOption(false)
+        setShowModal(false)
     }
 
     const [optionData, setOptionData] = useState<any[]>([])
-    const [selectedColor, setSelectedColor] = useState<string>('')
 
     useEffect(() => {
+        console.log(optionType, 'optionType')
         const getOptionData = async () => {
             const data = await fetch(`https://tyrannoback.com/api/v1/option/list/${productId}`, {
                 cache: 'force-cache',
@@ -28,6 +30,7 @@ export default function OptionModal({
 
             if (data) {
                 const res = await data.json()
+                console.log(res, 'res')
                 const optionList = res.result[0][`${optionType}List`]
                 setOptionData(optionList)
                 console.log(optionList, 'options')
@@ -37,16 +40,16 @@ export default function OptionModal({
     }, [optionType, productId])
 
     const handleColorSelection = (selectColor: string) => {
-        setSelectedColor(selectColor)
+        setSelectedOption(selectColor)
         console.log(selectColor, '선택된것')
-        setShowOption(false)
+        setShowModal(false)
     }
 
     return (
         <>
             <div
                 className={`${
-                    showOption ? 'bottom-10 ease-in-out ' : '-bottom-[400px] easy-out-in'
+                    showModal ? 'bottom-10 ease-in-out ' : '-bottom-[400px] easy-out-in'
                 } fixed transition-all delay-150 z-[13]`}
             >
                 <div
@@ -65,17 +68,11 @@ export default function OptionModal({
                             <div
                                 key={index}
                                 className="w-full bg-white mb-2 text-sm ml-2"
-                                onClick={() => handleColorSelection(opt.color)}
+                                onClick={() => handleColorSelection(
+                                    opt[`${optionType}`]
+                                )}
                             >
-                                {optionType === 'color'
-                                    ? opt.color
-                                    : optionType === 'size'
-                                    ? opt.size
-                                    : optionType === 'etc'
-                                    ? opt.additionalOption
-                                    : optionType === 'extra'
-                                    ? opt.extraName
-                                    : ''}
+                                {opt[`${optionType}`]}
                             </div>
                         ))}
                 </div>
