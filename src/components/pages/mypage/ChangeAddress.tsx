@@ -1,8 +1,10 @@
 'use client'
-import { getDelivery, getMainDelivery } from '@/app/api/delivery'
+import { deleteDelivery, getDelivery, getMainDelivery } from '@/app/api/delivery'
 import Buttons from '@/components/ui/buttons'
 import { AddressDataType } from '@/types/AddressDataType'
 import { get } from 'http'
+import { fetchData } from 'next-auth/client/_utils'
+import { redirect } from 'next/dist/server/api-utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -11,18 +13,31 @@ export default function ChangeAddress() {
     const [deliveryData, setDeliveryData] = useState<AddressDataType[]>([])
     const [mainAddress, setMainAddress] = useState<string>()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            await getDelivery()
-                .then((res) => {
-                    setDeliveryData(res as AddressDataType[])
-                })
-                .catch((err) => {
-                    console.error(err)
-                })
+    // fetchData 함수를 전역 스코프에 선언
+    const fetchData = async () => {
+        try {
+            const res = await getDelivery()
+            setDeliveryData(res as AddressDataType[])
+        } catch (err) {
+            console.error(err)
         }
+    }
+
+    const handleDelete = async (deliveryId: string) => {
+        if (confirm('정말 삭제하시겠습니까?')) {
+            const res = await deleteDelivery(parseInt(deliveryId))
+            alert(res.result)
+            fetchData()
+        } else {
+            return
+        }
+    }
+    const handleMain = async (deliveryId: string) => {}
+
+    useEffect(() => {
         fetchData()
     }, [])
+
     useEffect(() => {
         const mainAddress = async () => {
             await getMainDelivery()
@@ -80,11 +95,15 @@ export default function ChangeAddress() {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="absolute top-0 right-0" style={{ color: '#888' }}>
+                                <div className="absolute top-4 right-0" style={{ color: '#888' }}>
                                     <button type="button" className="relative inline-block ">
                                         수정
                                     </button>
-                                    <button type="button" className="relative inline-block ml-2 ">
+                                    <button
+                                        type="button"
+                                        className="relative inline-block ml-2 "
+                                        onClick={() => handleDelete(String(address.id))}
+                                    >
                                         삭제
                                     </button>
                                 </div>

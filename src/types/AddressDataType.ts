@@ -1,5 +1,5 @@
 interface AddressDataType {
-    deliveryId: Number
+    id?: Number
     isBaseDelivery: Number
     deliveryName: string
     zipCode: Number
