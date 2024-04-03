@@ -1,17 +1,18 @@
 'use client'
-import { deleteDelivery, getDelivery, getMainDelivery } from '@/app/api/delivery'
+import { changeMainDelivery, deleteDelivery, getDelivery, getMainDelivery } from '@/app/api/delivery'
 import Buttons from '@/components/ui/buttons'
 import { AddressDataType } from '@/types/AddressDataType'
-import { get } from 'http'
-import { fetchData } from 'next-auth/client/_utils'
-import { redirect } from 'next/dist/server/api-utils'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import ChangeAddressForm from './ChangeAddressForm'
 
 export default function ChangeAddress() {
     const [deliveryData, setDeliveryData] = useState<AddressDataType[]>([])
     const [mainAddress, setMainAddress] = useState<string>()
+    const router = useRouter()
+    const searchParams = useSearchParams()
 
     // fetchData 함수를 전역 스코프에 선언
     const fetchData = async () => {
@@ -26,13 +27,20 @@ export default function ChangeAddress() {
     const handleDelete = async (deliveryId: string) => {
         if (confirm('정말 삭제하시겠습니까?')) {
             const res = await deleteDelivery(parseInt(deliveryId))
-            alert(res.result)
+            alert(res)
             fetchData()
         } else {
             return
         }
     }
-    const handleMain = async (deliveryId: string) => {}
+    const handleMain = async (deliveryId: string) => {
+        const response = await changeMainDelivery(parseInt(deliveryId))
+        console.log(response)
+    }
+    const handlehangeAddress = (deliveryId: string) => {
+        let id = parseInt(deliveryId)
+        router.push(`/address/${id}`)
+    }
 
     useEffect(() => {
         fetchData()
@@ -90,13 +98,21 @@ export default function ChangeAddress() {
                             </label>
                             {address.isBaseDelivery === 11 ? (
                                 <div className="absolute top-0 right-0" style={{ color: '#888' }}>
-                                    <button type="button" className="relative inline-block ">
+                                    <button
+                                        type="button"
+                                        className="relative inline-block"
+                                        onClick={() => handlehangeAddress(String(address.id))}
+                                    >
                                         수정
                                     </button>
                                 </div>
                             ) : (
                                 <div className="absolute top-4 right-0" style={{ color: '#888' }}>
-                                    <button type="button" className="relative inline-block ">
+                                    <button
+                                        type="button"
+                                        className="relative inline-block "
+                                        onClick={() => handlehangeAddress(String(address.id))}
+                                    >
                                         수정
                                     </button>
                                     <button
@@ -123,7 +139,7 @@ export default function ChangeAddress() {
                         <Buttons title="이번만 배송지 변경" href="/" color="#666666" />
                     </div>
                     <div className="flex-grow">
-                        <Buttons title="기본 배송지 변경" href="/" />
+                        <Buttons title="기본 배송지 변경" href="/mypage/manage/addresschange" click={handleMain} />
                     </div>
                 </div>
                 <span className="text-xs ">
