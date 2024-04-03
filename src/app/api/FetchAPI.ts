@@ -24,7 +24,6 @@ async function fetchAPI(method: Method, url: string, body?: object, token?: stri
         }
 
         const response = await fetch(`${constraints.Server_Url}${url}`, options)
-        console.log('response', response)
         return response.json()
     } catch (error) {
         console.error('Error:', error)
