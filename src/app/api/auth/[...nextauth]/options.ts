@@ -1,4 +1,4 @@
-import constraints from '@/app/api/constraints'
+import constraints from '@/actions/constraints'
 import { NextAuthOptions } from 'next-auth'
 import NextAuth, { Session } from 'next-auth'
 import { JWT } from 'next-auth/jwt'

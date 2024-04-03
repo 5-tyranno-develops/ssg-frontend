@@ -1,5 +1,5 @@
 'use client'
-import { changeMainDelivery, deleteDelivery, getDelivery, getMainDelivery } from '@/app/api/delivery'
+import { changeMainDelivery, deleteDelivery, getDelivery, getMainDelivery } from '@/actions/delivery'
 import Buttons from '@/components/ui/buttons'
 import { AddressDataType } from '@/types/AddressDataType'
 import Image from 'next/image'

@@ -2,7 +2,7 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import { useState } from 'react'
 import Postcode from '../../components/pages/address/Add'
-import { addDelivery } from '../api/delivery'
+import { addDelivery } from '../../actions/delivery'
 import { AddaddressDataType } from '@/types/AddressDataType'
 import { useRouter } from 'next/navigation'
 function Address() {

@@ -4,7 +4,7 @@ import './signup.css'
 import { useState, useEffect } from 'react'
 import Buttons from '@/components/ui/buttons'
 import Postcode from '@/components/pages/address/Add'
-import { signupAPI, validLoginId } from '@/app/api/user'
+import { signupAPI, validLoginId } from '@/actions/user'
 
 function signup() {
     const [loginId, setLoginId] = useState('')

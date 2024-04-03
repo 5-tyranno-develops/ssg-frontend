@@ -1,5 +1,5 @@
 'use client'
-import { findIdAPI } from '@/app/api/user'
+import { findIdAPI } from '@/actions/user'
 import Buttons from '@/components/ui/buttons'
 import { FindUserDataType } from '@/types/FindUserDataType'
 import { useRouter } from 'next/navigation'

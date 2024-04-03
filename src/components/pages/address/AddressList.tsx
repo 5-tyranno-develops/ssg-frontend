@@ -1,4 +1,4 @@
-import { getDelivery } from '@/app/api/delivery'
+import { getDelivery } from '@/actions/delivery'
 
 export default function AddressList() {
     const deliveryData = [

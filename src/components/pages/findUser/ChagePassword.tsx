@@ -1,5 +1,5 @@
 'use client'
-import { changePasswordAPI } from '@/app/api/user'
+import { changePasswordAPI } from '@/actions/user'
 import Buttons from '@/components/ui/buttons'
 import { ChangePasswordDataType } from '@/types/ChangePassword'
 import { useRouter } from 'next/navigation'

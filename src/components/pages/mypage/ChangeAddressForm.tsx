@@ -2,7 +2,7 @@
 import HeaderTitle from '@/components/ui/HeaderTitle'
 import { useEffect, useState } from 'react'
 import Postcode from '@/components/pages/address/Add'
-import { getModifyDelivery, modifyDelivery } from '@/app/api/delivery'
+import { getModifyDelivery, modifyDelivery } from '@/actions/delivery'
 import { AddressDataType, ModifyAddressDataType } from '@/types/AddressDataType'
 import { useRouter } from 'next/navigation'
 function ChangeAddressForm({ params }: { params: string }) {

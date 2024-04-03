@@ -1,4 +1,4 @@
-import { FindUserDataType } from './../../types/FindUserDataType'
+import { FindUserDataType } from '../types/FindUserDataType'
 import { UserDataType } from '@/types/UserDataType'
 import { PostAPI, PutAPI } from './FetchAPI'
 import { ChangePasswordDataType } from '@/types/ChangePassword'
