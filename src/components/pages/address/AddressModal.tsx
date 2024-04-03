@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import AddressList from './AddressList'
+import AddressList from './AddressList.1'
 import Buttons from '@/components/ui/buttons'
 
 interface AddressModalProps {

@@ -9,8 +9,11 @@ async function addDelivery(delivery: AddaddressDataType) {
 }
 async function getDelivery() {
     const response = await GetAPI('/api/v1/delivery/list', undefined, await token)
-    console.log('response', response.result)
+    return response.result
+}
+async function getMainDelivery() {
+    const response = await GetAPI('/api/v1/delivery/base-name', undefined, await token)
     return response.result
 }
 
-export { addDelivery, getDelivery }
+export { addDelivery, getDelivery, getMainDelivery }
