@@ -35,7 +35,6 @@ export default function ProductOptions({
         size: '',
         etc: '',
     } as queryKeyType)
-    const [lastUrl, setLastUrl] = useState<string>('')
 
     useEffect(() => {
         const getOptionData = async () => {
@@ -59,7 +58,7 @@ export default function ProductOptions({
         getOptionData()
     }, [productId])
 
-    useEffect(() => {}, [queryUrl, lastUrl])
+    useEffect(() => {}, [queryUrl])
 
     // for (let i = 0; i < optionData.length; i++) {
     //     if (optionData[i] == 'color') {
@@ -106,7 +105,6 @@ export default function ProductOptions({
                                 newOptionList={newOptionList}
                                 queryUrl={queryUrl}
                                 setQueryUrl={setQueryUrl}
-                                lastUrl={lastUrl}
                             />
                         ))}
                     <div className="flex justify-end py-5">
@@ -138,8 +136,6 @@ const OptionSelecter = ({
     newOptionList,
     queryUrl,
     setQueryUrl,
-
-    lastUrl,
 }: {
     item: OptionListType
     productId: string
@@ -147,7 +143,6 @@ const OptionSelecter = ({
     setNewOptionList: React.Dispatch<React.SetStateAction<OptionListType[]>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
-    lastUrl: string
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. ${item.name}`)
     const [showModal, setShowModal] = useState<boolean>(false)
@@ -191,7 +186,6 @@ const OptionSelecter = ({
                 productId={productId}
                 queryUrl={queryUrl}
                 setQueryUrl={setQueryUrl}
-                lastUrl={lastUrl}
             />
         </>
     )

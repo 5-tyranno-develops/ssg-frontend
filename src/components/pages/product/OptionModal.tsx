@@ -31,7 +31,7 @@ export default function OptionModal({
     queryUrl,
     setQueryUrl,
     last,
-    lastUrl,
+   
 }: {
     last: boolean
     showModal: boolean
@@ -41,7 +41,7 @@ export default function OptionModal({
     setSelectedOption: React.Dispatch<React.SetStateAction<string>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
-    lastUrl: string
+   
 }) {
     const handleModal = () => {
         setShowModal(false)
@@ -51,7 +51,7 @@ export default function OptionModal({
     // const [lastOptionData, setLastOptionData] = useState<>()
     const url = `https://tyrannoback.com/api/v1/option/${productId}?`
 
-    lastUrl = 'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
+    const lastUrl = 'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
 
     useEffect(() => {
         // console.log('isLastDepth?', last, 'location', optionType)
