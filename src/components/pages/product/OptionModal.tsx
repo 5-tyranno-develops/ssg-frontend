@@ -1,5 +1,5 @@
 'use client'
-
+import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { queryKeyType } from './ProductOptions'
 
@@ -28,10 +28,10 @@ export default function OptionModal({
     productId,
     setShowModal,
     setSelectedOption,
+    setSelectedOptionId,
     queryUrl,
     setQueryUrl,
     last,
-   
 }: {
     last: boolean
     showModal: boolean
@@ -39,9 +39,9 @@ export default function OptionModal({
     productId: string
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedOption: React.Dispatch<React.SetStateAction<string>>
+    setSelectedOptionId : React.Dispatch<React.SetStateAction<number>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
-   
 }) {
     const handleModal = () => {
         setShowModal(false)
@@ -51,7 +51,8 @@ export default function OptionModal({
     // const [lastOptionData, setLastOptionData] = useState<>()
     const url = `https://tyrannoback.com/api/v1/option/${productId}?`
 
-    const lastUrl = 'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
+    const lastUrl =
+        'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
 
     useEffect(() => {
         // console.log('isLastDepth?', last, 'location', optionType)
@@ -80,7 +81,7 @@ export default function OptionModal({
                     const res = await data1.json()
                     const optionList: LastOptionType[] = res.result
                     setOptionData(optionList)
-                    console.log(optionList, '????')
+                    // console.log(optionList, '????')
 
                     // const optionList = res.
                     // console.log(res.result[0][`${optionType}`], '??')
@@ -113,9 +114,11 @@ export default function OptionModal({
 
         setQueryUrl(updatedQueryUrl)
         setSelectedOption(select)
+        setSelectedOptionId(optionId)
 
         console.log(queryUrl, optionId, select)
         setShowModal(false)
+
     }
 
     return (
@@ -129,11 +132,17 @@ export default function OptionModal({
                     className=" bg-white  p-4 rounded-t-xl min-h-[300px]"
                     style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
                 >
-                    <p className="close  w-full h-5  flex items-center justify-center mb-2 " onClick={handleModal}>
-                        닫기
+                    <p className=" w-full h-5  flex items-center justify-center mb-3 " onClick={handleModal}>
+                        <Image
+                            width={20}
+                            height={20}
+                            src="https://img.icons8.com/ios-glyphs/30/back.png"
+                            alt="back"
+                            style={{ transform: 'rotate(270deg)' }}
+                        />
                     </p>
                     <div className="w-full border  bg-white rounded-md  mb-2 py-1">
-                        <p className="ml-2 text-sm"> 선택하세요. </p>
+                        <p className="ml-2 text-sm"> 선택하세요.</p>
                     </div>
 
                     {optionData &&
