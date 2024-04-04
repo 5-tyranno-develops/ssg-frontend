@@ -15,7 +15,6 @@ async function GetProductData(productId: string) {
 export default async function Page({ params }: { params: { productId: string } }) {
     const productId: string = params.productId
     const data: ProductDataType = await GetProductData(productId)
-    console.log(data)
 
     return (
         <main>

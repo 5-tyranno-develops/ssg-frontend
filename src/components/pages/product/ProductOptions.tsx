@@ -10,6 +10,12 @@ interface OptionListType {
     isChecked: boolean
 }
 
+export interface queryKeyType {
+    color: string
+    size: string
+    etc: string
+}
+
 export default function ProductOptions({
     isModal,
     productId,
@@ -24,7 +30,12 @@ export default function ProductOptions({
     const [optionData, setOptionData] = useState<string[]>([] as string[])
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
 
-    const [queryUrl, setQueryUrl] = useState<string>('')
+    const [queryUrl, setQueryUrl] = useState<queryKeyType>({
+        color: '',
+        size: '',
+        etc: '',
+    } as queryKeyType)
+    const [lastUrl, setLastUrl] = useState<string>('')
 
     useEffect(() => {
         const getOptionData = async () => {
@@ -34,7 +45,7 @@ export default function ProductOptions({
             if (data) {
                 const res = await data.json()
                 setOptionData(res.result)
-                console.log(res.result, 'c')
+
                 const newData = res.result.map((opt: string, idx: number) => {
                     return {
                         idx: idx,
@@ -42,16 +53,13 @@ export default function ProductOptions({
                         isChecked: idx === 0 ? true : false,
                     }
                 })
-                console.log(newData)
                 setNewOptionList(newData)
             }
         }
         getOptionData()
     }, [productId])
 
-    useEffect(() => {
-        console.log(queryUrl, 'query')
-    }, [queryUrl])
+    useEffect(() => {}, [queryUrl, lastUrl])
 
     // for (let i = 0; i < optionData.length; i++) {
     //     if (optionData[i] == 'color') {
@@ -67,7 +75,7 @@ export default function ProductOptions({
     //         optionData[i] = '기타'
     //     }
     // }
-    console.log(optionData)
+    // console.log(optionData)
 
     const handleModal = () => {
         setIsModal(false)
@@ -95,6 +103,8 @@ export default function ProductOptions({
                                 newOptionList={newOptionList}
                                 queryUrl={queryUrl}
                                 setQueryUrl={setQueryUrl}
+                                lastUrl={lastUrl}
+                                setLastUrl={setLastUrl}
                             />
                         ))}
                     <div className="flex justify-end py-5">
@@ -126,25 +136,23 @@ const OptionSelecter = ({
     newOptionList,
     queryUrl,
     setQueryUrl,
+    setLastUrl,
+    lastUrl,
 }: {
     item: OptionListType
     productId: string
     newOptionList: OptionListType[]
     setNewOptionList: React.Dispatch<React.SetStateAction<OptionListType[]>>
-    queryUrl: string
-    setQueryUrl: React.Dispatch<React.SetStateAction<string>>
+    queryUrl: queryKeyType
+    setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
+    lastUrl: string
+    setLastUrl: React.Dispatch<React.SetStateAction<string>>
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. ${item.name}`)
     const [showModal, setShowModal] = useState<boolean>(false)
     // const [selectedOptionType, setSelectedOptionType] = useState<string>('')
 
-    const url = `https://tyrannoback.com/api/v1/option/${productId}?`
-
     useEffect(() => {
-        console.log(selectedOption)
-
-        console.log(newOptionList, 'newOptionList')
-        console.log(item.idx, 'item')
         setNewOptionList(
             newOptionList.map((opt: OptionListType) => {
                 if (opt.idx === item.idx + 1 && opt.idx !== newOptionList.length - 1) {
@@ -153,14 +161,6 @@ const OptionSelecter = ({
                         isChecked: true,
                     }
                 } else if (opt.idx === item.idx + 1 && opt.idx === newOptionList.length - 1) {
-                    const getOptionData = async () => {
-                        const data = await fetch(`${url}${queryUrl}`)
-                        if (data) {
-                            const res = await data.json()
-                            console.log(res, '??')
-                        }
-                    }
-                    getOptionData()
                     return {
                         ...opt,
                         isChecked: true,
@@ -182,6 +182,7 @@ const OptionSelecter = ({
                 <div className="ml-2 text-sm ">{selectedOption}</div>
             </div>
             <OptionModal
+                last={item.idx >= newOptionList.length - 1 ? true : false}
                 showModal={showModal}
                 optionType={item.name}
                 setShowModal={setShowModal}
@@ -189,6 +190,8 @@ const OptionSelecter = ({
                 productId={productId}
                 queryUrl={queryUrl}
                 setQueryUrl={setQueryUrl}
+                lastUrl={lastUrl}
+                setLastUrl={setLastUrl}
             />
         </>
     )

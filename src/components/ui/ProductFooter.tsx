@@ -7,7 +7,7 @@ import { useParams } from 'next/navigation'
 
 function ProductFooter() {
     const params = useParams<{ productId: string }>()
-    console.log(params.productId)
+    // console.log(params.productId)
     const [isModal, setIsModal] = useState<boolean>(false)
 
     return (
