@@ -137,6 +137,7 @@ export default function OptionModal({
                     </div>
 
                     {optionData &&
+                        !last &&
                         optionData.map((opt: any, index) => (
                             <div
                                 key={index}
@@ -168,6 +169,7 @@ export default function OptionModal({
                             </div>
                         ))}
                     {optionData &&
+                        last &&
                         optionData.map((opt: LastOptionType, index) => (
                             <div
                                 key={index}
