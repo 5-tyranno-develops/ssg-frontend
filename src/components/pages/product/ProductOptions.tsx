@@ -88,7 +88,10 @@ export default function ProductOptions({
                     isModal ? 'bottom-8 ease-in-out ' : '-bottom-[400px] easy-out-in'
                 } fixed transition-all delay-150 z-[10] w-full`}
             >
-                <div className=" bg-white  rounded-t-xl " style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}>
+                <div
+                    className=" bg-white  rounded-t-xl min-h-[200px]"
+                    style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
+                >
                     <p className="close  w-full h-5 p-4 flex items-center justify-center mb-2 " onClick={handleModal}>
                         닫기
                     </p>
@@ -104,7 +107,6 @@ export default function ProductOptions({
                                 queryUrl={queryUrl}
                                 setQueryUrl={setQueryUrl}
                                 lastUrl={lastUrl}
-                                setLastUrl={setLastUrl}
                             />
                         ))}
                     <div className="flex justify-end py-5">
@@ -136,7 +138,7 @@ const OptionSelecter = ({
     newOptionList,
     queryUrl,
     setQueryUrl,
-    setLastUrl,
+
     lastUrl,
 }: {
     item: OptionListType
@@ -146,7 +148,6 @@ const OptionSelecter = ({
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
     lastUrl: string
-    setLastUrl: React.Dispatch<React.SetStateAction<string>>
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. ${item.name}`)
     const [showModal, setShowModal] = useState<boolean>(false)
@@ -191,7 +192,6 @@ const OptionSelecter = ({
                 queryUrl={queryUrl}
                 setQueryUrl={setQueryUrl}
                 lastUrl={lastUrl}
-                setLastUrl={setLastUrl}
             />
         </>
     )

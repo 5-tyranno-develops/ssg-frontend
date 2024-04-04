@@ -32,7 +32,6 @@ export default function OptionModal({
     setQueryUrl,
     last,
     lastUrl,
-    setLastUrl,
 }: {
     last: boolean
     showModal: boolean
@@ -43,7 +42,6 @@ export default function OptionModal({
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
     lastUrl: string
-    setLastUrl: React.Dispatch<React.SetStateAction<string>>
 }) {
     const handleModal = () => {
         setShowModal(false)
@@ -54,7 +52,6 @@ export default function OptionModal({
     const url = `https://tyrannoback.com/api/v1/option/${productId}?`
 
     lastUrl = 'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
-    // console.log(lastUrl, '!!!!!!!!!!!!')
 
     useEffect(() => {
         // console.log('isLastDepth?', last, 'location', optionType)
@@ -81,9 +78,10 @@ export default function OptionModal({
                 const data1 = await fetch(`${url}${lastUrl}`)
                 if (data1) {
                     const res = await data1.json()
-                    const optionList: LastOptionType[] = res.result[0]
-                    // console.log(optionList, '????')
-                    // setOptionData(optionList)
+                    const optionList: LastOptionType[] = res.result
+                    setOptionData(optionList)
+                    console.log(optionList, '????')
+
                     // const optionList = res.
                     // console.log(res.result[0][`${optionType}`], '??')
                 }
@@ -92,10 +90,7 @@ export default function OptionModal({
         }
     }, [optionType, productId, last, url, queryUrl])
 
-    const handleColorSelection = (select: string, data: string, option: string) => {
-        setSelectedOption(select)
-        // console.log(queryUrl, option, select)
-
+    const handleColorSelection = (select: string, data: string, option: string, optionId: number) => {
         let updatedQueryUrl: queryKeyType = {
             color: queryUrl.color,
             size: queryUrl.size,
@@ -117,7 +112,9 @@ export default function OptionModal({
         }
 
         setQueryUrl(updatedQueryUrl)
+        setSelectedOption(select)
 
+        console.log(queryUrl, optionId, select)
         setShowModal(false)
     }
 
@@ -145,7 +142,20 @@ export default function OptionModal({
                                 key={index}
                                 className="w-full bg-white mb-2 text-sm ml-2"
                                 onClick={() =>
-                                    handleColorSelection(opt[`${optionType}`], opt[`${optionType}Id`], optionType)
+                                    handleColorSelection(
+                                        optionType === 'color'
+                                            ? opt.color
+                                            : optionType === 'size'
+                                            ? opt.size
+                                            : optionType === 'etc'
+                                            ? opt.additionalOption
+                                            : optionType === 'extra'
+                                            ? opt.extraName
+                                            : '',
+                                        opt[`${optionType}Id`],
+                                        optionType,
+                                        0,
+                                    )
                                 }
                             >
                                 {optionType === 'color'
@@ -154,9 +164,32 @@ export default function OptionModal({
                                     ? opt.size
                                     : optionType === 'etc'
                                     ? opt.additionalOption
-                                    : optionType === 'extra'
-                                    ? opt.extraName
                                     : ''}
+                            </div>
+                        ))}
+                    {optionData &&
+                        optionData.map((opt: LastOptionType, index) => (
+                            <div
+                                key={index}
+                                className="w-full bg-white mb-2 text-sm ml-2"
+                                onClick={() =>
+                                    handleColorSelection(
+                                        optionType === 'color'
+                                            ? opt.color.color
+                                            : optionType === 'size'
+                                            ? opt.size.size
+                                            : optionType === 'etc'
+                                            ? opt.etc.additionalOption
+                                            : '',
+                                        '',
+                                        '',
+                                        opt.optionId,
+                                    )
+                                }
+                            >
+                                {optionType === 'color' && opt.color ? opt.color.color : ''}
+                                {optionType === 'size' && opt.size ? opt.size.size : ''}
+                                {optionType === 'etc' && opt.etc ? opt.etc.additionalOption : ''}
                             </div>
                         ))}
                 </div>
