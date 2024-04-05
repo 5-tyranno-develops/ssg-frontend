@@ -19,6 +19,8 @@ export interface LastOptionType {
         id: number
         additionalOption: string
     }
+    stock: number
+    discount: number
 }
 
 function ProductSelect({
@@ -69,17 +71,23 @@ function ProductSelect({
                                 {opt.size && <div className="flex ml-2"> size: {opt.size.size}</div>}
                                 {opt.etc && <div className="flex ml-2">etc: {opt.etc.additionalOption}</div>}
                             </div>
-                            <div className="absolute ml-2 ">
-                                <button className=" text-4xl font-thin  " onClick={() => handleCountChange(count - 1)}>
+                            <div className="absolute ml-2  bg-white mt-2 w-20 flex items-center justify-center h-8">
+                                <button
+                                    className=" text-4xl font-thin mb-2"
+                                    onClick={() => handleCountChange(count - 1)}
+                                >
                                     -
                                 </button>
-                                <span className="mx-2  ">{count}</span>
-                                <button className=" text-4xl font-thin " onClick={() => handleCountChange(count + 1)}>
+                                <span className="mx-3  ">{count}</span>
+                                <button
+                                    className=" text-4xl font-thin mb-2"
+                                    onClick={() => handleCountChange(count + 1)}
+                                >
                                     +
                                 </button>
                             </div>
                             <div className=" absolute  right-5 text-lg font-semibold mt-5">
-                                {(opt.productPrice * count).toLocaleString()}원
+                                {(opt.productPrice * (1 - opt.discount / 100) * count).toLocaleString()}원
                             </div>
                         </div>
                     ))}

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import OptionModal from './OptionModal'
 import { useParams } from 'next/navigation'
 import ProductSelect from './ProductSelect'
+import { GetOptionDataAPI } from '@/actions/option'
 
 interface OptionListType {
     idx: number
@@ -30,12 +31,20 @@ export default function ProductOptions({
     const params = useParams<{ productId: string }>()
     const [optionData, setOptionData] = useState<string[]>([] as string[])
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
-
+    const [productName, setProductName] = useState<string>('')
+    const [productPrice, setProductPrice] = useState(Number)
+    const [discount, setDiscount] = useState<number>()
     const [queryUrl, setQueryUrl] = useState<queryKeyType>({
         color: '',
         size: '',
         etc: '',
     } as queryKeyType)
+    const [count, setCount] = useState(1)
+    const handleCountChange = (newCount: number) => {
+        if (newCount >= 1) {
+            setCount(newCount)
+        }
+    }
 
     useEffect(() => {
         const getOptionData = async () => {
@@ -59,6 +68,22 @@ export default function ProductOptions({
         }
         getOptionData()
     }, [productId])
+
+    useEffect(() => {
+        const getData = async () => {
+            const response = await GetOptionDataAPI(productId)
+            if (!response.isSuccess) {
+                console.log('서버 오류')
+            }
+            console.log(response)
+            setProductName(response.result[0].productName)
+            setProductPrice(response.result[0].productPrice)
+            setDiscount(response.result[0].discount)
+        }
+
+        getData()
+    }, [productId])
+
     //    할지말지?
     //     for (let i = 0; i < newOptionList.length; i++) {
     //         if (newOptionList[i].name == 'color') {
@@ -97,6 +122,32 @@ export default function ProductOptions({
                             style={{ transform: 'rotate(270deg)' }}
                         />
                     </p>
+                    {optionData.length === 0 && (
+                        <div className="px-2">
+                            <div className="mt-5 border py-2 w-full bg-gray-100  border-black rounded-md min-h-[90px] ">
+                                <div className="flex text-sm ml-2">{productName}</div>
+                                <div className="absolute ml-2  bg-white mt-2 w-20 flex items-center justify-center h-8">
+                                    <button
+                                        className=" text-4xl font-thin mb-2"
+                                        onClick={() => handleCountChange(count - 1)}
+                                    >
+                                        -
+                                    </button>
+                                    <span className="mx-3  ">{count}</span>
+                                    <button
+                                        className=" text-4xl font-thin mb-2"
+                                        onClick={() => handleCountChange(count + 1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <div className=" absolute  right-5 text-lg font-semibold mt-5">
+                                    {(productPrice * (1 - (discount as number) / 100) * count).toLocaleString()}원
+                                    {/* * (1 - {discount} / 100) * {count} */}
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     {newOptionList &&
                         newOptionList.map((item: OptionListType, index) => (
                             <OptionSelecter
