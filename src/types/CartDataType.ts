@@ -1,11 +1,21 @@
 export interface CartDataType {
-    productId: number
-    vendorName: string
-    name: string
-    productPrice: number
+    cartId: number
+    optionId: number
+    productName: string
+    imageUrl: string
+    totalPrice: number
     discount: number
     count: number
-    isIncluded: number
     isKeep: number
-    imageUrl: string
+    vendorName: string
+}
+
+export interface cartCountDataType {
+    cartId: number
+    count: number
+}
+
+export interface isKeepDataType {
+    cartId: number
+    isKeep: number
 }

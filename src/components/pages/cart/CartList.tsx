@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import trash from '@/images/Trash.png'
 import './../../..//app/cart/cart.css'
@@ -7,49 +7,77 @@ import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { productData } from '@/lib/CartList'
+import { CartDataType, isKeepDataType } from '@/types/CartDataType'
+import { countCartAPI, deleteCartIdAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
 
 export default function CartList() {
+    const [productData, setProductData] = useState<CartDataType[]>([])
     const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
-
-    const [filteredProductList, setFilteredProductList] = useState(
-        productData.filter((product) => product.isIncluded === 11),
-    )
-
-    const handleCountChange = (index: number, newCount: number) => {
-        const updatedfilteredProductList = [...filteredProductList]
-        updatedfilteredProductList[index].count = newCount
-        setFilteredProductList(updatedfilteredProductList)
+    const fetchData = async () => {
+        try {
+            const res = await getCartListAPI()
+            setProductData(res as CartDataType[])
+        } catch (err) {
+            console.error(err)
+        }
     }
-    const totalMoney = filteredProductList.reduce((total, product) => {
-        const discountedPrice = product.productPrice * (1 - product.discount / 100)
+    useEffect(() => {
+        fetchData()
+    }, [])
+
+    const handleCountChange = async (cartId: number, newCount: number) => {
+        const cartCount = {
+            cartId: cartId,
+            count: newCount,
+        }
+        await countCartAPI(cartCount)
+        fetchData()
+    }
+    console.log(productData)
+
+    const totalMoney = productData.reduce((total, product) => {
+        const discountedPrice = product.totalPrice * (1 - product.discount / 100)
         return total + discountedPrice * product.count
     }, 0)
 
-    const discountMoney = filteredProductList.reduce((total, product) => {
-        const discountedPrice = product.productPrice * (product.discount / 100)
+    const discountMoney = productData.reduce((total, product) => {
+        const discountedPrice = product.totalPrice * (product.discount / 100)
         return total - discountedPrice * product.count
     }, 0)
 
-    const deletedProduct = (index: number) => {
+    const deletedProduct = async (cartId: number) => {
         const confirm = window.confirm('삭제하시겠습니까?')
         if (confirm) {
-            const updatedFilteredProductList = [...filteredProductList]
-            updatedFilteredProductList[index].isIncluded = 99
-            setFilteredProductList(updatedFilteredProductList)
+            try {
+                const res = await deleteCartIdAPI(cartId)
+                alert('삭제되었습니다.')
+            } catch (err) {
+                console.error(err)
+            }
         }
+        fetchData()
     }
+    const updatedRecoilSample = [...recoilSample]
     const checkDeletedProduct = (checkedItemDelete: number[]) => {
         const confirm = window.confirm('선택된 상품을 삭제하시겠습니까?')
         if (confirm) {
-            const updatedFilteredProductList = filteredProductList.map((product) => {
-                if (checkedItemDelete.includes(product.productId)) {
-                    return { ...product, isIncluded: 99 }
+            checkedItemDelete.map(async (cartId) => {
+                try {
+                    const res = await deleteCartIdAPI(cartId)
+                    console.log(res)
+
+                    const updatedRecoilSample = recoilSample.filter((item) => !checkedItem.includes(item))
+
+                    setRecoilSample(updatedRecoilSample)
+                } catch (err) {
+                    console.error(err)
                 }
-                return product
             })
-            setFilteredProductList(updatedFilteredProductList)
+            fetchData()
+            alert('삭제되었습니다.')
         }
     }
+
     const [showOnlySelectedProducts, setShowOnlySelectedProducts] = useState(false)
 
     // 선택상품만 보기 체크박스의 onChange 핸들러
@@ -74,31 +102,29 @@ export default function CartList() {
     const handleAllChecked = (checked: boolean) => {
         setAllChecked(checked)
         if (checked) {
-            setCheckedItem(filteredProductList.map((item) => item.productId))
+            setCheckedItem(productData.map((item) => item.cartId))
         } else {
             setCheckedItem([])
         }
         console.log(checkedItem)
     }
-    const isKeepHandle = (id: number, isKeep: number) => {
-        if (isKeep == 99) {
-            const updatedFilteredProductList = filteredProductList.map((product) => {
-                if (product.productId === id) {
-                    return { ...product, isKeep: 11 }
-                }
-                return product
-            })
-            setFilteredProductList(updatedFilteredProductList)
+    const isKeepHandle = async (cartId: number, isKeep: number) => {
+        if (isKeep === 11) {
+            const cartIskeep: isKeepDataType = {
+                cartId: cartId,
+                isKeep: 99,
+            }
+            await isKeepAPI(cartIskeep)
+            fetchData()
         } else {
-            const updatedFilteredProductList = filteredProductList.map((product) => {
-                if (product.productId === id) {
-                    return { ...product, isKeep: 99 }
-                }
-                return product
-            })
-            setFilteredProductList(updatedFilteredProductList)
+            const cartIskeep: isKeepDataType = {
+                cartId: cartId,
+                isKeep: 11,
+            }
+            await isKeepAPI(cartIskeep)
+
+            fetchData()
         }
-        console.log(filteredProductList)
     }
 
     return (
@@ -108,7 +134,7 @@ export default function CartList() {
                     <input
                         type="checkbox"
                         onChange={() => handleAllChecked(!allChecked)}
-                        checked={checkedItem.length === filteredProductList.length ? true : false}
+                        // checked={checkedItem.length === c.length ? true : false}
                         className="w-5 h-5"
                     />
                 </span>
@@ -142,43 +168,44 @@ export default function CartList() {
             </div>
 
             <ul>
-                {filteredProductList.map(
-                    (product, index) =>
-                        product.isIncluded === 11 &&
-                        (!showOnlySelectedProducts || checkedItem.includes(product.productId)) && (
-                            <li key={product.productId} className="flex items-center py-5 px-4 border-t">
+                {productData.map(
+                    (product) =>
+                        !showOnlySelectedProducts /* || checkedItem.includes(product.) */ && (
+                            <li key={product.cartId} className="flex items-center py-5 px-4 border-t">
                                 <div className="flex items-start relative w-full">
                                     <label className="relative mr-3">
                                         <input
                                             type="checkbox"
-                                            key={product.productId}
+                                            key={product.optionId}
                                             onChange={() =>
                                                 checkItemhandler(
-                                                    product.productId,
-                                                    !checkedItem.includes(product.productId) ? true : false,
+                                                    product.optionId,
+                                                    !checkedItem.includes(product.optionId) ? true : false,
                                                 )
                                             }
                                             checked={
-                                                checkedItem.includes(product.productId) ||
-                                                recoilSample.includes(product.productId)
+                                                checkedItem.includes(product.optionId) ||
+                                                recoilSample.includes(product.optionId)
                                             }
                                             className="absolute top-0 left-0 w-4 h-4"
                                         />
                                         <Image src={product.imageUrl} alt="상품" width={85} height={85} />
                                     </label>
                                     <div className="flex flex-col">
-                                        <div>
+                                        <div className="w-3/4">
                                             <strong>{product.vendorName}</strong>
-                                            <span className="ml-1">{product.name}</span>
+                                            <span className="ml-1 ">{product.productName}</span>
                                         </div>
                                         <div className="flex flex-col mt-1">
                                             {product.discount > 0 && (
-                                                <span className="text-xs line-through">{product.productPrice}원</span>
+                                                <span className="text-xs line-through">
+                                                    {product.totalPrice * product.count}원
+                                                </span>
                                             )}
 
                                             <span className="text-lg font-semibold  ">
                                                 {(
-                                                    product.productPrice *
+                                                    product.totalPrice *
                                                     product.count *
                                                     (1 - product.discount / 100)
                                                 ).toLocaleString()}
@@ -189,14 +216,16 @@ export default function CartList() {
                                         <div className="absolute top-0 right-0 mt-4">
                                             <button
                                                 className=" text-4xl font-thin pt-3"
-                                                onClick={() => handleCountChange(index, Math.max(1, product.count - 1))}
+                                                onClick={() =>
+                                                    handleCountChange(product.cartId, Math.max(1, product.count - 1))
+                                                }
                                             >
                                                 -
                                             </button>
                                             <span className="mx-5   ">{product.count}</span>
                                             <button
                                                 className=" text-4xl font-thin"
-                                                onClick={() => handleCountChange(index, product.count + 1)}
+                                                onClick={() => handleCountChange(product.cartId, product.count + 1)}
                                             >
                                                 +
                                             </button>
@@ -210,9 +239,9 @@ export default function CartList() {
                                                 height={20}
                                                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAABkUlEQVR4nO2Vv0oDQRDGfwTUIhYinFirIATBFIr4CPoANirY5RUkWFlY+go+gPoeFlZXREEr/zY2Wqio8ZOFCS6XS+6S3F2afLDc7e3OfN/NzszCCBlDUBkmeVXwIdgfBnlZ0BDIxkHRAk6M+F7wY+/FREKwZYQu/Ms2/y4kEoJ5wauR1SKi8hUhGBNcGMlZzHq+IgTH5vxOMN1hz+AiBBOCPcG54EbwKLgS/Aq+BOsJ9tt9J6ZgU/DslVd0JDoULFl1tBI1XbMS1AVNM3wRHApWBIFgzsSVEnzUBO/mw0WtmpZ8UhCa4adgMZXhv/2U4NSLlOsTZXp0EnginPrZlHargluzexPs9ETcRYR7Bl32llxOeFl/KVhgUCilCMsJWXW4Eh0fmLwXEdYV3XqDPCCoePXcJkIwY2sPeZAHXgSacSIEa/b9Ok/y0CLRdhyCo073QlbkjVYpxpRoxZqVm+/mQR7GnHkQaVbu+ZRJ9qvDn6fIjY2sycNuzSeyv144uX93kAXUB3mmUMKZjzACGeMPq1Fs+5EYcb4AAAAASUVORK5CYII="
                                                 alt="계속담아두기"
-                                                onClick={() => isKeepHandle(product.productId, product.isKeep)}
+                                                onClick={() => isKeepHandle(product.cartId, product.isKeep)}
                                             />
-                                            <button onClick={() => deletedProduct(index)}>
+                                            <button onClick={() => deletedProduct(product.cartId)}>
                                                 <Image src={trash} alt="삭제" width={20} height={20} />
                                             </button>
                                         </div>
@@ -224,9 +253,9 @@ export default function CartList() {
                                                 alt="계속담아두기"
                                                 width={20}
                                                 height={20}
-                                                onClick={() => isKeepHandle(product.productId, product.isKeep)}
+                                                onClick={() => isKeepHandle(product.cartId, product.isKeep)}
                                             />
-                                            <button onClick={() => deletedProduct(index)}>
+                                            <button onClick={() => deletedProduct(product.cartId)}>
                                                 <Image src={trash} alt="삭제" width={20} height={20} />
                                             </button>
                                         </div>
@@ -259,8 +288,8 @@ export default function CartList() {
             <div className="fixed bottom-0 left-0 right-0 z-[1] bg-white">
                 <div className="relative p-4 ">
                     <p className="text-xs text-black">
-                        전체상품 {filteredProductList.length}개 {(totalMoney + discountMoney).toLocaleString()} 원 +
-                        배송비 0원 = {(totalMoney + discountMoney).toLocaleString()} 원
+                        전체상품 {productData.length}개 {(totalMoney + discountMoney).toLocaleString()} 원 + 배송비 0원
+                        = {(totalMoney + discountMoney).toLocaleString()} 원
                     </p>
                     <p className="text-rose-600 text-xs">할인혜택 없음</p>
                 </div>

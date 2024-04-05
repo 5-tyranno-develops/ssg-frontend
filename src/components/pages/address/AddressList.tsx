@@ -1,19 +1,21 @@
+'use client'
 import { getDelivery } from '@/actions/delivery'
+import { AddressDataType } from '@/types/AddressDataType'
+import { useEffect, useState } from 'react'
 
 export default function AddressList() {
-    const deliveryData = [
-        {
-            deliveryId: 1,
-            isBaseDelivery: 11,
-            deliveryName: '자취방',
-            zipCode: 12345,
-            deliveryBase: '서울시 강남구',
-            deliveryDetail: '역삼동 123-456',
-            receiverName: '홍길동',
-            phoneNumber: '123-456-7890',
-            homeNumber: 123456789,
-        },
-    ]
+    const [deliveryData, setDeliveryData] = useState<AddressDataType[]>([])
+    const fetchData = async () => {
+        try {
+            const res = await getDelivery()
+            setDeliveryData(res as AddressDataType[])
+        } catch (err) {
+            console.error(err)
+        }
+    }
+    useEffect(() => {
+        fetchData()
+    }, [])
     const response = getDelivery()
     console.log(response)
     return (
@@ -21,7 +23,7 @@ export default function AddressList() {
             <ul className="block w-full">
                 {deliveryData.map((delivery) => (
                     <li
-                        key={delivery.deliveryId}
+                        key={String(delivery.id)}
                         className=" py-5 px-4 border"
                         style={{ display: 'flex', fontSize: '13px' }}
                     >
@@ -34,7 +36,7 @@ export default function AddressList() {
                                     <strong>{delivery.deliveryName}</strong>
                                 </div>
                                 <p className="mt-1">
-                                    [{delivery.zipCode}] {delivery.deliveryBase} {delivery.deliveryDetail}
+                                    [{String(delivery.zipCode)}] {delivery.deliveryBase} {delivery.deliveryDetail}
                                 </p>
                                 <p className="mt-1">
                                     {delivery.receiverName} / {delivery.phoneNumber}
