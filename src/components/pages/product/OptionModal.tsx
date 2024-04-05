@@ -20,6 +20,7 @@ export interface LastOptionType {
         id: number
         additionalOption: string
     }
+    stock: number
 }
 
 export default function OptionModal({
@@ -39,7 +40,7 @@ export default function OptionModal({
     productId: string
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedOption: React.Dispatch<React.SetStateAction<string>>
-    setSelectedOptionId : React.Dispatch<React.SetStateAction<number>>
+    setSelectedOptionId: React.Dispatch<React.SetStateAction<number>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
 }) {
@@ -118,7 +119,6 @@ export default function OptionModal({
 
         console.log(queryUrl, optionId, select)
         setShowModal(false)
-
     }
 
     return (
@@ -182,8 +182,9 @@ export default function OptionModal({
                         optionData.map((opt: LastOptionType, index) => (
                             <div
                                 key={index}
-                                className="w-full bg-white mb-2 text-sm ml-2"
+                                className="flex w-full bg-white mb-2 text-sm ml-2"
                                 onClick={() =>
+                                    opt.stock !==0 && 
                                     handleColorSelection(
                                         optionType === 'color'
                                             ? opt.color.color
@@ -198,9 +199,24 @@ export default function OptionModal({
                                     )
                                 }
                             >
-                                {optionType === 'color' && opt.color ? opt.color.color : ''}
-                                {optionType === 'size' && opt.size ? opt.size.size : ''}
-                                {optionType === 'etc' && opt.etc ? opt.etc.additionalOption : ''}
+                                {opt.stock !== 0 && (
+                                    <div className="">
+                                        {optionType === 'color' && opt.color ? opt.color.color : ''}
+                                        {optionType === 'size' && opt.size ? opt.size.size : ''}
+                                        {optionType === 'etc' && opt.etc ? opt.etc.additionalOption : ''}
+                                    </div>
+                                )}
+                                {opt.stock === 0 && (
+                                    <div className="flex text-gray-400">
+                                        {optionType === 'color' && opt.color ? opt.color.color : ''}
+                                        {optionType === 'size' && opt.size ? opt.size.size : ''}
+                                        {optionType === 'etc' && opt.etc ? opt.etc.additionalOption : ''}
+                                        <p className="flex mx-2 ">(품절)</p>
+                                        <p className=" absolute right-8 border border-black text-black px-3 ">
+                                            입고알림
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         ))}
                 </div>
