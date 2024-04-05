@@ -1,5 +1,5 @@
 import { FindUserDataType } from '../types/FindUserDataType'
-import { UserDataType } from '@/types/UserDataType'
+import { UserDataType, authCode } from '@/types/UserDataType'
 import { PostAPI, PutAPI } from './FetchAPI'
 import { ChangePasswordDataType } from '@/types/ChangePassword'
 
@@ -20,4 +20,12 @@ async function changePasswordAPI(idPW: ChangePasswordDataType) {
     const response = await PutAPI('/api/v1/auth/change_pw', idPW)
     return response
 }
-export { signupAPI, validLoginId, findIdAPI, changePasswordAPI }
+async function sendTextAPI(phoneNumber: string) {
+    const response = await PostAPI('/api/v1/auth/text/send', { phoneNumber: phoneNumber })
+    return response
+}
+async function checkAuthCodeAPI(verifyCode: authCode) {
+    const response = await PostAPI('/api/v1/auth/text/verify', verifyCode)
+    return response
+}
+export { signupAPI, validLoginId, findIdAPI, changePasswordAPI, sendTextAPI, checkAuthCodeAPI }

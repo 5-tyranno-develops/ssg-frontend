@@ -13,3 +13,8 @@ export interface UserDataType {
     shinsegaeOptionAgree: number
     ssgMarketingAgree: number
 }
+
+export interface authCode {
+    phoneNumber: string
+    randomNumber: string
+}

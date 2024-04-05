@@ -1,18 +1,22 @@
 'use client'
+import { checkAuthCodeAPI, sendTextAPI } from '@/actions/user'
 import Buttons from '@/components/ui/buttons'
+import { authCode } from '@/types/UserDataType'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 export default function Authphone() {
     const [name, setName] = useState('')
     const [gender, setGender] = useState<number>()
     const [birthday, setBirthday] = useState('')
     const [phoneNumberString, setPhoneNumberString] = useState('')
-
+    const [authCode, setAuthCode] = useState<string>('')
+    const [authCodeCheck, setAuthCodeCheck] = useState<boolean>(false)
+    const [authIsSuccess, setAuthIsSuccess] = useState<boolean>(false)
+    const router = useRouter()
     const settingName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
     }
-    // const settingBirthday = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setBirthday(e.target.value)
-    // }
 
     const parsingBirthday = (num: string) => {
         return num
@@ -31,12 +35,41 @@ export default function Authphone() {
         setGender(genderType)
     }
 
-    const handleButtonClick = () => {
-        localStorage.setItem('name', name)
-        localStorage.setItem('birthday', birthday)
-        localStorage.setItem('phoneNumberString', phoneNumberString)
-        localStorage.setItem('gender', gender?.toString() || '')
+    const handleButtonClick = async () => {
+        try {
+            const data = phoneNumberString.replace(/-/g, '')
+            const response = await sendTextAPI(data)
+            if (response.statusCode === 2000) {
+                alert('인증번호가 발송되었습니다.')
+            }
+            setAuthCodeCheck(true)
+        } catch (error) {
+            console.log(error)
+        }
     }
+    const verifyAuthCode = async () => {
+        try {
+            const data: authCode = {
+                phoneNumber: phoneNumberString.replace(/-/g, ''),
+                randomNumber: authCode,
+            }
+            const response = await checkAuthCodeAPI(data)
+            if (response.isSuccess == true) {
+                alert('인증번호가 확인되었습니다.')
+                localStorage.setItem('name', name)
+                localStorage.setItem('birthday', birthday)
+                localStorage.setItem('phoneNumberString', phoneNumberString)
+                localStorage.setItem('gender', gender?.toString() || '')
+                router.push('/user/signupintro/signup')
+            } else {
+                alert('인증번호가 틀렸습니다.')
+                router.push('/user/signupintro/auth')
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     const fieldCheck = () => {
         if (name && birthday && phoneNumberString && gender) {
             return true
@@ -112,37 +145,52 @@ export default function Authphone() {
                 </span>
                 {/* <label className="u"></label> */}
             </div>
-            <span>
-                {/* {checkedItem.length === terms.length ? (
-                        <Buttons
-                            title="인증번호 받기"
-                            href="/user/signupintro/signup"
-                            click={handleButtonClick}
-                        ></Buttons>
-                    ) : (
-                        <Buttons
-                            title="인증번호 받기"
-                            color="#f0f0f0"
-                            href="/user/signupintro/signup"
-                            ftcolor="black"
-                            click={handleButtonClick}
+            {authCodeCheck === true ? (
+                <div>
+                    <span className="inp_txt">
+                        <input
+                            className="input-content"
+                            type="number"
+                            maxLength={6}
+                            onChange={(e) => setAuthCode(e.target.value)}
+                            placeholder="인증번호 입력"
                         />
-                    )} */}
+                    </span>
 
-                {!fieldCheck() && (
                     <div>
+                        <button
+                            className="button-groups"
+                            style={{ backgroundColor: '#ff5452', color: '#fff' }}
+                            onClick={verifyAuthCode}
+                        >
+                            확인
+                        </button>
+                    </div>
+                </div>
+            ) : (
+                <div>
+                    {!fieldCheck() ? (
                         <Buttons
                             title="인증번호 받기"
                             href="/user/signupintro/auth"
                             click={() => alert('모든 항목을 체크해주세요')}
-                        ></Buttons>
-                    </div>
-                )}
-
-                {fieldCheck() && (
-                    <Buttons title="인증번호 받기" href="/user/signupintro/signup" click={handleButtonClick}></Buttons>
-                )}
-            </span>
+                        />
+                    ) : (
+                        <div>
+                            {/* <span className="inp_txt">
+                                <input
+                                    className="input-content"
+                                    type="number"
+                                    maxLength={6}
+                                    onChange={(e) => setAuthCode(e.target.value)}
+                                    placeholder="인증번호 입력"
+                                />
+                            </span> */}
+                            <Buttons title="인증번호 받기" href="/user/signupintro/auth" click={handleButtonClick} />
+                        </div>
+                    )}
+                </div>
+            )}
         </>
     )
 }
