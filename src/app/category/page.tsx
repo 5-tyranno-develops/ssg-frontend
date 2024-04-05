@@ -1,15 +1,41 @@
 'use client'
 
+import { GetCategoryAPI } from '@/actions/category'
+import CategoryModal from '@/components/pages/category/CategoryModal'
 import { lCategoryDummy } from '@/lib/lCategoryDummy'
 import { largeCategoryType } from '@/types/largeCategoryType'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useParams } from 'next/navigation'
+import { useEffect, useState } from 'react'
+
+export interface CategoryType {
+    largeId: string
+    largeName: string
+    largeImageUrl: string
+}
 
 export default function CategoryPage() {
     const [selectedLCategory, setSelectedLCategory] = useState<number>(0)
+    const [category, setCategory] = useState<CategoryType[]>([] as CategoryType[])
 
-    const [isOpen, setIsOpen] = useState<Boolean[]>(Array(lCategoryDummy.length).fill(false))
+    useEffect(() => {
+        const GetCategory = async () => {
+            const data = await fetch(`https://tyrannoback.com/api/v1/category/`)
+            if (data) {
+                const response = await data.json()
+                setCategory(response)
+            }
+        }
+
+        GetCategory()
+    }, [])
+
+    useEffect(() => {
+        setIsOpen(Array(category.length).fill(false))
+    }, [category])
+
+    const [isOpen, setIsOpen] = useState<Boolean[]>(Array(category.length).fill(false))
 
     const handleOpen = (e: React.MouseEvent<HTMLLIElement>) => {
         const role = e.currentTarget.getAttribute('role')
@@ -29,8 +55,8 @@ export default function CategoryPage() {
         <div>
             <div className="h-screen">
                 <div className="pt-[15px] pr-[10px] pb-[25px] pl-[10px]">
-                    {lCategoryDummy
-                        .reduce((acc: largeCategoryType[][], item, index) => {
+                    {category
+                        .reduce((acc: CategoryType[][], item, index) => {
                             const groupIndex = Math.floor(index / 5)
                             if (!acc[groupIndex]) {
                                 acc[groupIndex] = []
@@ -65,78 +91,42 @@ const GroupNav = ({
     isOpen,
     selectedLCategory,
 }: {
-    group: largeCategoryType[]
+    group: CategoryType[]
     gx: number
     handleOpen: React.MouseEventHandler<HTMLLIElement>
 
     isOpen: Boolean
     selectedLCategory: number
 }) => {
+    // console.log(group, 'group')
     return (
         <div className="relative left-0 overflow-hidden w-full ">
             <ul className={isOpen ? 'grid grid-cols-5 h-full relative' : 'grid grid-cols-5 relative'}>
                 {group.map((item) => (
-                    <NavItem key={item.id} item={item} value={item.id} handleOpen={handleOpen} gx={gx} />
+                    <NavItem key={item.largeId} item={item} value={item.largeId} handleOpen={handleOpen} gx={gx} />
                 ))}
             </ul>
             {isOpen && (
-                <ul className="text-xs flex w-full flex-wrap px-3 py-3 bg-gray-100 my-[5px] box-border">
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
+                <ul className="text-xs  px-3 py-3 bg-gray-100 my-[5px] box-border">
+                    {/* <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
                         <p>
                             <Link href={'/category/all'} passHref>
                                 상품 전체보기
                             </Link>
                         </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
+                    </li> */}
+                    {/* <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
                         <p>
                             <Link href={'/category/1'} passHref>
                                 중분류명
                             </Link>
                         </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
-                        <p>
-                            <Link href={'/category/2'} passHref>
-                                중분류명
-                            </Link>
-                        </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
-                        <p>
-                            <Link href={'/category/3'} passHref>
-                                중분류명
-                            </Link>
-                        </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
-                        <p>
-                            <Link href={'/category/4'} passHref>
-                                중분류명
-                            </Link>
-                        </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
-                        <p>
-                            <Link href={'/category/5'} passHref>
-                                중분류명
-                            </Link>
-                        </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
-                        <p>
-                            <Link href={'/category/6'} passHref>
-                                중분류명
-                            </Link>
-                        </p>
-                    </li>
-                    <li className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
-                        <p>
-                            <Link href={'/category/7'} passHref>
-                                중분류명
-                            </Link>
-                        </p>
-                    </li>
+                    </li> */}
+                    {/* <li className=" w-1/2 min-h-[38px] pl-3 pr-[13px]"> */}
+
+                    <CategoryModal largeId={selectedLCategory} />
+                    {/* </li> */}
+
                     {/* {중분류 데이터.map((item, idx) => {
               return (
                 <li key={idx} className="w-1/2 min-h-[38px] flex items-center pl-3 pr-[13px]">
@@ -165,8 +155,8 @@ const NavItem = ({
     handleOpen,
     gx,
 }: {
-    item: largeCategoryType
-    value: largeCategoryType['id']
+    item: CategoryType
+    value: CategoryType['largeId']
     handleOpen: React.MouseEventHandler<HTMLLIElement>
     gx: number
 }) => {
@@ -177,8 +167,8 @@ const NavItem = ({
             role={gx.toString()}
             value={value}
         >
-            <Image src={item.img_url} alt={item.title} width={64} height={64} priority={true} />
-            <p className="text-[10px] text-gray-500">{item.title}</p>
+            <Image src={item.largeImageUrl} alt={item.largeName} width={64} height={64} priority={true} />
+            <p className="text-[10px] text-gray-500">{item.largeName}</p>
         </li>
     )
 }
