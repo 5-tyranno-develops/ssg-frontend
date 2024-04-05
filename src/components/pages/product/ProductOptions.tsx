@@ -163,7 +163,10 @@ export default function ProductOptions({
 
                     <div className="flex justify-end py-6 p-2">
                         <p className="mr-2 font-bold">총 합계</p>
-                        <p className=" text-red-500 font-bold  text-xl">0 원</p>
+                        <p className=" text-red-500 font-bold  text-xl">
+                            {' '}
+                            {(productPrice * (1 - (discount as number) / 100) * count).toLocaleString()} 원
+                        </p>
                     </div>
                 </div>
             </div>
