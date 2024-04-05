@@ -7,12 +7,12 @@ import { useParams } from 'next/navigation'
 
 function ProductFooter() {
     const params = useParams<{ productId: string }>()
-    console.log(params.productId)
+    // console.log(params.productId)
     const [isModal, setIsModal] = useState<boolean>(false)
 
     return (
         <section>
-            <div className="fixed bottom-0 w-screen z-[999] ">
+            <div className="fixed bottom-0 w-screen z-[10] ">
                 <ul className="flex items-center h-12">
                     <li className=" flex justify-center items-center w-14 bg-white h-12">
                         <Image src={HeartIcon} alt="하트아이콘"></Image>

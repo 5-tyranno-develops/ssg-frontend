@@ -4,8 +4,9 @@ import React, { useState } from 'react'
 import ShareIcon from '@/images/ShareSvg'
 import Image from 'next/image'
 import DetailIcon from '@/images/DetailIcon.png'
+import { ProductDataType } from '@/types/ProductDetailDataType'
 
-function ProductInformation({ data }: { data: any }) {
+function ProductInformation({ data }: { data: ProductDataType }) {
     const [expanded, setExpanded] = useState(false)
 
     const toggleExpand = () => {
