@@ -78,11 +78,11 @@ function Login() {
                 </form>
 
                 <div className=" flex justify-center mt-4 space-x-1 text-xs">
-                    <Link href="/user/findid" passHref>
+                    <Link href="/user/findidform" passHref>
                         아이디 찾기
                     </Link>
                     <span>|</span>
-                    <Link href="/user/findpw " passHref>
+                    <Link href="/user/findidform " passHref>
                         비밀번호 찾기
                     </Link>
                     <span>|</span>
