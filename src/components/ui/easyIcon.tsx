@@ -8,7 +8,7 @@ import { signIn } from 'next-auth/react'
 
 function EasyIcon() {
     return (
-        <ul className=" flex justify-center mt-4 space-x-20 text-xs">
+        <ul className=" flex justify-center mt-4 text-xs">
             <li>
                 <div className="mb-2">
                     <NaverIcon />
