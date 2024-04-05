@@ -1,6 +1,6 @@
 import { CartDataType } from '@/types/CartDataType'
 
-export const productData: CartDataType[] = [
+export const productData = [
     {
         productId: 1,
         vendorName: '노브랜드',
