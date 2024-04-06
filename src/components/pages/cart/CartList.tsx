@@ -6,9 +6,14 @@ import './../../..//app/cart/cart.css'
 import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
+<<<<<<< HEAD
 import { productData } from '@/lib/CartList'
 import { CartDataType, isKeepDataType } from '@/types/CartDataType'
 import { countCartAPI, deleteCartIdAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
+=======
+import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
+import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
+>>>>>>> 233e424 (feat : 가격 할인)
 
 export default function CartList() {
     const [productData, setProductData] = useState<CartDataType[]>([])
@@ -56,8 +61,12 @@ export default function CartList() {
         }
         fetchData()
     }
+<<<<<<< HEAD
     const updatedRecoilSample = [...recoilSample]
     const checkDeletedProduct = (checkedItemDelete: number[]) => {
+=======
+    const checkDeletedProduct = async (checkedItemDelete: number[]) => {
+>>>>>>> 233e424 (feat : 가격 할인)
         const confirm = window.confirm('선택된 상품을 삭제하시겠습니까?')
         if (confirm) {
             const deleteArr: clickDeleteDataType[] = checkedItemDelete.map((cartId) => ({ cartId }))
