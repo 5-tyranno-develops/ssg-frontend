@@ -12,8 +12,12 @@ import { CartDataType, isKeepDataType } from '@/types/CartDataType'
 import { countCartAPI, deleteCartIdAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
 =======
 import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
+<<<<<<< HEAD
 import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
 >>>>>>> 233e424 (feat : 가격 할인)
+=======
+import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, getOptionsAPI, isKeepAPI } from '@/actions/cart'
+>>>>>>> 3bbf427 (feat : 장바구니 옵션)
 
 export default function CartList() {
     const [productData, setProductData] = useState<CartDataType[]>([])
@@ -38,7 +42,6 @@ export default function CartList() {
         await countCartAPI(cartCount)
         fetchData()
     }
-    console.log(productData)
 
     const totalMoney = productData.reduce((total, product) => {
         return total + product.totalPrice * product.count
