@@ -20,7 +20,7 @@ async function deleteDelivery(deliveryId: number) {
     return response.result
 }
 async function changeMainDelivery(deliveryId: number) {
-    const response = await PutAPI(`/api/v1/delivery/change-base`, { deliveryId }, await token)
+    const response = await PutAPI('/api/v1/delivery/change-base', { deliveryId }, await token)
     return response.result
 }
 
