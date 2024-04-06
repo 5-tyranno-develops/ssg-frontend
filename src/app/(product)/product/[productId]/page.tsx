@@ -1,7 +1,7 @@
 import Thumbnail from '@/components/pages/product/Thumbnail'
 import ProductDetail from '@/components/pages/product/ProductDetail'
 import { ProductDataType } from '@/types/ProductDetailDataType'
-import { GetProductDataAPI, recentProductAPI } from '@/actions/product'
+import { GetProductDataAPI } from '@/actions/product'
 
 async function GetProductData(productId: string) {
     // const res = await fetch(`https://tyrannoback.com/api/v1/product/detail/${productId}`, { cache: 'no-store' })
@@ -15,8 +15,7 @@ async function GetProductData(productId: string) {
     if (!response.isSuccess) {
         console.log('서버 오류')
     }
-    const res = await recentProductAPI(productId)
-    console.log(res)
+    
     return response.result
 }
 

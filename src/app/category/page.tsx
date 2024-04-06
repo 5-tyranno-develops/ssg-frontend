@@ -2,8 +2,6 @@
 
 import { GetCategoryAPI } from '@/actions/category'
 import CategoryModal from '@/components/pages/category/CategoryModal'
-import { lCategoryDummy } from '@/lib/lCategoryDummy'
-import { largeCategoryType } from '@/types/largeCategoryType'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useParams } from 'next/navigation'
@@ -16,8 +14,9 @@ export interface CategoryType {
 }
 
 export default function CategoryPage() {
-    const [selectedLCategory, setSelectedLCategory] = useState<number>(0)
+    const [selectedLCategory, setSelectedLCategory] = useState<string>('')
     const [category, setCategory] = useState<CategoryType[]>([] as CategoryType[])
+    
 
     useEffect(() => {
         const GetCategory = async () => {
@@ -71,7 +70,7 @@ export default function CategoryPage() {
                                     gx={groupIndex}
                                     handleOpen={(e) => {
                                         handleOpen(e)
-                                        setSelectedLCategory(parseInt(e.currentTarget.getAttribute('value') ?? '0'))
+                                        setSelectedLCategory(e.currentTarget.getAttribute('value') ?? '')
                                     }}
                                     selectedLCategory={selectedLCategory}
                                     isOpen={isOpen[groupIndex]}
@@ -96,7 +95,7 @@ const GroupNav = ({
     handleOpen: React.MouseEventHandler<HTMLLIElement>
 
     isOpen: Boolean
-    selectedLCategory: number
+    selectedLCategory: string
 }) => {
     // console.log(group, 'group')
     return (

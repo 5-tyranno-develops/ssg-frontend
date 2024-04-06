@@ -1,12 +1,16 @@
 'use client'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+
+
 export interface CategoryMiddleType {
     middleId: string
     middleName: string
 }
-function CategoryModal({ largeId }: { largeId: number }) {
+function CategoryModal({ largeId }: { largeId: string }) {
     const [categoryMiddle, setCategoryMiddle] = useState<CategoryMiddleType[]>([] as CategoryMiddleType[])
-    console.log(largeId)
+
+    // console.log(typeof largeId)
     useEffect(() => {
         const GetCategoryMiddle = async () => {
             const data = await fetch(`https://tyrannoback.com/api/v1/category/middle/${largeId}`)
@@ -15,8 +19,14 @@ function CategoryModal({ largeId }: { largeId: number }) {
                 setCategoryMiddle(response)
             }
         }
+
         GetCategoryMiddle()
     }, [largeId])
+
+    const handleCategory = (select: string) => {
+        // console.log(select)
+    }
+
     return (
         <section className="grid grid-cols-2 gap-x-4 ">
             <li className="flex text-xs min-h-[38px] pl-3 pr-[13px]"> 전체보기</li>
@@ -24,7 +34,11 @@ function CategoryModal({ largeId }: { largeId: number }) {
                 categoryMiddle.map((opt: CategoryMiddleType, idx) => (
                     <div key={idx}>
                         <ul className="flex text-xs min-h-[38px] pl-3 pr-[13px]">
-                            <li className="min-h-[38px]">{opt.middleName}</li>
+                            <li className="min-h-[38px]">
+                                <Link href={`/productlist`} onClick={() => handleCategory(opt.middleId)} passHref>
+                                    <div>{opt.middleName}</div>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 ))}

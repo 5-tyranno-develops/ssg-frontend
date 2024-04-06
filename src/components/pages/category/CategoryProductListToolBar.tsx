@@ -4,7 +4,7 @@
 // import SmallArrowIcon from '@/images/svgs/SmallArrowIcon';
 // import TriangleIcon from '@/images/svgs/TriangleIcon';
 // 아이콘 각 팀에서 쓰시는 걸로 수정하시고 필요할 것 같은거 있으면 불러주세여ㅕ
-
+'use client'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
