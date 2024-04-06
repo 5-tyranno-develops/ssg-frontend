@@ -7,8 +7,8 @@ import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { productData } from '@/lib/CartList'
-import { CartDataType, isKeepDataType } from '@/types/CartDataType'
-import { countCartAPI, deleteCartIdAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
+import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
+import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
 
 export default function CartList() {
     const [productData, setProductData] = useState<CartDataType[]>([])
@@ -33,7 +33,7 @@ export default function CartList() {
         await countCartAPI(cartCount)
         fetchData()
     }
-    console.log(productData)
+    console.log('pro', productData)
 
     const totalMoney = productData.reduce((total, product) => {
         const discountedPrice = product.totalPrice * (1 - product.discount / 100)
@@ -58,23 +58,18 @@ export default function CartList() {
         fetchData()
     }
     const updatedRecoilSample = [...recoilSample]
-    const checkDeletedProduct = (checkedItemDelete: number[]) => {
+    const checkDeletedProduct = async (checkedItemDelete: number[]) => {
         const confirm = window.confirm('선택된 상품을 삭제하시겠습니까?')
         if (confirm) {
-            checkedItemDelete.map(async (cartId) => {
-                try {
-                    const res = await deleteCartIdAPI(cartId)
-                    console.log(res)
+            const deleteArr: clickDeleteDataType[] = checkedItemDelete.map((cartId) => ({ cartId }))
 
-                    const updatedRecoilSample = recoilSample.filter((item) => !checkedItem.includes(item))
+            const updatedRecoilSample = recoilSample.filter((item) => !checkedItemDelete.includes(item))
+            await deleteClickAPI(deleteArr)
 
-                    setRecoilSample(updatedRecoilSample)
-                } catch (err) {
-                    console.error(err)
-                }
-            })
-            fetchData()
+            setRecoilSample(updatedRecoilSample)
+
             alert('삭제되었습니다.')
+            fetchData()
         }
     }
 
@@ -176,16 +171,16 @@ export default function CartList() {
                                     <label className="relative mr-3">
                                         <input
                                             type="checkbox"
-                                            key={product.optionId}
+                                            key={product.cartId}
                                             onChange={() =>
                                                 checkItemhandler(
-                                                    product.optionId,
-                                                    !checkedItem.includes(product.optionId) ? true : false,
+                                                    product.cartId,
+                                                    !checkedItem.includes(product.cartId) ? true : false,
                                                 )
                                             }
                                             checked={
-                                                checkedItem.includes(product.optionId) ||
-                                                recoilSample.includes(product.optionId)
+                                                checkedItem.includes(product.cartId) ||
+                                                recoilSample.includes(product.cartId)
                                             }
                                             className="absolute top-0 left-0 w-4 h-4"
                                         />
