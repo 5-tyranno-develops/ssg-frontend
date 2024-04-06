@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react'
 export default function ChangeAddress() {
     const [deliveryData, setDeliveryData] = useState<AddressDataType[]>([])
     const [mainAddress, setMainAddress] = useState<string>()
+    const [settingsAddress, setSettingsAddress] = useState<string>()
     const router = useRouter()
 
     // fetchData 함수를 전역 스코프에 선언
@@ -31,10 +32,12 @@ export default function ChangeAddress() {
             return
         }
     }
-    const handleMain = async (deliveryId: string) => {
-        const response = await changeMainDelivery(parseInt(deliveryId))
-        console.log(response)
+    const handleMain = async (settingsAddress: string) => {
+        const response = await changeMainDelivery(parseInt(settingsAddress))
+        alert(response)
+        fetchData()
     }
+    console.log(settingsAddress)
     const handlehangeAddress = (deliveryId: string) => {
         let id = parseInt(deliveryId)
         router.push(`/address/${id}`)
@@ -72,7 +75,7 @@ export default function ChangeAddress() {
                 <ul>
                     {deliveryData.map((address, index) => (
                         <li key={index} className="py-5 px-1 text-sm relative block min-h-5 border-b">
-                            <label className="flex items-center">
+                            <label className="flex items-center" onClick={() => setSettingsAddress(String(address.id))}>
                                 <div className="py-5">
                                     <input type="radio" className="block relative w-5 h-5" name="selectAddress" />
                                 </div>
@@ -137,7 +140,11 @@ export default function ChangeAddress() {
                         <Buttons title="이번만 배송지 변경" href="/" color="#666666" />
                     </div>
                     <div className="flex-grow">
-                        <Buttons title="기본 배송지 변경" href="/mypage/manage/addresschange" click={handleMain} />
+                        <Buttons
+                            title="기본 배송지 변경"
+                            href="/mypage/manage/addresschange"
+                            click={() => handleMain(String(settingsAddress))}
+                        />
                     </div>
                 </div>
                 <span className="text-xs ">
