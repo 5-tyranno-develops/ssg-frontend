@@ -19,3 +19,7 @@ export interface isKeepDataType {
     cartId: number
     isKeep: number
 }
+
+export interface clickDeleteDataType {
+    cartId: number
+}

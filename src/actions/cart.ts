@@ -1,4 +1,4 @@
-import { cartCountDataType, isKeepDataType } from '@/types/CartDataType'
+import { cartCountDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
 import { DeleteAPI, GetAPI, PostAPI, PutAPI } from './FetchAPI'
 import { GetToken } from './GetToken'
 const token = GetToken()
@@ -10,8 +10,8 @@ async function deleteCartIdAPI(cart_id: number) {
     const response = await DeleteAPI(`/api/v1/cart/${cart_id}`, { cart_id }, await token)
     return response.result
 }
-async function deleteClickAPI(cart_ids: number[]) {
-    const response = await DeleteAPI('/api/v1/cart', { cart_ids }, await token)
+async function deleteClickAPI(cart_ids: clickDeleteDataType[]) {
+    const response = await DeleteAPI('/api/v1/cart', cart_ids, await token)
     return response.result
 }
 async function countCartAPI(cartCount: cartCountDataType) {
