@@ -7,7 +7,7 @@ import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
 import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
-import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
+import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, getOptionsAPI, isKeepAPI } from '@/actions/cart'
 
 export default function CartList() {
     const [productData, setProductData] = useState<CartDataType[]>([])
@@ -32,7 +32,6 @@ export default function CartList() {
         await countCartAPI(cartCount)
         fetchData()
     }
-    console.log(productData)
 
     const totalMoney = productData.reduce((total, product) => {
         return total + product.totalPrice * product.count
@@ -187,6 +186,9 @@ export default function CartList() {
                                         <div className="w-3/4">
                                             <strong>{product.vendorName}</strong>
                                             <span className="ml-1 ">{product.productName}</span>
+                                        </div>
+                                        <div>
+                                            <span className="text-xs">옵션 :</span>
                                         </div>
                                         <div className="flex flex-col mt-1">
                                             {product.discount > 0 && (
