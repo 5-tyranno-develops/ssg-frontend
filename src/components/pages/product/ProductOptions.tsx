@@ -2,10 +2,28 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import OptionModal from './OptionModal'
-import { useParams } from 'next/navigation'
 import ProductSelect from './ProductSelect'
-import { GetOptionDataAPI } from '@/actions/option'
+import Link from 'next/link'
 
+export interface LastOptionType {
+    optionId: string
+    productName: string
+    productPrice: number
+    color: {
+        id: string
+        color: string
+    }
+    size: {
+        id: string
+        size: string
+    }
+    extra: any | null
+    etc: {
+        id: string
+        additionalOption: string
+    }
+    stock: number
+}
 interface OptionListType {
     idx: number
     name: string
@@ -27,12 +45,11 @@ export default function ProductOptions({
     productId: string
     setIsModal: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-    // console.log(isModal, productId)
-    const params = useParams<{ productId: string }>()
-    const [optionData, setOptionData] = useState<string[]>([] as string[])
+    const [optionData, setOptionData] = useState<LastOptionType[]>([] as LastOptionType[])
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
     const [productName, setProductName] = useState<string>('')
-    const [productPrice, setProductPrice] = useState(Number)
+    const [productPrice, setProductPrice] = useState<number>(0)
+    const [productOptionId, setProductOptionId] = useState<string>('')
     const [discount, setDiscount] = useState<number>()
     const [queryUrl, setQueryUrl] = useState<queryKeyType>({
         color: '',
@@ -40,6 +57,7 @@ export default function ProductOptions({
         etc: '',
     } as queryKeyType)
     const [count, setCount] = useState(1)
+
     const handleCountChange = (newCount: number) => {
         if (newCount >= 1) {
             setCount(newCount)
@@ -68,21 +86,30 @@ export default function ProductOptions({
         }
         getOptionData()
     }, [productId])
+    const url = `https://tyrannoback.com/api/v1/option/${productId}?`
+
+    const lastUrl =
+        'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
 
     useEffect(() => {
-        const getData = async () => {
-            const response = await GetOptionDataAPI(productId)
-            if (!response.isSuccess) {
-                console.log('서버 오류')
+        const getLastData = async () => {
+            const data1 = await fetch(`${url}${lastUrl}`)
+            if (data1) {
+                const res = await data1.json()
+                const optionList: LastOptionType[] = res.result[0]
+                setOptionData(optionList)
+                const optionId: LastOptionType[] = res.result[0].optionId
+                setProductOptionId(optionId.toString())
+                // console.log(optionId, '????')
+                // const optionList = res.
+                // console.log(res.result[0][`${optionType}`], '??')
             }
-            console.log(response)
-            setProductName(response.result[0].productName)
-            setProductPrice(response.result[0].productPrice)
-            setDiscount(response.result[0].discount)
         }
+        getLastData()
+    }, [productId, url, queryUrl])
+    console.log(optionData)
 
-        getData()
-    }, [productId])
+    // console.log(productId, '상품아이디')
 
     //    할지말지?
     //     for (let i = 0; i < newOptionList.length; i++) {
@@ -122,10 +149,23 @@ export default function ProductOptions({
                             style={{ transform: 'rotate(270deg)' }}
                         />
                     </p>
-                    {optionData.length === 0 && (
+
+                    {newOptionList &&
+                        newOptionList.map((item: OptionListType, index) => (
+                            <OptionSelecter
+                                key={index}
+                                item={item}
+                                productId={productId}
+                                setNewOptionList={setNewOptionList}
+                                newOptionList={newOptionList}
+                                queryUrl={queryUrl}
+                                setQueryUrl={setQueryUrl}
+                            />
+                        ))}
+                    {optionData.color === null && optionData.size === null && optionData.etc === null ? (
                         <div className="px-2">
                             <div className="mt-5 border py-2 w-full bg-gray-100  border-black rounded-md min-h-[90px] ">
-                                <div className="flex text-sm ml-2">{productName}</div>
+                                <div className="flex text-sm ml-2">{optionData.productName}</div>
                                 <div className="absolute ml-2  bg-white mt-2 w-20 flex items-center justify-center h-8">
                                     <button
                                         className=" text-4xl font-thin mb-2"
@@ -142,32 +182,39 @@ export default function ProductOptions({
                                     </button>
                                 </div>
                                 <div className=" absolute  right-5 text-lg font-semibold mt-5">
-                                    {(productPrice * (1 - (discount as number) / 100) * count).toLocaleString()}원
-                                    {/* * (1 - {discount} / 100) * {count} */}
+                                    {(
+                                        optionData.productPrice *
+                                        (1 - (optionData.discount as number) / 100) *
+                                        count
+                                    ).toLocaleString()}{' '}
+                                    원
                                 </div>
                             </div>
+                            <div className="flex justify-end py-6 p-2">
+                                <p className="mr-2 font-bold">총 합계</p>
+                                <p className=" text-red-500 font-bold  text-xl">
+                                    {(
+                                        optionData.productPrice *
+                                        (1 - (optionData.discount as number) / 100) *
+                                        count
+                                    ).toLocaleString()}
+                                    원
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex justify-end py-6 p-2">
+                            <p className="mr-2 font-bold">총 합계</p>
+                            <p className=" text-red-500 font-bold  text-xl">
+                                {(
+                                    optionData.productPrice *
+                                    (1 - (optionData.discount as number) / 100) *
+                                    count
+                                ).toLocaleString()}
+                                원
+                            </p>
                         </div>
                     )}
-                    {newOptionList &&
-                        newOptionList.map((item: OptionListType, index) => (
-                            <OptionSelecter
-                                key={index}
-                                item={item}
-                                productId={productId}
-                                setNewOptionList={setNewOptionList}
-                                newOptionList={newOptionList}
-                                queryUrl={queryUrl}
-                                setQueryUrl={setQueryUrl}
-                            />
-                        ))}
-
-                    <div className="flex justify-end py-6 p-2">
-                        <p className="mr-2 font-bold">총 합계</p>
-                        <p className=" text-red-500 font-bold  text-xl">
-                            {' '}
-                            {(productPrice * (1 - (discount as number) / 100) * count).toLocaleString()} 원
-                        </p>
-                    </div>
                 </div>
             </div>
             <div
@@ -178,9 +225,19 @@ export default function ProductOptions({
                 <button className="flex justify-center items-center bg-black flex-grow h-12 ">
                     <span className="  text-white">장바구니</span>
                 </button>
-                <button className="flex justify-center items-center bg-red-500 flex-grow h-12">
+                <Link
+                    href={{
+                        pathname: '/order',
+                        query: {
+                            productId: productId,
+                            optionId: productOptionId,
+                            count: count,
+                        },
+                    }}
+                    className="flex justify-center items-center bg-red-500 flex-grow h-12"
+                >
                     <span className="  text-white">바로구매</span>
-                </button>
+                </Link>
             </div>
         </>
     )
@@ -193,6 +250,7 @@ const OptionSelecter = ({
     newOptionList,
     queryUrl,
     setQueryUrl,
+    count,
 }: {
     item: OptionListType
     productId: string
@@ -200,12 +258,12 @@ const OptionSelecter = ({
     setNewOptionList: React.Dispatch<React.SetStateAction<OptionListType[]>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
+    count: number
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. (${item.name})`)
     const [showModal, setShowModal] = useState<boolean>(false)
     const [selectedOptionId, setSelectedOptionId] = useState(Number)
     // const [selectedOptionType, setSelectedOptionType] = useState<string>('')
-
     useEffect(() => {
         setNewOptionList(
             newOptionList.map((opt: OptionListType) => {
@@ -225,6 +283,7 @@ const OptionSelecter = ({
         )
     }, [selectedOption])
 
+
     return (
         <>
             <div className="px-2 py-1">
@@ -237,12 +296,14 @@ const OptionSelecter = ({
                     <div className="ml-2 text-sm ">{selectedOption}</div>
                 </div>
                 {selectedOptionId > 0 && (
-                    <div className="mt-5 border py-2 w-full bg-gray-100  border-black rounded-md min-h-[90px]">
+                    <div>
                         <ProductSelect
                             productId={productId}
                             queryUrl={queryUrl}
                             setSelectedOptionId={setSelectedOptionId}
                             selectedOptionId={selectedOptionId}
+                      
+                            
                         />
                     </div>
                 )}
