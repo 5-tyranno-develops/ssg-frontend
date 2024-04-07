@@ -2,8 +2,6 @@ import HeaderTitle from '@/components/ui/HeaderTitle'
 import CartList from '@/components/pages/cart/CartList'
 import DeliveryAddress from '@/components/pages/cart/DeliveryAddress'
 import ChangeAddress from '@/components/pages/cart/ChangeAddress'
-import dynamic from 'next/dynamic'
-
 function Cart() {
     return (
         <main>
