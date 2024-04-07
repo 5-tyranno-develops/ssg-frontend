@@ -29,5 +29,11 @@ interface ModifyAddressDataType {
     phoneNumber: string
     homeNumber: string
 }
+interface CartAddressDataType {
+    deliveryName: string
+    zipCode: number
+    deliveryBase: string
+    deliveryDetail: string
+}
 
-export type { AddressDataType, AddaddressDataType, ModifyAddressDataType }
+export type { AddressDataType, AddaddressDataType, ModifyAddressDataType, CartAddressDataType }
