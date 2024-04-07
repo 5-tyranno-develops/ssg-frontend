@@ -33,6 +33,11 @@ async function modifyDelivery(delivery: AddaddressDataType) {
     const response = await PutAPI('/api/v1/delivery', delivery, await token)
     return response.result
 }
+async function getMainDeliveryAPI() {
+    const response = await GetAPI('/api/v1/delivery/base', undefined, await token)
+    return response.result
+}
+
 export {
     addDelivery,
     getDelivery,
@@ -41,4 +46,5 @@ export {
     changeMainDelivery,
     getModifyDelivery,
     modifyDelivery,
+    getMainDeliveryAPI,
 }
