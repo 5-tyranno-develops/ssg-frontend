@@ -6,22 +6,17 @@ import './../../..//app/cart/cart.css'
 import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
-<<<<<<< HEAD
+
 import { productData } from '@/lib/CartList'
 import { CartDataType, isKeepDataType } from '@/types/CartDataType'
 import { countCartAPI, deleteCartIdAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
-=======
 import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
-<<<<<<< HEAD
-import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
->>>>>>> 233e424 (feat : 가격 할인)
-=======
 import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, getOptionsAPI, isKeepAPI } from '@/actions/cart'
->>>>>>> 3bbf427 (feat : 장바구니 옵션)
 
 export default function CartList() {
     const [productData, setProductData] = useState<CartDataType[]>([])
     const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
+    const [recoilCartItem, setRecoilCartItem] = useRecoilState<cartToOrderDataType[]>(CartItemsAtom)
     const fetchData = async () => {
         try {
             const res = await getCartListAPI()
@@ -64,12 +59,7 @@ export default function CartList() {
         }
         fetchData()
     }
-<<<<<<< HEAD
-    const updatedRecoilSample = [...recoilSample]
-    const checkDeletedProduct = (checkedItemDelete: number[]) => {
-=======
     const checkDeletedProduct = async (checkedItemDelete: number[]) => {
->>>>>>> 233e424 (feat : 가격 할인)
         const confirm = window.confirm('선택된 상품을 삭제하시겠습니까?')
         if (confirm) {
             const deleteArr: clickDeleteDataType[] = checkedItemDelete.map((cartId) => ({ cartId }))
@@ -131,6 +121,15 @@ export default function CartList() {
 
             fetchData()
         }
+    }
+    const handleOrder = async () => {
+        const cartToOrder = productData.map((product) => ({
+            productId: product.productId,
+            optionId: product.optionId,
+            count: product.count,
+            money: product.totalPrice * product.count,
+        }))
+        setRecoilCartItem(cartToOrder)
     }
 
     return (
@@ -302,7 +301,7 @@ export default function CartList() {
                     </p>
                     <p className="text-rose-600 text-xs">할인혜택 없음</p>
                 </div>
-                <Buttons title="주문하기" href="/cart" />
+                <Buttons title="주문하기" href="/order" click={handleOrder} />
             </div>
         </>
     )
