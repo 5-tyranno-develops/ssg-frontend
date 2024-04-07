@@ -1,9 +1,23 @@
 'use client'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import ChangeOrdererInformModal from '@/components/modal/ChangeOrdererInformModal'
-
+import { MyInfo } from '@/types/MyInfoDataType'
+import { getMyInfo } from '@/actions/mypage'
 export default function InformationOfOrderer() {
     const [changeOrdererInformModalOpen, setChangeOrdererInformModalOpen] = useState(false)
+
+    const [MyInfo, setMyInfo] = useState<MyInfo>()
+    const fetchData = async () => {
+        try {
+            const res = await getMyInfo()
+            setMyInfo(res as MyInfo)
+        } catch (err) {
+            console.error(err)
+        }
+    }
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <>
@@ -29,7 +43,7 @@ export default function InformationOfOrderer() {
                             <span>주문자명</span>
                         </dt>
                         <dd>
-                            <span>{'홍길동'}</span>
+                            <span>{MyInfo?.name}</span>
                         </dd>
                     </dl>
                     <dl className="flex mt-[3px] text-[14px]">
@@ -37,7 +51,7 @@ export default function InformationOfOrderer() {
                             <span>연락처</span>
                         </dt>
                         <dd>
-                            <span>{'010-0000-0000'}</span>
+                            <span>{MyInfo?.phoneNumber}</span>
                         </dd>
                     </dl>
                     <dl className="flex mt-[3px] text-[14px]">
@@ -45,7 +59,7 @@ export default function InformationOfOrderer() {
                             <span>이메일</span>
                         </dt>
                         <dd>
-                            <span>{'gildong@naver.com'}</span>
+                            <span>{MyInfo?.email}</span>
                         </dd>
                     </dl>
                     <dl className="flex mt-[3px] text-[14px]">
