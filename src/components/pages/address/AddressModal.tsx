@@ -1,12 +1,17 @@
 import Link from 'next/link'
 import AddressList from './AddressList'
 import Buttons from '@/components/ui/buttons'
+import { changeMainDelivery } from '@/actions/delivery'
 
 interface AddressModalProps {
     modalOpen: boolean
     setModalOpen: (value: boolean) => void
 }
 function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
+    const handleMain = async (deliveryId: string) => {
+        const response = await changeMainDelivery(parseInt(deliveryId))
+        console.log(response)
+    }
     return modalOpen ? (
         <div className="bg-black/60 absolute inset-0 z-50">
             <div className="fixed inset-x-0 top-7 bottom-0 flex flex-col border rounded-t-lg bg-white">
@@ -42,10 +47,23 @@ function AddressModal({ modalOpen, setModalOpen }: AddressModalProps) {
                 </div>
                 <div className="flex fixed bottom-0 left-0 right-0">
                     <div className="flex-grow">
-                        <Buttons title="이번만 배송지 변경" href="/" color="#666666" />
+                        <Buttons
+                            title="이번만 배송지 변경"
+                            href="/cart"
+                            color="#666666"
+                            click={() => {
+                                setModalOpen(false)
+                            }}
+                        />
                     </div>
                     <div className="flex-grow">
-                        <Buttons title="기본 배송지 변경" href="/" />
+                        <Buttons
+                            title="기본 배송지 변경"
+                            href="/cart"
+                            click={() => {
+                                setModalOpen(false)
+                            }}
+                        />
                     </div>
                 </div>
             </div>
