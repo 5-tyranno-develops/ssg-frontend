@@ -46,7 +46,7 @@ function Manage() {
             id: 4,
             title: '나의 정보관리',
             items: [
-                { name: '회원정보 변경', src: '/' },
+                { name: '회원정보 변경', src: '/mypage/manage/myinfochange' },
                 { name: '비밀번호 변경', src: '' },
                 { name: '배송지 관리', src: '' },
                 { name: '맞춤정보 관리', src: '' },
@@ -56,7 +56,7 @@ function Manage() {
                 { name: '로그인 정보 관리', src: '' },
                 { name: 'SNS 연결 설정', src: '' },
                 { name: '회원탈퇴', src: '' },
-                { name: '개인정보 관리', src: '' },
+                { name: '개인정보 관리', src: '/mypage/manage/myinfochange' },
             ],
         },
     ]

@@ -1,14 +1,18 @@
 'use client'
 
-import { getMyInfo } from '@/actions/mypage'
+import type { ChangeInfo, MyInfo } from '@/types/MyInfoDataType'
 import Buttons from '@/components/ui/buttons'
-import { MyInfo } from '@/types/MyInfoDataType'
+import { getMyInfo, submitChangeInfoAPI } from '@/actions/mypage'
+
 import { useEffect, useState } from 'react'
 
 export default function ChangeInfo() {
-    const [phoneNumber, setPhoneNumber] = useState('')
+    const [phoneNumber, setPhoneNumber] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
     const [showInputs, setShowInputs] = useState(false) // 입력 상태를 저장하는 상태 변수
     const [myInfo, setMyInfo] = useState<MyInfo>()
+    const [password, setpassword] = useState<string>('')
+    const [passwordConfirm, setpasswordConfirm] = useState<string>('')
     const fetchData = async () => {
         try {
             const res = await getMyInfo()
@@ -29,6 +33,27 @@ export default function ChangeInfo() {
         const numberWithoutHyphen = phoneNumber.replace(/-/g, '')
         const phoneNumberWithout010 = numberWithoutHyphen.slice(3)
         return phoneNumberWithout010
+    }
+    const checkPasswordConfirm = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const newPasswordCheck = event.target.value
+        if (newPasswordCheck !== password) {
+            setpasswordConfirm('비밀번호가 일치하지 않습니다.')
+        } else {
+            setpasswordConfirm('')
+        }
+    }
+    const handleSubmit = async () => {
+        try {
+            const data: ChangeInfo = {
+                password: password,
+                phoneNumber: phoneNumber,
+                email: email,
+            }
+            const res = await submitChangeInfoAPI(data)
+            alert(res)
+        } catch (err) {
+            console.error(err)
+        }
     }
 
     return (
@@ -74,13 +99,16 @@ export default function ChangeInfo() {
                             className="w-full h-10 my-2"
                             style={{ border: '1px solid #c6c6c6' }}
                             placeholder="새 비밀번호"
+                            onChange={(e) => setpassword(e.target.value)}
                         />
                         <input
                             type="password"
                             className="w-full h-10 my-2"
                             style={{ border: '1px solid #c6c6c6' }}
                             placeholder="새 비밀번호 확인"
+                            onChange={checkPasswordConfirm}
                         />
+                        <span className="text-red-500 text-xs">{passwordConfirm}</span>
                     </div>
                 )}
             </div>
@@ -126,6 +154,9 @@ export default function ChangeInfo() {
                         type="email"
                         style={{ border: '1px solid #c6c6c6' }}
                         defaultValue={myInfo?.email}
+                        onChange={(e) => {
+                            setEmail(e.target.value)
+                        }}
                     />
                 </div>
             </div>
@@ -134,7 +165,7 @@ export default function ChangeInfo() {
                     <Buttons title="취소" href="/mypage" color="#e5e5e5" ftcolor="#222" />
                 </div>
                 <div className="flex-grow">
-                    <Buttons title="정보수정" href="/mypage" />
+                    <Buttons title="정보수정" href="/mypage" click={handleSubmit} />
                 </div>
             </div>
         </section>
