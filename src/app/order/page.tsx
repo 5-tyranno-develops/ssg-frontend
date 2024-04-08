@@ -5,7 +5,7 @@ import TypeOfPayment from '@/components/pages/order/TypeOfPayment'
 import ExpectedPaymoney from '@/components/pages/order/ExpectedPaymoney'
 import TermsOfService from '@/components/pages/order/TermsOfService'
 import InformationOfOrderer from '@/components/pages/order/InformationOfOrderer'
-import DeliveryItemList from '@/components/pages/order/DeliveryItemList.1'
+import DeliveryItemList from '@/components/pages/order/DeliveryItemList'
 import ButtonOfOrder from '@/components/ui/ButtonOfOrder'
 
 export default function OrderPage() {
@@ -20,7 +20,6 @@ export default function OrderPage() {
                 <TermsOfService />
                 <InformationOfOrderer />
                 <DeliveryItemList />
-                {/* <ButtonOfOrder amount={10000} /> */}
             </div>
         </>
     )

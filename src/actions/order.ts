@@ -5,5 +5,9 @@ async function getItemsOrderAPI(productId: number) {
     const response = await GetAPI(`/api/v1/product/productInformation/${productId}`, undefined, await token)
     return response.result
 }
+async function getDeliveryAddressAPI() {
+    const response = await GetAPI('/api/v1/delivery/order', undefined, await token)
+    return response.result
+}
 
-export { getItemsOrderAPI }
+export { getItemsOrderAPI, getDeliveryAddressAPI }

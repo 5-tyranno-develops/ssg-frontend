@@ -6,11 +6,8 @@ import './../../..//app/cart/cart.css'
 import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
-
-import { productData } from '@/lib/CartList'
-import { CartDataType, isKeepDataType } from '@/types/CartDataType'
-import { countCartAPI, deleteCartIdAPI, getCartListAPI, isKeepAPI } from '@/actions/cart'
-import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
+import { CartItemsAtom } from '@/state/CartCheckedListAtom'
+import { CartDataType, cartToOrderDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
 import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, getOptionsAPI, isKeepAPI } from '@/actions/cart'
 
 export default function CartList() {

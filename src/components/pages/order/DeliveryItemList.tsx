@@ -10,6 +10,7 @@ import { useRecoilValue } from 'recoil'
 export default function DeliveryItemList() {
     const data = useRecoilValue(CartItemsAtom)
     const [productData, setProductData] = useState([]) as any[]
+    let total = 0
     const fetchOptions = async () => {
         const productLists = []
         for (const item of data) {
@@ -21,16 +22,12 @@ export default function DeliveryItemList() {
     useEffect(() => {
         fetchOptions()
     }, [])
-    console.log('data', productData)
 
-    // const totalMoney = productData.reduce((total, product) => {
-    //     return total + product.totalPrice * product.count
-    // }, 0)
-
-    // const discountMoney = productData.reduce((total, product) => {
-    //     const discountedPrice = product.totalPrice * (product.discount / 100)
-    //     return total - discountedPrice * product.count
-    // }, 0)
+    const discountmoney = (money: number, discount: number) => {
+        const remoney = money * (1 - discount / 100)
+        total += remoney
+        return remoney
+    }
     return (
         <>
             {productData.map((product: any, index: number) => (
@@ -60,18 +57,24 @@ export default function DeliveryItemList() {
                             <div className="flex justify-between">
                                 <div>
                                     <span className="line-through mr-2 text-[#666666]">{product.money}원</span>
-                                    <span className="font-extrabold">{product.money}원</span>
+                                    <span className="font-extrabold">
+                                        {discountmoney(product.money, product.discount)}원
+                                    </span>
                                 </div>
-                                <span className="text-[#666666]">수량{product.count}개</span>
+                                <span className="text-[#666666]">수량 {product.count} 개</span>
                             </div>
                         </div>
                     </div>
                     <hr />
                 </div>
             ))}
-            <div className="mt-3">
-                <Buttons title="얼마" href="/order/complete" />
-            </div>
+            <Link href={'/order/complete'}>
+                <div className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
+                    <span className="text-white font-normal">
+                        <span className="font-bold">{total.toLocaleString()}원</span> 결제하기
+                    </span>
+                </div>
+            </Link>
         </>
     )
 }
