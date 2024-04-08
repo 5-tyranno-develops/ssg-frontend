@@ -3,13 +3,22 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { parseArgs } from 'util'
 // import CategoryListModal from '@/components/modal/CategoryListModal';
 
+interface categoryMiddle {
+    middleId: number
+    middleName: string
+}
+interface category {
+    largeId: number
+    largeName: string
+}
 export default function CategoryProductListToolBar() {
     // 카테고리 리스트 모달 상태 관리용 useState 선언
     const [isOpenModal, setIsOpenModal] = useState(false)
-    const [category, setCategory] = useState<string[]>([])
-    const [Lcategory, setLCategory] = useState<string[]>([])
+    const [category, setCategory] = useState<categoryMiddle[]>([] as categoryMiddle[])
+    const [Lcategory, setLCategory] = useState<category[]>([] as category[])
 
     // 뒤로가기 버튼 클릭용 useRouter 선언
     const router = useRouter()
@@ -27,18 +36,19 @@ export default function CategoryProductListToolBar() {
         }
         getCategory1()
     }, [])
-    console.log(Lcategory)
+    // console.log(Lcategory)
 
     useEffect(() => {
         const getCategory = async () => {
             const data = await fetch(`https://tyrannoback.com/api/v1/category/middle/${largeId}`)
             if (data) {
                 const response = await data.json()
-                setCategory(response[parseInt(`${middleId}`) - 1])
+                setCategory(response)
             }
         }
         getCategory()
     }, [largeId])
+
     // console.log(category)
 
     return (
@@ -74,7 +84,13 @@ export default function CategoryProductListToolBar() {
                     onClick={() => setIsOpenModal(!isOpenModal)}
                     className="inline-flex h-8 justify-center items-center"
                 >
-                    <p className="text-sm font-bold overflow-hidden text-ellipsis">{category.middleName}</p>
+                    {category &&
+                        category.map((opt: categoryMiddle, index) => (
+                            <div key={index} className="text-sm font-bold overflow-hidden text-ellipsis">
+                                {opt.middleId === parseInt(`${middleId}`) && <div>{opt.middleName}</div>}
+                            </div>
+                        ))}
+
                     <div className={` relative w-3 h-3 inline-block ml-1 ${isOpenModal ? 'rotate-180' : ''}`}>
                         <Image src="https://img.icons8.com/material-sharp/24/give-way--v2.png" alt="더보기" fill />
                     </div>
