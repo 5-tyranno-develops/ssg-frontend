@@ -1,6 +1,6 @@
 import { productInformation } from '@/types/ProductType'
 import Image from 'next/image'
-
+import Link from 'next/link'
 
 async function getProductData(productId: string) {
     const data = await fetch(`https://tyrannoback.com/api/v1/product/productInformation/${productId}`)
@@ -13,13 +13,13 @@ async function getProductData(productId: string) {
 
 export default async function PopularProduct({ productId }: { productId: string }) {
     const productInformationData: productInformation = await getProductData(productId)
-    // console.log(productInformationData, 'productInfoData')
+    // console.log(productInformationData, productId, 'productInfoData')
 
     return (
         <div>
             <div className="relative pt-[0.625rem] pb-5">
                 <div className="relative">
-                    <a href="#">
+                    <Link href={`/product/${productId}`}>
                         <div className="relative">
                             <div className=" overflow-hidden justify-center items-center">
                                 <Image
@@ -36,7 +36,7 @@ export default async function PopularProduct({ productId }: { productId: string 
                                 />
                             </div>
                         </div>
-                    </a>
+                    </Link>
                     {/* --------순위-------- */}
 
                     <div className="flex absolute justify-between pointer-events-none top-0 right-0 left-0">
@@ -79,70 +79,77 @@ export default async function PopularProduct({ productId }: { productId: string 
                     </button>
                 </div>
                 {/* --------좋아요/장바구니-------- */}
-                <a className="block mt-[0.625rem] pr-[1.25rem]">
-                    {/* --------브랜드, 이름-------- */}
-                    <p className="text-ellipsis line-clamp-2 text-sm">
-                        <span className="font-bold">{productInformationData.vendorName}</span>
-                        {productInformationData.productName}
-                    </p>
-                    {/* --------브랜드, 이름-------- */}
-                    {productInformationData.discount === null ? (
-                        <div className="flex flex-col">
-                            <em className="mt-0 -me-0 mb-0 ms-[0.25rem] not-italic font-semibold">
-                                <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
-                                    판매가격
-                                </span>
-                                {productInformationData.price}원
-                            </em>
-                        </div>
-                    ) : (
-                        <div className="mt-[0.25rem]">
+
+                <Link href={`/product/${productId}`}>
+                    <div className="block mt-[0.625rem] pr-[1.25rem]">
+                        {/* --------브랜드, 이름-------- */}
+                        <p className="text-ellipsis line-clamp-2 text-sm">
+                            <span className="font-bold">{productInformationData.vendorName}</span>
+                            {productInformationData.productName}
+                        </p>
+                        {/* --------브랜드, 이름-------- */}
+                        {productInformationData.discount === null ? (
                             <div className="flex flex-col">
-                                <del className="block text-xs text-gray-500">
-                                    <span className="border-0 h-[1px] w-[1px] -my-px -mx-px p-0 overflow-hidden absolute whitespace-nowrap">
-                                        정상가격
+                                <em className="mt-0 -me-0 mb-0 ms-[0.25rem] not-italic font-semibold">
+                                    <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
+                                        판매가격
                                     </span>
                                     {productInformationData.price}원
-                                </del>
-                                <div className="mt-[0.125rem] mb-0 flex flex-row">
-                                    <em className="block font-semibold text-base not-italic text-red-500">
-                                        <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute ">
-                                            할인율
-                                        </span>
-                                        {productInformationData.discount}%
-                                    </em>
-                                    <em className="mt-0 -me-0 mb-0 ms-[0.25rem] font-semibold not-italic">
-                                        <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
-                                            판매가격
+                                </em>
+                            </div>
+                        ) : (
+                            <div className="mt-[0.25rem]">
+                                <div className="flex flex-col">
+                                    <del className="block text-xs text-gray-500">
+                                        <span className="border-0 h-[1px] w-[1px] -my-px -mx-px p-0 overflow-hidden absolute whitespace-nowrap">
+                                            정상가격
                                         </span>
                                         {productInformationData.price}원
-                                    </em>
+                                    </del>
+                                    <div className="mt-[0.125rem] mb-0 flex flex-row">
+                                        <em className="block font-semibold text-base not-italic text-red-500">
+                                            <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute ">
+                                                할인율
+                                            </span>
+                                            {productInformationData.discount}%
+                                        </em>
+                                        <em className="mt-0 -me-0 mb-0 ms-[0.25rem] font-semibold not-italic">
+                                            <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
+                                                판매가격
+                                            </span>
+                                            {productInformationData.price}원
+                                        </em>
+                                    </div>
                                 </div>
                             </div>
+                        )}
+                        <div className="flex flex-row items-center text-xs mt-1 whitespace-nowrap text-gray-400">
+                            <div className=" relative h-3 w-3 ">
+                                <Image
+                                    src="https://img.icons8.com/ios-glyphs/30/000000/star--v1.png"
+                                    alt="star--v1"
+                                    fill
+                                />
+                            </div>
+                            <p className="mt-0 me-0 mb-0 ms-1">
+                                <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
+                                    리뷰 별점
+                                </span>
+                                {productInformationData.productRate / productInformationData.reviewCount}
+                                <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
+                                    점
+                                </span>
+                            </p>
+                            <div className="w-[1px] h-[11px] pr-2"></div>
+                            <p>
+                                <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
+                                    리뷰 갯수
+                                </span>
+                                {productInformationData.reviewCount}건
+                            </p>
                         </div>
-                    )}
-                    <div className="flex flex-row items-center text-xs mt-1 whitespace-nowrap text-gray-400">
-                        <div className=" relative h-3 w-3 ">
-                            <Image src="https://img.icons8.com/ios-glyphs/30/000000/star--v1.png" alt="star--v1" fill />
-                        </div>
-                        <p className="mt-0 me-0 mb-0 ms-1">
-                            <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
-                                리뷰 별점
-                            </span>
-                            {productInformationData.productRate / productInformationData.reviewCount}
-                            <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
-                                점
-                            </span>
-                        </p>
-                        <div className="w-[1px] h-[11px] pr-2"></div>
-                        <p>
-                            <span className="border-0 w-[1px] h-[1px] -my-px -mx-px px-0 py-0 overflow-hidden whitespace-nowrap absolute">
-                                리뷰 갯수
-                            </span>
-                            {productInformationData.reviewCount}건
-                        </p>
                     </div>
-                </a>
+                </Link>
             </div>
         </div>
     )

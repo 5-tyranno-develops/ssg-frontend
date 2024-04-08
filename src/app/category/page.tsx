@@ -16,7 +16,6 @@ export interface CategoryType {
 export default function CategoryPage() {
     const [selectedLCategory, setSelectedLCategory] = useState<string>('')
     const [category, setCategory] = useState<CategoryType[]>([] as CategoryType[])
-    
 
     useEffect(() => {
         const GetCategory = async () => {
@@ -54,6 +53,7 @@ export default function CategoryPage() {
         <div>
             <div className="h-screen">
                 <div className="pt-[15px] pr-[10px] pb-[25px] pl-[10px]">
+                    <p className="font-bold">전체 카테고리</p>
                     {category
                         .reduce((acc: CategoryType[][], item, index) => {
                             const groupIndex = Math.floor(index / 5)

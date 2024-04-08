@@ -1,10 +1,11 @@
-import ProductList from '@/components/layouts/ProductList'
-import SubCategorySlideButton from '@/components/layouts/SubCategorySlideButton'
+import ProductList from '@/components/pages/category/ProductList'
+import SubCategorySlideButton from '@/components/pages/category/SubCategorySlideButton'
 import CategoryProductListToolBar from '@/components/pages/category/CategoryProductListToolBar'
 import SubCategoryTable from '@/components/pages/category/SubCategoryTable'
 
 export interface product {
     productId: string
+    id: number
 }
 
 async function getProductList(largeId: string, middleId: string) {
@@ -13,7 +14,7 @@ async function getProductList(largeId: string, middleId: string) {
     )
     if (data) {
         const response = await data.json()
-        // console.log(response.result.productIds)
+        console.log(response.result.productIds)
         return response.result.productIds
     }
 }
