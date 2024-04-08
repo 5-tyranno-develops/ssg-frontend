@@ -3,8 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { parseArgs } from 'util'
-// import CategoryListModal from '@/components/modal/CategoryListModal';
+
+import CategoryListModal from '@/components/pages/category/CategoryListModal'
 
 interface categoryMiddle {
     middleId: number
@@ -18,7 +18,7 @@ export default function CategoryProductListToolBar() {
     // 카테고리 리스트 모달 상태 관리용 useState 선언
     const [isOpenModal, setIsOpenModal] = useState(false)
     const [category, setCategory] = useState<categoryMiddle[]>([] as categoryMiddle[])
-    const [Lcategory, setLCategory] = useState<category[]>([] as category[])
+    const [Lcategory, setLCategory] = useState<category>({} as category)
 
     // 뒤로가기 버튼 클릭용 useRouter 선언
     const router = useRouter()
@@ -56,7 +56,7 @@ export default function CategoryProductListToolBar() {
             <div className="items-center h-full">
                 <Link
                     href="#"
-                    className="h-full flex flex-wrap justify-center items-center"
+                    className="h-full flex flex-wrap justify-center items-center  "
                     onClick={(e) => {
                         e.preventDefault()
                         router.back()
@@ -65,7 +65,9 @@ export default function CategoryProductListToolBar() {
                     <span className="w-[1px] h-[1px] -mx-[1px] -my-[1px] p-0 overflow-hidden text-nowrap absolute">
                         이전 페이지
                     </span>
-                    <Image width="30" height="50" src="https://img.icons8.com/ios/50/left--v1.png" alt="뒤로가기" />
+                    <div className=" relative  w-6  h-7">
+                        <Image src="https://img.icons8.com/ios/50/left--v1.png" alt="뒤로가기" fill />
+                    </div>
                 </Link>
             </div>
             <div className="pl-5 pr-3 items-center flex ">
@@ -115,7 +117,7 @@ export default function CategoryProductListToolBar() {
                     </div>
                 </button>
             </div>
-            {/* {isOpenModal && <CategoryListModal />} */}
+            {isOpenModal && <CategoryListModal />}
         </div>
     )
 }
