@@ -1,9 +1,7 @@
 'use client'
 import { getItemsOrderAPI } from '@/actions/order'
-import Buttons from '@/components/ui/buttons'
 import { CartItemsAtom } from '@/state/CartCheckedListAtom'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
@@ -23,14 +21,14 @@ export default function DeliveryItemList() {
     }, [])
     console.log('data', productData)
 
-    // const totalMoney = productData.reduce((total, product) => {
-    //     return total + product.totalPrice * product.count
-    // }, 0)
+    const totalMoney = productData.reduce((total, product) => {
+        return total + product.totalPrice * product.count
+    }, 0)
 
-    // const discountMoney = productData.reduce((total, product) => {
-    //     const discountedPrice = product.totalPrice * (product.discount / 100)
-    //     return total - discountedPrice * product.count
-    // }, 0)
+    const discountMoney = productData.reduce((total, product) => {
+        const discountedPrice = product.totalPrice * (product.discount / 100)
+        return total - discountedPrice * product.count
+    }, 0)
     return (
         <>
             {productData.map((product: any, index: number) => (
@@ -69,9 +67,13 @@ export default function DeliveryItemList() {
                     <hr />
                 </div>
             ))}
-            <div className="mt-3">
-                <Buttons title="얼마" href="/order/complete" />
-            </div>
+            <Link href={'/order/complete'}>
+                <div className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
+                    <span className="text-white font-normal">
+                        <span className="font-bold">{addCommas(amount)}원</span> 결제하기
+                    </span>
+                </div>
+            </Link>
         </>
     )
 }
