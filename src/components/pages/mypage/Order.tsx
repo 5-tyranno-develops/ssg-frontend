@@ -48,13 +48,13 @@ function Order() {
                     <div className=" justify-around mt-3">
                         <ul className="flex flex-wrap">
                             {OrderList.map((list, index) => (
-                                <li key={list.id} className="flex-1 items-center  mb-3">
-                                    <div className="flex items-center relative">
+                                <li key={list.id} className="flex-1  flex flex-col items-center  mb-3 justify-center">
+                                    <div className="flex items-center relative justify-center">
                                         <div className="flex items-center justify-center w-12 h-12 bg-gray-100 rounded-2xl  text-gray-300 text-3xl sm:w-20 sm:h-20 sm:rounded-3xl ">
                                             0
                                         </div>
                                         {index !== OrderList.length - 1 && (
-                                            <div className="left-3/4 absolute w-6 h-6 ">
+                                            <div className=" -right-3/4 absolute w-6 h-6 ">
                                                 <Image
                                                     src="https://img.icons8.com/sf-ultralight/25/000000/back.png"
                                                     alt="back"
