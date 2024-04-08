@@ -44,12 +44,12 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                             </div>
                         </div>
                         <div className="mt-5">
-                            <div>
+                            {/* <div>
                                 <dl className="flex justify-between text-sm mb-5">
                                     <dt className="text-gray-500  min-w-20">카드혜택가</dt>
                                     <dd className=" w-10/12 font-semibold">288,800원~</dd>
                                 </dl>
-                            </div>
+                            </div> */}
                             <div>
                                 <dl className="flex justify-between text-sm mb-5">
                                     <dt className="text-gray-500 min-w-20">무이자 할부</dt>
@@ -72,7 +72,7 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                                     <dt className="text-gray-500 min-w-20">이벤트</dt>
                                     <dd className=" w-10/12">
                                         <p className="font-extrabold">멤버십 반품비용 무료!</p>
-                                        <span>2024.03.04 ~ 2024.03.31</span>
+                                        <span>2024.04.01 ~ 2024.04.30</span>
                                     </dd>
                                 </dl>
                             </div>

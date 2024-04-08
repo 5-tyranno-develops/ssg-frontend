@@ -1,13 +1,61 @@
 'use client'
-import { getItemsOrderAPI } from '@/actions/order'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
+import { GetOptionNameAPI } from '@/actions/option'
+import { useSearchParams } from 'next/navigation'
 import Buttons from '@/components/ui/buttons'
 import { CartItemsAtom } from '@/state/CartCheckedListAtom'
-import Image from 'next/image'
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
 import { useRecoilValue } from 'recoil'
 
-export default function DeliveryItemList() {
+export interface OptionType {
+    color: string | null
+    size: string | null
+    additional_option: string | null
+}
+
+export default function DeliveryItemList(){
+    const searchParams = useSearchParams()
+    const productId = searchParams.get('productId')
+    // console.log(productId, '상품아이디')
+    const optionId = searchParams.get('optionId')
+    // console.log(optionId)
+    const countString = searchParams.get('count')
+    const count = parseInt(countString || '0', 10)
+
+    const [option, setOption] = useState<OptionType>({} as OptionType)
+    const [product, setProduct] = useState<ProductType>({} as ProductType)
+
+    useEffect(() => {
+        const GetOptionName = async () => {
+            const data = await fetch(`https://tyrannoback.com/api/v1/option/names/${optionId}`, {
+                cache: 'force-cache',
+            })
+
+            if (data) {
+                const response = await data.json()
+                const optionList: OptionType = response.result
+                setOption(optionList)
+            }
+        }
+        GetOptionName()
+    }, [optionId])
+    // console.log(option)
+    useEffect(() => {
+        const GetProductName = async () => {
+            const data1 = await fetch(`https://tyrannoback.com/api/v1/product/productInformation/${productId}`, {
+                cache: 'force-cache',
+            })
+
+            if (data1) {
+                const response = await data1.json()
+                const productList: ProductType = response.result
+                setProduct(productList)
+            }
+        }
+        GetProductName()
+    }, [productId])
+    console.log(product)
     const data = useRecoilValue(CartItemsAtom)
     const [productData, setProductData] = useState([]) as any[]
     let total = 0
@@ -28,7 +76,7 @@ export default function DeliveryItemList() {
         total += remoney
         return remoney
     }
-    return (
+    return(
         <>
             {productData.map((product: any, index: number) => (
                 <div className="bg-white mx-4" key={index}>
@@ -53,6 +101,18 @@ export default function DeliveryItemList() {
                                 <span className="font-extrabold mr-2">{product.vendorName}</span>
                                 <span>{product.productName}</span>
                             </div>
+                            {option && (
+                            <div className="flex">
+                                {option.color !== null || option.size !== null || option.additional_option !== null ? (
+                                    <div className="flex">
+                                        옵션:
+                                        {option.color && <p>{option.color}</p>}
+                                        {option.size && <p>{option.size}</p>}
+                                        {option.additional_option && <p>{option.additional_option}</p>}
+                                    </div>
+                                ) : null}
+                            </div>
+                        )}
 
                             <div className="flex justify-between">
                                 <div>

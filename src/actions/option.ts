@@ -6,4 +6,8 @@ async function GetOptionDataAPI(productId: string) {
     return response
 }
 
-export { GetOptionDataAPI }
+async function GetOptionNameAPI(optionId: string) {
+    const response = await GetAPI(`https://tyrannoback.com/api/v1/option/names/${optionId}`)
+    return response
+}
+export { GetOptionDataAPI, GetOptionNameAPI }

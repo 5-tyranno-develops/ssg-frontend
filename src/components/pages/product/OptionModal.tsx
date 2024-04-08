@@ -8,16 +8,16 @@ export interface LastOptionType {
     productName: string
     productPrice: number
     color: {
-        id: number
+        id: string
         color: string
     }
     size: {
-        id: number
+        id: string
         size: string
     }
     extra: any | null
     etc: {
-        id: number
+        id: string
         additionalOption: string
     }
     stock: number
@@ -114,10 +114,10 @@ export default function OptionModal({
         }
 
         setQueryUrl(updatedQueryUrl)
+
         setSelectedOption(select)
         setSelectedOptionId(optionId)
 
-        console.log(queryUrl, optionId, select)
         setShowModal(false)
     }
 
@@ -184,7 +184,7 @@ export default function OptionModal({
                                 key={index}
                                 className="flex w-full bg-white mb-2 text-sm ml-2"
                                 onClick={() =>
-                                    opt.stock !==0 && 
+                                    opt.stock !== 0 &&
                                     handleColorSelection(
                                         optionType === 'color'
                                             ? opt.color.color
@@ -193,8 +193,14 @@ export default function OptionModal({
                                             : optionType === 'etc'
                                             ? opt.etc.additionalOption
                                             : '',
-                                        '',
-                                        '',
+                                        optionType === 'color'
+                                            ? opt.color.id
+                                            : optionType === 'size'
+                                            ? opt.size.id
+                                            : optionType === 'etc'
+                                            ? opt.etc.id
+                                            : '',
+                                        optionType,
                                         opt.optionId,
                                     )
                                 }

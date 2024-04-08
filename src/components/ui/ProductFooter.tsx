@@ -19,7 +19,8 @@ function ProductFooter() {
                     </li>
                     <button
                         className="flex justify-center items-center font-semibold text-white bg-red-500 flex-grow h-12"
-                        onClick={() => setIsModal(true)}
+                        onClick={() => setIsModal(true) }
+                        
                     >
                         구매하기
                     </button>
