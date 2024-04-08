@@ -11,7 +11,7 @@ function Footer() {
     ]
     return (
         <>
-            <footer>
+            <footer className="">
                 <div className="px-4" style={{ backgroundColor: '#717178' }}>
                     <div className="table w-full min-h-14 py-3 items-center">
                         <Image src={FooterImage} alt="footerImage" className="w-10 h-auto" />

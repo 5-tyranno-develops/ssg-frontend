@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { Pagination, Navigation } from 'swiper/modules'
+import { Pagination, Navigation, Autoplay } from 'swiper/modules'
 import { mainEventImageData } from '@/lib/MainEventImageData'
 import Image from 'next/image'
 
@@ -30,14 +30,15 @@ export default function MainEventSection() {
                     className="relative w-full h-full"
                     slidesPerView={1}
                     loop={true}
-                    modules={[Pagination, Navigation]}
+                    autoplay={{ delay: 3000 }}
+                    modules={[Pagination, Navigation, Autoplay]}
                     onSlideChange={handleSlideChange}
                 >
                     {mainEventImageData.map((item, idx) => {
                         return (
                             <SwiperSlide key={idx}>
                                 <div className="absolute w-full h-full duration-150">
-                                    <Image src={item.src} fill alt="aaa" />
+                                    <Image src={item.src} fill alt="메인광고" />
                                 </div>
                                 <div className="flex justify-center items-end w-full h-full">
                                     <div className="flex flex-col items-center z-[1] max-w-[(100%-60px)] mb-[52px]">

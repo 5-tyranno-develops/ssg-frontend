@@ -15,7 +15,7 @@ export default function MainShortcutSection() {
         setScrollPercent(percentScrolled)
     }
 
-    console.log('scrollPercent >>', scrollPercent)
+    // console.log('scrollPercent >>', scrollPercent)
 
     const lineBreak = (text: string) => {
         return <span dangerouslySetInnerHTML={{ __html: text.replace(/ /g, '<br />') }} />
