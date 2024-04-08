@@ -15,3 +15,9 @@ export const CartItemsAtom = atom({
     default: [] as cartToOrderDataType[],
     effects_UNSTABLE: [persistAtom],
 })
+
+export const CartMoneyAtom = atom({
+    key: 'CartMoneyAtom',
+    default: [],
+    effects_UNSTABLE: [persistAtom],
+})

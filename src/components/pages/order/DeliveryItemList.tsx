@@ -71,7 +71,7 @@ export default function DeliveryItemList() {
             <Link href={'/order/complete'}>
                 <div className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
                     <span className="text-white font-normal">
-                        <span className="font-bold">{total.toLocaleString()}원</span> 결제하기
+                        <span className="font-bold">{(total + 3000).toLocaleString()}원</span> 결제하기
                     </span>
                 </div>
             </Link>

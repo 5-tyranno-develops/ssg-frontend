@@ -31,3 +31,8 @@ export interface cartToOrderDataType {
     count: number
     money: number
 }
+export interface cartMoneyDataType {
+    orderMoney: number
+    deliveryMoney: number
+    discountMoney: number
+}
