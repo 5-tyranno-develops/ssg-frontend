@@ -20,7 +20,6 @@ export default function OrderPage() {
                 <TermsOfService />
                 <InformationOfOrderer />
                 <DeliveryItemList />
-                <ButtonOfOrder amount={10000} />
             </div>
         </>
     )

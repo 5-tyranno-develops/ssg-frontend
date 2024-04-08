@@ -6,12 +6,23 @@ import './../../..//app/cart/cart.css'
 import Buttons from '@/components/ui/buttons'
 import { useRecoilState } from 'recoil'
 import { CartCheckedListAtom } from '@/state/CartCheckedListAtom'
-import { CartDataType, clickDeleteDataType, isKeepDataType } from '@/types/CartDataType'
+import { CartItemsAtom } from '@/state/CartCheckedListAtom'
+import { CartMoneyAtom } from '@/state/CartCheckedListAtom'
+import {
+    CartDataType,
+    cartMoneyDataType,
+    cartToOrderDataType,
+    clickDeleteDataType,
+    isKeepDataType,
+} from '@/types/CartDataType'
 import { countCartAPI, deleteCartIdAPI, deleteClickAPI, getCartListAPI, getOptionsAPI, isKeepAPI } from '@/actions/cart'
 
 export default function CartList() {
     const [productData, setProductData] = useState<CartDataType[]>([])
     const [recoilSample, setRecoilSample] = useRecoilState<number[]>(CartCheckedListAtom)
+    const [recoilCartItem, setRecoilCartItem] = useRecoilState<cartToOrderDataType[]>(CartItemsAtom)
+    const [recoilMoney, setRecoilMoney] = useRecoilState<cartMoneyDataType>(CartMoneyAtom)
+
     const fetchData = async () => {
         try {
             const res = await getCartListAPI()
@@ -116,6 +127,21 @@ export default function CartList() {
 
             fetchData()
         }
+    }
+    const handleOrder = async () => {
+        const cartToOrder = productData.map((product) => ({
+            productId: product.productId,
+            optionId: product.optionId,
+            count: product.count,
+            money: product.totalPrice * product.count,
+        }))
+        const orderMoney = {
+            orderMoney: totalMoney,
+            deliveryMoney: 3000,
+            discountMoney: discountMoney,
+        }
+        setRecoilCartItem(cartToOrder)
+        setRecoilMoney(orderMoney)
     }
 
     return (
@@ -264,30 +290,32 @@ export default function CartList() {
                 <h3 className="text-xl font-bold m-3 "> 결제 예정금액</h3>
                 <div className="flex justify-between m-1">
                     <span>주문금액</span>
-                    <span>{totalMoney.toLocaleString()} </span>
+                    <span>{totalMoney.toLocaleString()} 원</span>
                 </div>
                 <div className="flex justify-between m-1">
                     <span>상품할인 </span>
-                    <span style={{ color: 'red' }}>{discountMoney.toLocaleString()} </span>
+                    <span style={{ color: 'red' }}>{discountMoney.toLocaleString()} 원</span>
                 </div>
                 <div className="flex justify-between m-1">
                     <span>배송비</span>
-                    <span>0 원 </span>
+                    <span>3,000 원</span>
                 </div>
                 <div className="flex justify-between m-1 border-t  mb-7 ">
                     <span className="text-base font-bold mt-2">총 결제예정금액</span>
-                    <span className="text-lg font-bold mt-2">{(totalMoney + discountMoney).toLocaleString()} 원</span>
+                    <span className="text-lg font-bold mt-2">
+                        {(totalMoney + discountMoney + 3000).toLocaleString()} 원
+                    </span>
                 </div>
             </div>
             <div className="fixed bottom-0 left-0 right-0 z-[1] bg-white">
                 <div className="relative p-4 ">
                     <p className="text-xs text-black">
-                        전체상품 {productData.length}개 {(totalMoney + discountMoney).toLocaleString()} 원 + 배송비 0원
-                        = {(totalMoney + discountMoney).toLocaleString()} 원
+                        전체상품 {productData.length}개 {(totalMoney + discountMoney).toLocaleString()} 원 + 배송비
+                        3,000원 = {(totalMoney + discountMoney).toLocaleString()} 원
                     </p>
                     <p className="text-rose-600 text-xs">할인혜택 없음</p>
                 </div>
-                <Buttons title="주문하기" href="/cart" />
+                <Buttons title="주문하기" href="/order" click={handleOrder} />
             </div>
         </>
     )

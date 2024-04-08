@@ -7,15 +7,30 @@ import HeaderToBackInModal from '../ui/HeaderToBackInModal'
 interface props {
     modalOpen: boolean
     setModalOpen: (value: boolean) => void
+    setMessage: (value: string) => void
 }
 
-export default function DeliveryRequestModal({ modalOpen, setModalOpen }: props) {
+export default function DeliveryRequestModal({ modalOpen, setModalOpen, setMessage }: props) {
     const [messageLength, setMessageLength] = useState(0)
 
     const countLength = (e: any) => {
         setMessageLength(e.target.value.length)
     }
-
+    const requestList = [
+        { id: 1, message: '부재 시 경비실에 맡겨주세요' },
+        { id: 2, message: '부재 시 문 앞에 놓아주세요' },
+        { id: 3, message: '직접 받겠습니다' },
+        { id: 4, message: '배송 전에 연락주세요' },
+    ]
+    const [messageClick, setMessageClick] = useState<string>('')
+    const handleItemClick = (e: any, message: string) => {
+        setMessageClick(message) // 클릭된 메세지를 상태에 저장
+        countLength(e) // 클릭된 메세지의 길이를 계산
+    }
+    const closeModal = () => {
+        setMessage(messageClick)
+        setModalOpen(false)
+    }
     return modalOpen ? (
         <div>
             <div className="bg-black/60 absolute inset-0 z-50">
@@ -25,46 +40,22 @@ export default function DeliveryRequestModal({ modalOpen, setModalOpen }: props)
                     <div className="my-[20px] px-[16px]">
                         <h1 className="text-[18px] tracking-[-0.3px] font-bold">택배배송 요청사항</h1>
                         <ul>
-                            <li className="flex items-center my-2">
-                                <input
-                                    type="radio"
-                                    className="w-[18px] h-[18px] mr-2 peer accent-red-500"
-                                    name="requestList"
-                                />
-                                <span className="text-[13px] peer-checked:font-bold tracking-[-0.3px]">
-                                    부재 시 경비실에 맡겨주세요
-                                </span>
-                            </li>
-                            <li className="flex items-center my-2">
-                                <input
-                                    type="radio"
-                                    className="w-[18px] h-[18px] mr-2 peer accent-red-500"
-                                    name="requestList"
-                                />
-                                <span className="text-[13px] peer-checked:font-bold tracking-[-0.3px]">
-                                    부재 시 문 앞에 놓아주세요
-                                </span>
-                            </li>
-                            <li className="flex items-center my-2">
-                                <input
-                                    type="radio"
-                                    className="w-[18px] h-[18px] mr-2 peer accent-red-500"
-                                    name="requestList"
-                                />
-                                <span className="text-[13px] peer-checked:font-bold tracking-[-0.3px]">
-                                    직접 받겠습니다
-                                </span>
-                            </li>
-                            <li className="flex items-center my-2">
-                                <input
-                                    type="radio"
-                                    className="w-[18px] h-[18px] mr-2 peer accent-red-500"
-                                    name="requestList"
-                                />
-                                <span className="text-[13px] peer-checked:font-bold tracking-[-0.3px]">
-                                    배송 전에 연락주세요
-                                </span>
-                            </li>
+                            {requestList.map((item) => (
+                                <li
+                                    key={item.id}
+                                    className="flex items-center my-2"
+                                    onClick={(e) => handleItemClick(e, item.message)}
+                                >
+                                    <input
+                                        type="radio"
+                                        className="w-[18px] h-[18px] mr-2 peer accent-red-500"
+                                        name="requestList"
+                                    />
+                                    <span className="text-[13px] peer-checked:font-bold tracking-[-0.3px]">
+                                        {item.message}
+                                    </span>
+                                </li>
+                            ))}
                             <li className="flex items-center my-2">
                                 <div className="relative">
                                     <input
@@ -82,8 +73,11 @@ export default function DeliveryRequestModal({ modalOpen, setModalOpen }: props)
                                         rows={2}
                                         maxLength={50}
                                         placeholder="메세지를 입력해 주세요"
-                                        onChange={countLength}
-                                    ></textarea>
+                                        onChange={(e) => {
+                                            handleItemClick(e, e.target.value)
+                                            countLength(e)
+                                        }}
+                                    />
                                     <span className="absolute top-[75px] text-[11px] right-5 text-[#888888] hidden peer-checked:block">
                                         {messageLength} / 50
                                     </span>
@@ -107,7 +101,7 @@ export default function DeliveryRequestModal({ modalOpen, setModalOpen }: props)
                     <button
                         className="bottom-0 left-0 right-0 fixed h-14 z-50 bg-[#ff5452] text-white font-semibold"
                         onClick={() => {
-                            setModalOpen(false)
+                            closeModal()
                         }}
                     >
                         변경하기

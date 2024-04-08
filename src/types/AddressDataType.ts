@@ -35,5 +35,12 @@ interface CartAddressDataType {
     deliveryBase: string
     deliveryDetail: string
 }
-
-export type { AddressDataType, AddaddressDataType, ModifyAddressDataType, CartAddressDataType }
+interface OrderAddressDataType {
+    receiverName: string
+    phoneNumber: string
+    deliveryName: string
+    deliveryBase: string
+    deliveryDetail: string
+    zipCode: number
+}
+export type { AddressDataType, AddaddressDataType, ModifyAddressDataType, CartAddressDataType, OrderAddressDataType }

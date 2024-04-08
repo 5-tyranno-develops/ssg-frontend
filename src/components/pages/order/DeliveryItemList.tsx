@@ -1,58 +1,80 @@
-import Image from "next/image";
+'use client'
+import { getItemsOrderAPI } from '@/actions/order'
+import Buttons from '@/components/ui/buttons'
+import { CartItemsAtom } from '@/state/CartCheckedListAtom'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { useRecoilValue } from 'recoil'
 
-export default function DeliveryItemList(){
-    return(
+export default function DeliveryItemList() {
+    const data = useRecoilValue(CartItemsAtom)
+    const [productData, setProductData] = useState([]) as any[]
+    let total = 0
+    const fetchOptions = async () => {
+        const productLists = []
+        for (const item of data) {
+            const product = await getItemsOrderAPI(item.productId)
+            productLists.push({ ...product, ...item })
+        }
+        setProductData(productLists)
+    }
+    useEffect(() => {
+        fetchOptions()
+    }, [])
+
+    const discountmoney = (money: number, discount: number) => {
+        const remoney = money * (1 - discount / 100)
+        total += remoney
+        return remoney
+    }
+    return (
         <>
-            <div className="bg-white rounded-xl m-4 mb-20">
-                <div className="flex justify-between pt-[15px] px-[16px]">
-                    <span className="text-lg font-semibold">택배배송</span>
-                </div>
-                <div className="flex px-[16px] py-[15px]">
-                    <div className="flex justify-between">
-                        <Image src={"https://sitem.ssgcdn.com/74/87/78/item/1000531788774_i1_140.jpg"} alt="한우" width={150} height={150} style={{width:"80px", height:"80px"}} />
-                    </div>
-                    <div className="flex flex-col justify-between text-xs mx-2">
-                        <div>
-                            <span>{"이마트몰"}</span>
-                            <span className="text-[#666666]">{" 주식회사 태성축산유통"}</span>
+            {productData.map((product: any, index: number) => (
+                <div className="bg-white mx-4" key={index}>
+                    {index === 0 && (
+                        <div className="flex justify-between pt-[15px] px-[16px]">
+                            <span className="text-lg font-semibold">택배배송</span>
                         </div>
-                        <div>
-                            <span className="font-extrabold mr-1">{"구미우"}</span>
-                            <span>{"[냉장]1++No9등급 투뿔 한우 특수부위 구이용 300g (안창살or치마살or제비추리or토시살)"}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <div>
-                                <span className="line-through mr-2 text-[#666666]">{"59,700"}원</span>
-                                <span className="font-extrabold">{"35,820"}원</span>
+                    )}
+
+                    <div className="flex px-4 py-4">
+                        <Image
+                            src={product.imageUrl}
+                            alt="이미지1"
+                            width={80}
+                            height={80}
+                            className="rounded-lg mr-3"
+                        />
+
+                        <div className="w-full flex flex-col justify-between text-sm mx-2">
+                            {product.vendorName}
+                            <div className="flex">
+                                <span className="font-extrabold mr-2">{product.vendorName}</span>
+                                <span>{product.productName}</span>
                             </div>
-                            <span className="text-[#666666]">수량{"1"}개</span>
-                        </div>
-                    </div>
-                </div>
-                <hr/>
-                <div className="flex px-[16px] py-[15px]">
-                    <div className="flex justify-between">
-                        <Image src={"https://sitem.ssgcdn.com/98/64/67/item/1000036676498_i1_140.jpg"} alt="치즈쁘띠" width={150} height={150} style={{width:"80px", height:"80px"}} />
-                    </div>
-                    <div className="flex flex-col justify-between text-xs mx-2">
-                        <div>
-                            <span>{"신세계몰"}</span>
-                            <span className="text-[#666666]">{" 우리마을"}</span>
-                        </div>
-                        <div>
-                            <span className="font-extrabold mr-1">{"참다올"}</span>
-                            <span>{"수제로 만든 치즈쁘띠"}</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <div>
-                                <span className="line-through mr-2 text-[#666666]">{"3,000"}원</span>
-                                <span className="font-extrabold">{"2,940"}원</span>
+
+                            <div className="flex justify-between">
+                                <div>
+                                    <span className="line-through mr-2 text-[#666666]">{product.money}원</span>
+                                    <span className="font-extrabold">
+                                        {discountmoney(product.money, product.discount)}원
+                                    </span>
+                                </div>
+                                <span className="text-[#666666]">수량 {product.count} 개</span>
                             </div>
-                            <span className="text-[#666666]">수량{"1"}개</span>
                         </div>
                     </div>
+                    <hr />
                 </div>
-            </div>
+            ))}
+            <Link href={'/order/complete'}>
+                <div className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
+                    <span className="text-white font-normal">
+                        <span className="font-bold">{(total + 3000).toLocaleString()}원</span> 결제하기
+                    </span>
+                </div>
+            </Link>
         </>
     )
 }

@@ -1,6 +1,7 @@
 export interface CartDataType {
     cartId: number
     optionId: number
+    productId: number
     productName: string
     imageUrl: string
     totalPrice: number
@@ -22,4 +23,16 @@ export interface isKeepDataType {
 
 export interface clickDeleteDataType {
     cartId: number
+}
+
+export interface cartToOrderDataType {
+    productId: number
+    optionId: number
+    count: number
+    money: number
+}
+export interface cartMoneyDataType {
+    orderMoney: number
+    deliveryMoney: number
+    discountMoney: number
 }
