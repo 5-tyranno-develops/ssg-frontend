@@ -21,11 +21,15 @@ async function changePasswordAPI(idPW: ChangePasswordDataType) {
     return response
 }
 async function sendTextAPI(phoneNumber: string) {
-    const response = await PostAPI('/api/v1/auth/text/send', { phoneNumber: phoneNumber })
+    const response = await PostAPI('/api/v1/auth/sms/send', { phoneNumber: phoneNumber })
     return response
 }
 async function checkAuthCodeAPI(verifyCode: authCode) {
-    const response = await PostAPI('/api/v1/auth/text/verify', verifyCode)
+    const response = await PostAPI('/api/v1/auth/sms/verify', verifyCode)
     return response
 }
-export { signupAPI, validLoginId, findIdAPI, changePasswordAPI, sendTextAPI, checkAuthCodeAPI }
+async function checkUserAPI(phoneNumber: string) {
+    const response = await PostAPI('/api/v1/auth/check', { phoneNumber: phoneNumber })
+    return response
+}
+export { signupAPI, validLoginId, findIdAPI, changePasswordAPI, sendTextAPI, checkAuthCodeAPI, checkUserAPI }

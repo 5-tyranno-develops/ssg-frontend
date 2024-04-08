@@ -1,5 +1,5 @@
 'use client'
-import { checkAuthCodeAPI, sendTextAPI } from '@/actions/user'
+import { checkAuthCodeAPI, checkUserAPI, sendTextAPI } from '@/actions/user'
 import Buttons from '@/components/ui/buttons'
 import { authCode } from '@/types/UserDataType'
 import Link from 'next/link'
@@ -61,6 +61,21 @@ export default function Authphone() {
                 localStorage.setItem('phoneNumberString', phoneNumberString)
                 localStorage.setItem('gender', gender?.toString() || '')
                 router.push('/user/signupintro/signup')
+                const phone = phoneNumberString
+                const response = await checkUserAPI(phone)
+                if (response.result.code === 1) {
+                    alert('이미 가입된 회원입니다.')
+                } else if (response.result.code === 2) {
+                    window.confirm('소셜 로그인 회원입니다. 통합회원가입 하시겠습니까?')
+                    if (!confirm) {
+                        router.push('/user/signupintro/signup')
+                    } else {
+                        router.push('/')
+                    }
+                } else if (response.result.code === 3) {
+                    alert('인증 되었습니다.')
+                }
+                console.log(response)
             } else {
                 alert('인증번호가 틀렸습니다.')
                 router.push('/user/signupintro/auth')
@@ -177,16 +192,13 @@ export default function Authphone() {
                         />
                     ) : (
                         <div>
-                            {/* <span className="inp_txt">
-                                <input
-                                    className="input-content"
-                                    type="number"
-                                    maxLength={6}
-                                    onChange={(e) => setAuthCode(e.target.value)}
-                                    placeholder="인증번호 입력"
-                                />
-                            </span> */}
-                            <Buttons title="인증번호 받기" href="/user/signupintro/auth" click={handleButtonClick} />
+                            <button
+                                className="button-groups"
+                                style={{ backgroundColor: '#ff5452', color: '#fff' }}
+                                onClick={handleButtonClick}
+                            >
+                                안중번호 받기
+                            </button>
                         </div>
                     )}
                 </div>
