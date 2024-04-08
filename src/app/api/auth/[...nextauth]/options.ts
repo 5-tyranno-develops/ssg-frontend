@@ -44,9 +44,34 @@ export const options: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async signIn({ user, profile }) {
-            console.log('user', user)
-            console.log('profile', profile)
+        async signIn({ user, profile }): Promise<any> {
+            if (profile) {
+                console.log('fdjso;afio;djfoasjkfsldjfjdsfldsnfsdkl')
+                // console.log(profile)
+                // 회원인지 아닌지 확인
+                // console.log(`${process.env.API_BASE_URL}/api/v1/auth/oauth/check`)
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/oauth/check`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: user.name,
+                        email: user.email,
+                        oauthExternalId: user.id,
+                    }),
+                })
+                if (res.ok) {
+                    const user = await res.json()
+                    if (user.result.code === 3) {
+                        return '/signupintro/auth'
+                    }
+
+                    return user.result
+                    // this.session.update({user})
+                    // 회원정보를 받아서 세션에 저장
+                }
+            }
             return true
         },
 
