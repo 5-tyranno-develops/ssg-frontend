@@ -23,6 +23,7 @@ export interface LastOptionType {
         additionalOption: string
     }
     stock: number
+    discount: number
 }
 interface OptionListType {
     idx: number
@@ -45,7 +46,7 @@ export default function ProductOptions({
     productId: string
     setIsModal: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-    const [optionData, setOptionData] = useState<LastOptionType[]>([] as LastOptionType[])
+    const [optionData, setOptionData] = useState<LastOptionType>({} as LastOptionType)
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
     const [productName, setProductName] = useState<string>('')
     const [productPrice, setProductPrice] = useState<number>(0)
@@ -93,10 +94,12 @@ export default function ProductOptions({
 
     useEffect(() => {
         const getLastData = async () => {
-            const data1 = await fetch(`${url}${lastUrl}`)
+            const data1 = await fetch(`${url}${lastUrl}`, {
+                cache: 'force-cache',
+            })
             if (data1) {
                 const res = await data1.json()
-                const optionList: LastOptionType[] = res.result[0]
+                const optionList: LastOptionType = res.result[0]
                 setOptionData(optionList)
                 const optionId: LastOptionType[] = res.result[0].optionId
                 setProductOptionId(optionId.toString())
@@ -250,7 +253,6 @@ const OptionSelecter = ({
     newOptionList,
     queryUrl,
     setQueryUrl,
-    count,
 }: {
     item: OptionListType
     productId: string
@@ -258,7 +260,6 @@ const OptionSelecter = ({
     setNewOptionList: React.Dispatch<React.SetStateAction<OptionListType[]>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
-    count: number
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. (${item.name})`)
     const [showModal, setShowModal] = useState<boolean>(false)
@@ -283,7 +284,6 @@ const OptionSelecter = ({
         )
     }, [selectedOption])
 
-
     return (
         <>
             <div className="px-2 py-1">
@@ -302,8 +302,6 @@ const OptionSelecter = ({
                             queryUrl={queryUrl}
                             setSelectedOptionId={setSelectedOptionId}
                             selectedOptionId={selectedOptionId}
-                      
-                            
                         />
                     </div>
                 )}

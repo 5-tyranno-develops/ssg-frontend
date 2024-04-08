@@ -21,10 +21,11 @@ export default function DeliveryItemList() {
     // console.log(productId, '상품아이디')
     const optionId = searchParams.get('optionId')
     // console.log(optionId)
-    const count = searchParams.get('count')
+    const countString = searchParams.get('count')
+    const count = parseInt(countString || '0', 10)
 
-    const [option, setOption] = useState<any[]>([])
-    const [product, setProduct] = useState<any[]>([])
+    const [option, setOption] = useState<OptionType>({} as OptionType)
+    const [product, setProduct] = useState<ProductType>({} as ProductType)
 
     useEffect(() => {
         const GetOptionName = async () => {
@@ -34,7 +35,7 @@ export default function DeliveryItemList() {
 
             if (data) {
                 const response = await data.json()
-                const optionList: OptionType[] = response.result
+                const optionList: OptionType = response.result
                 setOption(optionList)
             }
         }
@@ -49,7 +50,7 @@ export default function DeliveryItemList() {
 
             if (data1) {
                 const response = await data1.json()
-                const productList: ProductType[] = response.result
+                const productList: ProductType = response.result
                 setProduct(productList)
             }
         }
