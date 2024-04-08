@@ -4,8 +4,12 @@ import { useEffect, useState } from 'react'
 import OptionModal from './OptionModal'
 import ProductSelect from './ProductSelect'
 import Link from 'next/link'
+import { useRecoilState } from 'recoil'
+import { cartMoneyDataType, cartToOrderDataType } from '@/types/CartDataType'
+import { CartItemsAtom, CartMoneyAtom, ProductItemsAtom } from '@/state/CartCheckedListAtom'
 
 export interface LastOptionType {
+    productId: string
     optionId: string
     productName: string
     productPrice: number
@@ -131,7 +135,25 @@ export default function ProductOptions({
     const handleModal = () => {
         setIsModal(false)
     }
-
+    const [recoilProductItem, setRecoilProductItem] = useRecoilState<cartToOrderDataType>(ProductItemsAtom)
+    const [recoilMoney, setRecoilMoney] = useRecoilState<cartMoneyDataType>(CartMoneyAtom)
+    // console.log(optionData)
+    const handleOrder = async () => {
+        const cartToOrder = {
+            productId: parseInt(productId),
+            optionId: parseInt(optionData.optionId),
+            count: count,
+            money: optionData.productPrice,
+        }
+        const orderMoney = {
+            orderMoney: optionData.productPrice,
+            deliveryMoney: 3000,
+            discountMoney: optionData.productPrice * (1 - (optionData.discount as number) / 100) * count,
+        }
+        setRecoilProductItem(cartToOrder)
+        setRecoilMoney(orderMoney)
+    }
+    console.log(recoilProductItem)
     return (
         <>
             <div
@@ -228,19 +250,11 @@ export default function ProductOptions({
                 <button className="flex justify-center items-center bg-black flex-grow h-12 ">
                     <span className="  text-white">장바구니</span>
                 </button>
-                <Link
-                    href={{
-                        pathname: '/order',
-                        query: {
-                            productId: productId,
-                            optionId: productOptionId,
-                            count: count,
-                        },
-                    }}
-                    className="flex justify-center items-center bg-red-500 flex-grow h-12"
-                >
-                    <span className="  text-white">바로구매</span>
-                </Link>
+                <button onClick={handleOrder}>
+                    <Link href={'/order'} className="flex justify-center items-center bg-red-500 flex-grow h-12">
+                        <span className="  text-white">바로구매</span>
+                    </Link>
+                </button>
             </div>
         </>
     )
