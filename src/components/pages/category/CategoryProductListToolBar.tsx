@@ -1,28 +1,62 @@
-// import HeartIcon from '@/images/svgs/HeartIcon';
-// import LargeArrowIcon from '@/images/svgs/LargeArrowIcon';
-// import ShareIcon from '@/images/svgs/ShareIcon';
-// import SmallArrowIcon from '@/images/svgs/SmallArrowIcon';
-// import TriangleIcon from '@/images/svgs/TriangleIcon';
-// 아이콘 각 팀에서 쓰시는 걸로 수정하시고 필요할 것 같은거 있으면 불러주세여ㅕ
-
+'use client'
+import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-// import CategoryListModal from '@/components/modal/CategoryListModal';
+import React, { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
+import CategoryListModal from '@/components/pages/category/CategoryListModal'
+
+interface categoryMiddle {
+    middleId: number
+    middleName: string
+}
+interface category {
+    largeId: number
+    largeName: string
+}
 export default function CategoryProductListToolBar() {
     // 카테고리 리스트 모달 상태 관리용 useState 선언
     const [isOpenModal, setIsOpenModal] = useState(false)
+    const [category, setCategory] = useState<categoryMiddle[]>([] as categoryMiddle[])
+    const [Lcategory, setLCategory] = useState<category>({} as category)
 
     // 뒤로가기 버튼 클릭용 useRouter 선언
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const largeId = searchParams.get('largeId')
+    const middleId = searchParams.get('middleId')
+    // console.log(largeId, middleId)
+    useEffect(() => {
+        const getCategory1 = async () => {
+            const data1 = await fetch(`https://tyrannoback.com/api/v1/category/`)
+            if (data1) {
+                const response = await data1.json()
+                setLCategory(response[parseInt(`${largeId}`) - 1])
+            }
+        }
+        getCategory1()
+    }, [])
+    // console.log(Lcategory)
+
+    useEffect(() => {
+        const getCategory = async () => {
+            const data = await fetch(`https://tyrannoback.com/api/v1/category/middle/${largeId}`)
+            if (data) {
+                const response = await data.json()
+                setCategory(response)
+            }
+        }
+        getCategory()
+    }, [largeId])
+
+    // console.log(category)
 
     return (
         <div className="flex flex-row w-full h-[46px] bg-white items-center pl-3 pr-3 sticky top-0 z-10">
             <div className="items-center h-full">
                 <Link
                     href="#"
-                    className="h-full flex flex-wrap justify-center items-center"
+                    className="h-full flex flex-wrap justify-center items-center  "
                     onClick={(e) => {
                         e.preventDefault()
                         router.back()
@@ -31,41 +65,59 @@ export default function CategoryProductListToolBar() {
                     <span className="w-[1px] h-[1px] -mx-[1px] -my-[1px] p-0 overflow-hidden text-nowrap absolute">
                         이전 페이지
                     </span>
-                    <div className="w-6 h-6 inline-block flex-shrink-0 align-middle">{/* <LargeArrowIcon /> */}</div>
+                    <div className=" relative  w-6  h-7">
+                        <Image src="https://img.icons8.com/ios/50/left--v1.png" alt="뒤로가기" fill />
+                    </div>
                 </Link>
             </div>
-            <div className="pl-5 pr-3 items-center flex">
+            <div className="pl-5 pr-3 items-center flex ">
                 <div className="inline-flex flex-wrap content-center">
-                    <p className="text-gray-600 text-sm text-ellipsis">대/중/소분류</p>
+                    <p className="text-gray-600 text-sm text-ellipsis">{Lcategory.largeName}</p>
                 </div>
-                <div className="w-3 h-3 inline-block flex-shrink-0 align-middle mx-1">{/* <SmallArrowIcon /> */}</div>
+                <div className="w-4 h-4 relative  ">
+                    <Image
+                        src="https://img.icons8.com/sf-ultralight/25/000000/back.png"
+                        alt="back"
+                        style={{ transform: 'rotate(180deg)' }}
+                        fill
+                    />
+                </div>
                 <button
                     onClick={() => setIsOpenModal(!isOpenModal)}
                     className="inline-flex h-8 justify-center items-center"
                 >
-                    <p className="text-sm font-bold overflow-hidden text-ellipsis">
-                        중/소/세부분류
-                        <span className="w-[1px] h-[1px] overflow-hidden text-nowrap absolute p-0 -ms-[1px] -me-[1px]">
-                            열기
-                        </span>
-                    </p>
-                    <div className={`w-4 h-4 inline-block ${isOpenModal ? 'rotate-180' : ''}`}>
-                        {/* <TriangleIcon /> */}
+                    {category &&
+                        category.map((opt: categoryMiddle, index) => (
+                            <div key={index} className="text-sm font-bold overflow-hidden text-ellipsis">
+                                {opt.middleId === parseInt(`${middleId}`) && <div>{opt.middleName}</div>}
+                            </div>
+                        ))}
+
+                    <div className={` relative w-3 h-3 inline-block ml-1 ${isOpenModal ? 'rotate-180' : ''}`}>
+                        <Image src="https://img.icons8.com/material-sharp/24/give-way--v2.png" alt="더보기" fill />
                     </div>
                 </button>
             </div>
             <div className="flex-grow flex-shrink basis-0 justify-stretch self-stretch"></div>
             <div className="w-8 h-8 flex justify-center items-center flex-grow-0 flex-shrink-0 basis-auto">
                 <button className="flex justify-center items-center">
-                    <div className="w-6 h-6 inline-block flex-shrink-0 align-middle">{/* <HeartIcon /> */}</div>
+                    <div className=" relative w-6 h-6 inline-block flex-shrink-0 align-middle">
+                        <Image src="https://img.icons8.com/windows/32/like--v1.png" alt="좋아요" fill />
+                    </div>
                 </button>
             </div>
             <div className="w-8 h-8 flex justify-center items-center flex-grow-0 flex-shrink-0 basis-auto">
                 <button className="flex">
-                    <div className="w-6 h-6 inline-block flex-shrink-0 align-middle">{/* <ShareIcon /> */}</div>
+                    <div className="  relative w-6 h-6 inline-block flex-shrink-0 align-middle">
+                        <Image
+                            src="https://img.icons8.com/fluency-systems-regular/48/share--v1.png"
+                            alt="공유하기"
+                            fill
+                        />
+                    </div>
                 </button>
             </div>
-            {/* {isOpenModal && <CategoryListModal />} */}
+            {isOpenModal && <CategoryListModal />}
         </div>
     )
 }

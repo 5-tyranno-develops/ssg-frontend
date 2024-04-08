@@ -15,7 +15,7 @@ async function GetProductData(productId: string) {
     if (!response.isSuccess) {
         console.log('서버 오류')
     }
-
+    
     return response.result
 }
 
