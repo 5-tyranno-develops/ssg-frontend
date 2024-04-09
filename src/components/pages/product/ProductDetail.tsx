@@ -33,7 +33,7 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                         <div>
                             <div className="mt-4">
                                 <del className="line-through text-bases text-gray-500">
-                                    <p>{data.price}원</p>
+                                    <p>{data.price.toLocaleString()}원</p>
                                 </del>
                             </div>
                             <div className="flex space-x-2 text-2xl font-bold">
@@ -41,17 +41,11 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                                     <span className=" text-red-600 ">{data.discount}%</span>
                                 </div>
                                 <div>
-                                    <span>{data.price * (1 - data.discount / 100)}원</span>
+                                    <span>{(data.price * (1 - data.discount / 100)).toLocaleString()}원</span>
                                 </div>
                             </div>
                         </div>
                         <div className="mt-5">
-                            {/* <div>
-                                <dl className="flex justify-between text-sm mb-5">
-                                    <dt className="text-gray-500  min-w-20">카드혜택가</dt>
-                                    <dd className=" w-10/12 font-semibold">288,800원~</dd>
-                                </dl>
-                            </div> */}
                             <div>
                                 <dl className="flex justify-between text-sm mb-5">
                                     <dt className="text-gray-500 min-w-20">무이자 할부</dt>

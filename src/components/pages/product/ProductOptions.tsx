@@ -147,7 +147,7 @@ export default function ProductOptions({
 
                     {selectedOptionList.length > 0 &&
                         selectedOptionList.map((item: LastOptionListType, idx: number) => (
-                            <div key={idx}>
+                            <div key={idx} className="p-3">
                                 <ProductSelect item={item} />
                             </div>
                         ))}
@@ -236,7 +236,7 @@ const OptionSelecter = ({
 
     return (
         <>
-            <div className="px-2 py-1">
+            <div className="px-3 py-1">
                 <div
                     className={`${
                         item.isChecked ? '' : 'opacity-30 cursor-not-allowed'

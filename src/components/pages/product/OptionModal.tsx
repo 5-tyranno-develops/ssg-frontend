@@ -110,7 +110,7 @@ export default function OptionModal({
             <div
                 className={`${
                     showModal ? 'bottom-10 ease-in-out ' : '-bottom-[400px] easy-out-in'
-                } fixed transition-all delay-150 z-[13] w-full `}
+                } fixed transition-all delay-150 z-[13] w-full  `}
             >
                 <div
                     className=" bg-white  p-4 rounded-t-xl min-h-[300px]"
