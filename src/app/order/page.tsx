@@ -1,6 +1,3 @@
-'use client'
-import { useEffect, useState } from 'react'
-import { GetOptionDataAPI } from '@/actions/option'
 import HeaderToBack from '@/components/ui/HeaderToBack'
 import DeliveryAddress from '@/components/pages/order/DeliveryAddress'
 import DeliveryRequest from '@/components/pages/order/DeliveryRequest'

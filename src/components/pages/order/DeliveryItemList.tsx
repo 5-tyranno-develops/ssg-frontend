@@ -7,7 +7,7 @@ import Buttons from '@/components/ui/buttons'
 import { CartItemsAtom } from '@/state/CartCheckedListAtom'
 import Link from 'next/link'
 import { useRecoilValue } from 'recoil'
-import { getItemsOrderAPI } from '@/actions/order'
+import { getItemsOrderAPI, getOptionListAPI } from '@/actions/order'
 
 export interface OptionType {
     color: string | null
@@ -16,38 +16,16 @@ export interface OptionType {
 }
 
 export default function DeliveryItemList() {
-    const searchParams = useSearchParams()
-
-    const optionId = searchParams.get('optionId')
-    // console.log(optionId)
-
-
-    const [option, setOption] = useState<OptionType>({} as OptionType)
-
-    useEffect(() => {
-        const GetOptionName = async () => {
-            const data = await fetch(`https://tyrannoback.com/api/v1/option/names/${optionId}`, {
-                cache: 'force-cache',
-            })
-
-            if (data) {
-                const response = await data.json()
-                const optionList: OptionType = response.result
-                setOption(optionList)
-            }
-        }
-        GetOptionName()
-    }, [optionId])
-    // console.log(option)
-    
     const data = useRecoilValue(CartItemsAtom)
     const [productData, setProductData] = useState([]) as any[]
     let total = 0
     const fetchOptions = async () => {
         const productLists = []
+
         for (const item of data) {
             const product = await getItemsOrderAPI(item.productId)
-            productLists.push({ ...product, ...item })
+            const option = await getOptionListAPI(item.optionId)
+            productLists.push({ ...product, ...item, ...option })
         }
         setProductData(productLists)
     }
@@ -85,20 +63,19 @@ export default function DeliveryItemList() {
                                 <span className="font-extrabold mr-2">{product.vendorName}</span>
                                 <span>{product.productName}</span>
                             </div>
-                            {option && (
-                                <div className="flex">
-                                    {option.color !== null ||
-                                    option.size !== null ||
-                                    option.additional_option !== null ? (
-                                        <div className="flex">
-                                            옵션:
-                                            {option.color && <p>{option.color}</p>}
-                                            {option.size && <p>{option.size}</p>}
-                                            {option.additional_option && <p>{option.additional_option}</p>}
-                                        </div>
-                                    ) : null}
-                                </div>
-                            )}
+
+                            <div className="flex">
+                                {product.color !== null ||
+                                product.size !== null ||
+                                product.additional_product !== null ? (
+                                    <div className="flex">
+                                        옵션:
+                                        {product.color && <p>{product.color}</p>}
+                                        {product.size && <p>{product.size}</p>}
+                                        {product.additional_product && <p>{product.additional_option}</p>}
+                                    </div>
+                                ) : null}
+                            </div>
 
                             <div className="flex justify-between">
                                 <div>
@@ -115,11 +92,11 @@ export default function DeliveryItemList() {
                 </div>
             ))}
             <Link href={'/order/complete'}>
-                <div className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
+                <button className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
                     <span className="text-white font-normal">
                         <span className="font-bold">{(total + 3000).toLocaleString()}원</span> 결제하기
                     </span>
-                </div>
+                </button>
             </Link>
         </>
     )

@@ -10,4 +10,8 @@ async function getDeliveryAddressAPI() {
     return response.result
 }
 
-export { getItemsOrderAPI, getDeliveryAddressAPI }
+async function getOptionListAPI(optionId: number) {
+    const response = await GetAPI(`/api/v1/option/names/${optionId}`, undefined, await token)
+    return response.result
+}
+export { getItemsOrderAPI, getDeliveryAddressAPI, getOptionListAPI }
