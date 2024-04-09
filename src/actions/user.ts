@@ -28,4 +28,8 @@ async function checkAuthCodeAPI(verifyCode: authCode) {
     const response = await PostAPI('/api/v1/auth/sms/verify', verifyCode)
     return response
 }
-export { signupAPI, validLoginId, findIdAPI, changePasswordAPI, sendTextAPI, checkAuthCodeAPI }
+async function checkUserAPI(phoneNumber: string) {
+    const response = await PostAPI('/api/v1/auth/check', { phoneNumber: phoneNumber })
+    return response
+}
+export { signupAPI, validLoginId, findIdAPI, changePasswordAPI, sendTextAPI, checkAuthCodeAPI, checkUserAPI }

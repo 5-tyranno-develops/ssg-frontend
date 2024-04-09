@@ -1,14 +1,8 @@
 import FooterImage from '@/images/FooterImage.png'
-import Link from 'next/link'
 import Image from 'next/image'
+import FooterButtons from './FotterButtons'
 
 function Footer() {
-    const urlData = [
-        { id: 1, name: '홈', url: '/' },
-        { id: 2, name: '로그인', url: '/user/login' },
-        { id: 3, name: '회원가입', url: '/user/signupintro' },
-        { id: 4, name: '앱 다운로드', url: 'https://m.ssg.com/comm/app/appLink.ssg?mobilAppSvcNo=3' },
-    ]
     return (
         <>
             <footer className="">
@@ -39,21 +33,7 @@ function Footer() {
                         </div>
                     </div>
                 </div>
-                <div className="px-4 " style={{ backgroundColor: '#dbdbe0' }}>
-                    <ul className="table table-fixed w-full ">
-                        {urlData.map((data) => (
-                            <li key={data.id} className="table-cell relative ">
-                                <Link
-                                    href={data.url}
-                                    className="block relative mx-3 my-2 text-xs"
-                                    style={{ fontSize: '13px', color: '#565656', textAlign: 'center' }}
-                                >
-                                    {data.name}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                <FooterButtons />
                 <div className="px-5">
                     <div className="mt-2">
                         <span style={{ fontSize: '11px', color: '#414141' }}>(주)에스에스지닷컴</span>

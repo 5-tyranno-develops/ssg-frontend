@@ -10,7 +10,7 @@ function Mypage() {
         <main>
             <Profile />
             <MyPoint />
-            <MyPageBanner />  
+            <MyPageBanner />
             <Order />
             <Menu />
             <div className=" bg-gray-100 h-2 mb-2 mt-4"></div>
