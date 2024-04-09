@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { CartItemsAtom, CartMoneyAtom } from '@/state/CartCheckedListAtom'
+import { CartItemsAtom } from '@/state/CartCheckedListAtom'
 import { useRecoilValue, useResetRecoilState } from 'recoil'
 import { getDeliveryAddressAPI, getItemsOrderAPI, getOptionListAPI, orderComplete } from '@/actions/order'
 import { OrderAddressDataType } from '@/types/AddressDataType'
@@ -46,7 +46,9 @@ export default function DeliveryItemList() {
         total += remoney
         return remoney
     }
+
     const handleSubmit = async () => {
+        console.log('fdnjskafbadshfuidwhfiu')
         const orderOption = []
         for (const items of productData) {
             orderOption.push({
@@ -73,7 +75,6 @@ export default function DeliveryItemList() {
         router.push('/order/complete')
     }
     const resetCart = useResetRecoilState(CartItemsAtom)
-    const resetMoney = useResetRecoilState(CartMoneyAtom)
 
     return (
         <>
@@ -132,9 +133,8 @@ export default function DeliveryItemList() {
             <button
                 className="bg-[#ff5452] w-full p-4 sticky right-0 left-0 bottom-0 z-10 text-center"
                 onClick={() => {
-                    handleSubmit
+                    handleSubmit()
                     resetCart()
-                    resetMoney()
                 }}
             >
                 <span className="text-white font-normal">
