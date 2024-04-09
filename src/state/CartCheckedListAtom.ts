@@ -1,4 +1,4 @@
-import { cartToOrderDataType } from '@/types/CartDataType'
+import { cartMoneyDataType, cartToOrderDataType } from '@/types/CartDataType'
 import { atom } from 'recoil'
 import { recoilPersist } from 'recoil-persist'
 
@@ -18,7 +18,7 @@ export const CartItemsAtom = atom({
 
 export const CartMoneyAtom = atom({
     key: 'CartMoneyAtom',
-    default: [],
+    default: [] as cartMoneyDataType[],
     effects_UNSTABLE: [persistAtom],
 })
 export const ProductItemsAtom = atom({
