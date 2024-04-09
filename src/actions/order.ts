@@ -1,4 +1,5 @@
-import { GetAPI } from './FetchAPI'
+import { OrderFormDataType } from '@/types/OrderDataTypte'
+import { GetAPI, PostAPI } from './FetchAPI'
 import { GetToken } from './GetToken'
 const token = GetToken()
 async function getItemsOrderAPI(productId: number) {
@@ -14,4 +15,8 @@ async function getOptionListAPI(optionId: number) {
     const response = await GetAPI(`/api/v1/option/names/${optionId}`, undefined, await token)
     return response.result
 }
-export { getItemsOrderAPI, getDeliveryAddressAPI, getOptionListAPI }
+async function orderComplete(data: OrderFormDataType) {
+    const response = await PostAPI('/api/v1/order', data, await token)
+    return response.result
+}
+export { getItemsOrderAPI, getDeliveryAddressAPI, getOptionListAPI, orderComplete }

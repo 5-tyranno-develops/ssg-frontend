@@ -1,13 +1,14 @@
 'use client'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { GetOptionNameAPI } from '@/actions/option'
-import { useSearchParams } from 'next/navigation'
-import Buttons from '@/components/ui/buttons'
-import { CartItemsAtom } from '@/state/CartCheckedListAtom'
-import Link from 'next/link'
-import { useRecoilValue } from 'recoil'
-import { getItemsOrderAPI, getOptionListAPI } from '@/actions/order'
+import { CartItemsAtom, CartMoneyAtom } from '@/state/CartCheckedListAtom'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
+import { getDeliveryAddressAPI, getItemsOrderAPI, getOptionListAPI, orderComplete } from '@/actions/order'
+import { OrderAddressDataType } from '@/types/AddressDataType'
+import { OrderFormDataType } from '@/types/OrderDataTypte'
+import { MyInfo } from '@/types/MyInfoDataType'
+import { getMyInfo } from '@/actions/mypage'
+import { useRouter } from 'next/navigation'
 
 export interface OptionType {
     color: string | null
@@ -18,6 +19,9 @@ export interface OptionType {
 export default function DeliveryItemList() {
     const data = useRecoilValue(CartItemsAtom)
     const [productData, setProductData] = useState([]) as any[]
+    const [deliveryAddress, setDeliveryAddress] = useState<OrderAddressDataType>()
+    const [MyInfo, setMyInfo] = useState<MyInfo>()
+    const router = useRouter()
     let total = 0
     const fetchOptions = async () => {
         const productLists = []
@@ -28,6 +32,10 @@ export default function DeliveryItemList() {
             productLists.push({ ...product, ...item, ...option })
         }
         setProductData(productLists)
+        const res = await getDeliveryAddressAPI()
+        setDeliveryAddress(res)
+        const myinfos = await getMyInfo()
+        setMyInfo(myinfos as MyInfo)
     }
     useEffect(() => {
         fetchOptions()
@@ -38,6 +46,35 @@ export default function DeliveryItemList() {
         total += remoney
         return remoney
     }
+    const handleSubmit = async () => {
+        const orderOption = []
+        for (const items of productData) {
+            orderOption.push({
+                optionId: items.optionId,
+                count: items.count,
+                money: items.money,
+            })
+        }
+        const data: OrderFormDataType = {
+            optionIdList: orderOption,
+            deliveryRequest: 'dflkfld',
+            deliveryBase: deliveryAddress?.deliveryBase || '',
+            deliveryDetail: deliveryAddress?.deliveryDetail || '',
+            zipCode: deliveryAddress?.zipCode || 0,
+            receiverName: deliveryAddress?.receiverName || '',
+            receiverPhoneNumber: deliveryAddress?.phoneNumber || '',
+            orderName: MyInfo?.name || '',
+            orderPhoneNumber: MyInfo?.phoneNumber || '',
+            orderEmail: MyInfo?.email || '',
+            totalMoney: total + 3000,
+        }
+        const res = await orderComplete(data)
+        console.log(res)
+        router.push('/order/complete')
+    }
+    const resetCart = useResetRecoilState(CartItemsAtom)
+    const resetMoney = useResetRecoilState(CartMoneyAtom)
+
     return (
         <>
             {productData.map((product: any, index: number) => (
@@ -91,13 +128,19 @@ export default function DeliveryItemList() {
                     <hr />
                 </div>
             ))}
-            <Link href={'/order/complete'}>
-                <button className="bg-[#ff5452] p-4 sticky right-0 left-0 bottom-0 z-10 text-center">
-                    <span className="text-white font-normal">
-                        <span className="font-bold">{(total + 3000).toLocaleString()}원</span> 결제하기
-                    </span>
-                </button>
-            </Link>
+
+            <button
+                className="bg-[#ff5452] w-full p-4 sticky right-0 left-0 bottom-0 z-10 text-center"
+                onClick={() => {
+                    handleSubmit
+                    resetCart()
+                    resetMoney()
+                }}
+            >
+                <span className="text-white font-normal">
+                    <span className="font-bold">{(total + 3000).toLocaleString()}원</span> 결제하기
+                </span>
+            </button>
         </>
     )
 }
