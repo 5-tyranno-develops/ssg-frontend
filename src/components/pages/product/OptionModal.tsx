@@ -113,7 +113,7 @@ export default function OptionModal({
                 } fixed transition-all delay-150 z-[13] w-full  `}
             >
                 <div
-                    className=" bg-white  p-4 rounded-t-xl min-h-[300px]"
+                    className=" bg-white  p-4 rounded-t-xl min-h-[400px]"
                     style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
                 >
                     <p className=" w-full h-5  flex items-center justify-center mb-3 " onClick={handleModal}>

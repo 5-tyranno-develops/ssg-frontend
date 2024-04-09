@@ -3,6 +3,7 @@ import ProductDetail from '@/components/pages/product/ProductDetail'
 import { ProductDataType } from '@/types/ProductDetailDataType'
 import { GetProductDataAPI } from '@/actions/product'
 import ProductFooter from '@/components/ui/ProductFooter'
+import ProductReview from '@/components/pages/review/ProductReview'
 
 async function GetProductData(productId: string) {
     const response = await GetProductDataAPI(productId)
@@ -22,6 +23,7 @@ export default async function Page({ params }: { params: { productId: string } }
             <Thumbnail data={data.imageUrl} />
             <ProductDetail data={data} />
             <ProductFooter data={data} />
+            <ProductReview />
         </main>
     )
 }

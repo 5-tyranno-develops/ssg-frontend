@@ -40,11 +40,12 @@ export default function Review() {
             </div>
             <div className="w-full h-full relative">
                 <Swiper
-                    slidesPerView={1.03}
-                    pagination={{
-                        type: 'fraction',
-                    }}
-                    navigation={true}
+                    // slidesPerView={1.03}
+                    slidesPerView={1}
+                    // pagination={{
+                    //     type: 'fraction',
+                    // }}
+                    // navigation={true}
                     modules={[Pagination, Navigation]}
                     className="mySwiper"
                 >
@@ -52,7 +53,7 @@ export default function Review() {
                         <SwiperSlide key={index} className="flex justify-center items-center">
                             <Link
                                 href="#"
-                                className="relative block w-[88vw] h-[88vw] bg-lime-400 rounded-lg overflow-hidden text-white font-sans text-9xl object-cover"
+                                className="relative block w-[20vw] h-[20vw] bg-lime-400 rounded-lg overflow-hidden text-white font-sans text-9xl object-cover"
                             >
                                 {index}
                             </Link>

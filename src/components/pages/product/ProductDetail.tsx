@@ -1,7 +1,5 @@
 'use client'
 import React, { useState } from 'react'
-
-import ShareIcon from '@/images/ShareSvg'
 import Image from 'next/image'
 import DetailIcon from '@/images/DetailIcon.png'
 import { ProductDataType } from '@/types/ProductDetailDataType'
@@ -22,8 +20,14 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                             <p>신세계백화점</p>
                         </span>
 
-                        <button type="button" className=" mr-3 mb-1">
-                            <ShareIcon />
+                        <button className="flex">
+                            <div className="  relative w-6 h-6 inline-block flex-shrink-0 align-middle mr-3">
+                                <Image
+                                    src="https://img.icons8.com/fluency-systems-regular/48/share--v1.png"
+                                    alt="공유하기"
+                                    fill
+                                />
+                            </div>
                         </button>
                     </div>
                     <div className="m-4 ">
@@ -91,16 +95,23 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                     <div className=" bg-gray-100 h-4 mb-5 "></div>
 
                     {!expanded && (
-                        <div className="flex items-center justify-center h-52">
-                            <button
-                                type="button"
-                                onClick={toggleExpand}
-                                className="w-full h-32 bg-white text-base text-center flex justify-center items-center"
-                                style={{ boxShadow: '0px -50px 30px rgba(255,255,255,0.7)' }}
+                        <div className=" ">
+                            <div className="flex  justify-center ">
+                                <Image src={data.imageUrl[0]} alt="상품미리보기" width={700} height={500} />
+                            </div>
+                            <div
+                                className="mt-4 border-t-2 -3xl"
+                                style={{ boxShadow: '0px -8px 10px 0px rgba(0, 0, 0, 0.1)' }}
                             >
-                                상세정보 펼쳐보기
-                                <Image src={DetailIcon} alt="더보기" className="  w-6 h-8" />
-                            </button>
+                                <button
+                                    type="button"
+                                    onClick={toggleExpand}
+                                    className="w-full h-12 bg-white text-base text-center flex justify-center items-center"
+                                >
+                                    상세정보 펼쳐보기
+                                    <Image src={DetailIcon} alt="더보기" className="  w-6 h-8" />
+                                </button>
+                            </div>
                         </div>
                     )}
                     {expanded && (

@@ -44,6 +44,7 @@ export default function ProductOptions({
     const [selectedOptionId, setSelectedOptionId] = useState<number>(0)
     const [selectedOptionList, setSelectedOptionList] = useRecoilState(SelectedOptionItemListAtom)
     const [count, setCount] = useState(1)
+
     useEffect(() => {
         const getOptionData = async () => {
             const data = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, {
@@ -73,6 +74,7 @@ export default function ProductOptions({
             if (res) {
                 const data = await res.json()
                 // console.log(data)
+
                 if (data.isSuccess) {
                     setSelectedOptionList([
                         ...selectedOptionList,
@@ -94,7 +96,7 @@ export default function ProductOptions({
         getOptionDataByOptionId()
     }, [selectedOptionId])
     // console.log(selectedOptionList)
-
+    // console.log(newOptionList.length)
     // console.log(productId, '상품아이디')
 
     const handleModal = () => {
@@ -104,8 +106,13 @@ export default function ProductOptions({
     const totalCount = selectedOptionList.reduce((sum: number, item: LastOptionListType) => {
         return sum + item.qty
     }, 0)
-
     // console.log(totalCount)
+    const handleCountChange = (newCount: number) => {
+        if (newCount >= 1) {
+            setCount(newCount)
+        }
+    }
+
     // console.log(selectedOptionId)
     return (
         <>
@@ -118,7 +125,7 @@ export default function ProductOptions({
                     className=" bg-white  rounded-t-xl min-h-[200px]"
                     style={{ boxShadow: '0px -4px 10px 0px rgba(0, 0, 0, 0.1)' }}
                 >
-                    <p className=" w-full h-5 p-4 flex items-center justify-center mb-2 " onClick={handleModal}>
+                    <div className=" w-full h-5 p-4 flex items-center justify-center mb-2 " onClick={handleModal}>
                         <Image
                             width={20}
                             height={20}
@@ -126,7 +133,7 @@ export default function ProductOptions({
                             alt="back"
                             style={{ transform: 'rotate(270deg)' }}
                         />
-                    </p>
+                    </div>
 
                     {newOptionList &&
                         newOptionList.map((item: OptionListType, index) => (
@@ -151,12 +158,50 @@ export default function ProductOptions({
                                 <ProductSelect item={item} />
                             </div>
                         ))}
-
+                    {newOptionList.length === 0 && (
+                        <div className="p-3">
+                            <div className="mt-5 border py-2  w-full bg-gray-100  border-black rounded-md min-h-[90px] ">
+                                <div className="flex text-sm ml-2">{productData.productName}</div>
+                                <div className="absolute ml-2 bg-white mt-2 w-20 flex items-center justify-center h-8">
+                                    <button
+                                        className="text-4xl font-thin mb-2"
+                                        onClick={() => handleCountChange(count - 1)}
+                                    >
+                                        -
+                                    </button>
+                                    <span className="mx-3">{count}</span>
+                                    <button
+                                        className="text-4xl font-thin mb-2"
+                                        onClick={() => handleCountChange(count + 1)}
+                                    >
+                                        +
+                                    </button>
+                                </div>
+                                <div className=" absolute  right-5 text-lg font-semibold mt-5">
+                                    {(productData.price * (1 - productData.discount / 100) * count).toLocaleString()}원
+                                </div>
+                            </div>
+                        </div>
+                    )}
                     <div className="flex justify-end py-6 p-2">
                         <p className="mr-2 font-bold">총 합계</p>
-                        <p className=" text-red-500 font-bold  text-xl">
-                            {(productData.price * (1 - productData.discount / 100) * totalCount).toLocaleString()}원
-                        </p>
+
+                        <div className=" text-red-500 font-bold  text-xl">
+                            {totalCount === 0 ? (
+                                <p>
+                                    {(productData.price * (1 - productData.discount / 100) * count).toLocaleString()}원
+                                </p>
+                            ) : (
+                                <p>
+                                    {(
+                                        productData.price *
+                                        (1 - productData.discount / 100) *
+                                        totalCount
+                                    ).toLocaleString()}
+                                    원
+                                </p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
