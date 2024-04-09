@@ -1,13 +1,14 @@
 'use client'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { CartItemsAtom } from '@/state/CartCheckedListAtom'
-import { useRecoilValue } from 'recoil'
+import { CartItemsAtom, CartMoneyAtom } from '@/state/CartCheckedListAtom'
+import { useRecoilValue, useResetRecoilState } from 'recoil'
 import { getDeliveryAddressAPI, getItemsOrderAPI, getOptionListAPI, orderComplete } from '@/actions/order'
 import { OrderAddressDataType } from '@/types/AddressDataType'
 import { OrderFormDataType } from '@/types/OrderDataTypte'
 import { MyInfo } from '@/types/MyInfoDataType'
 import { getMyInfo } from '@/actions/mypage'
+import { useRouter } from 'next/navigation'
 
 export interface OptionType {
     color: string | null
@@ -20,6 +21,7 @@ export default function DeliveryItemList() {
     const [productData, setProductData] = useState([]) as any[]
     const [deliveryAddress, setDeliveryAddress] = useState<OrderAddressDataType>()
     const [MyInfo, setMyInfo] = useState<MyInfo>()
+    const router = useRouter()
     let total = 0
     const fetchOptions = async () => {
         const productLists = []
@@ -68,7 +70,10 @@ export default function DeliveryItemList() {
         }
         const res = await orderComplete(data)
         console.log(res)
+        router.push('/order/complete')
     }
+    const resetCart = useResetRecoilState(CartItemsAtom)
+    const resetMoney = useResetRecoilState(CartMoneyAtom)
 
     return (
         <>
@@ -126,7 +131,11 @@ export default function DeliveryItemList() {
 
             <button
                 className="bg-[#ff5452] w-full p-4 sticky right-0 left-0 bottom-0 z-10 text-center"
-                onClick={handleSubmit}
+                onClick={() => {
+                    handleSubmit
+                    resetCart()
+                    resetMoney()
+                }}
             >
                 <span className="text-white font-normal">
                     <span className="font-bold">{(total + 3000).toLocaleString()}원</span> 결제하기
