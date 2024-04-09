@@ -4,8 +4,9 @@ import HeartIcon from '@/images/HeartIcon.png'
 import { useState } from 'react'
 import ProductOptions from '../pages/product/ProductOptions'
 import { useParams } from 'next/navigation'
+import { ProductDataType } from '@/types/ProductDetailDataType'
 
-function ProductFooter() {
+function ProductFooter({data}:{data:ProductDataType}) {
     const params = useParams<{ productId: string }>()
     // console.log(params.productId)
     const [isModal, setIsModal] = useState<boolean>(false)
@@ -27,7 +28,7 @@ function ProductFooter() {
                 </ul>
             </div>
 
-            <ProductOptions isModal={isModal} setIsModal={setIsModal} productId={params.productId} />
+            <ProductOptions isModal={isModal} setIsModal={setIsModal} productId={params.productId} productData={data}/>
         </section>
     )
 }

@@ -2,26 +2,7 @@
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { queryKeyType } from './ProductOptions'
-
-export interface LastOptionType {
-    optionId: number
-    productName: string
-    productPrice: number
-    color: {
-        id: string
-        color: string
-    }
-    size: {
-        id: string
-        size: string
-    }
-    extra: any | null
-    etc: {
-        id: string
-        additionalOption: string
-    }
-    stock: number
-}
+import { LastOptionType } from '@/types/LastOptionType'
 
 export default function OptionModal({
     showModal,
@@ -30,6 +11,7 @@ export default function OptionModal({
     setShowModal,
     setSelectedOption,
     setSelectedOptionId,
+    selectedOptionId,
     queryUrl,
     setQueryUrl,
     last,
@@ -41,6 +23,7 @@ export default function OptionModal({
     setShowModal: React.Dispatch<React.SetStateAction<boolean>>
     setSelectedOption: React.Dispatch<React.SetStateAction<string>>
     setSelectedOptionId: React.Dispatch<React.SetStateAction<number>>
+    selectedOptionId: number
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
 }) {
@@ -120,6 +103,7 @@ export default function OptionModal({
 
         setShowModal(false)
     }
+    // console.log(selectedOptionId)
 
     return (
         <>
@@ -193,15 +177,9 @@ export default function OptionModal({
                                             : optionType === 'etc'
                                             ? opt.etc.additionalOption
                                             : '',
-                                        optionType === 'color'
-                                            ? opt.color.id
-                                            : optionType === 'size'
-                                            ? opt.size.id
-                                            : optionType === 'etc'
-                                            ? opt.etc.id
-                                            : '',
+                                        '',
                                         optionType,
-                                        opt.optionId,
+                                        parseInt(opt.optionId),
                                     )
                                 }
                             >

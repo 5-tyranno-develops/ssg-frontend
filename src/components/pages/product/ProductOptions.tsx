@@ -1,34 +1,16 @@
 'use client'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import OptionModal from './OptionModal'
-import ProductSelect from './ProductSelect'
+// import ProductSelect from './ProductSelect'
 import Link from 'next/link'
-import { useRecoilState } from 'recoil'
-import { cartMoneyDataType, cartToOrderDataType } from '@/types/CartDataType'
-import { CartItemsAtom, CartMoneyAtom, ProductItemsAtom } from '@/state/CartCheckedListAtom'
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from 'recoil'
+import { LastOptionType } from '@/types/LastOptionType'
+import { SelectedOptionItemListAtom } from '@/state/SelectedOptionListAtom'
+import { ProductDataType } from '@/types/ProductDetailDataType'
+import { LastOptionListType } from '@/types/LastOptionType'
+import ProductSelect from './ProductSelect'
 
-export interface LastOptionType {
-    productId: string
-    optionId: string
-    productName: string
-    productPrice: number
-    color: {
-        id: string
-        color: string
-    }
-    size: {
-        id: string
-        size: string
-    }
-    extra: any | null
-    etc: {
-        id: string
-        additionalOption: string
-    }
-    stock: number
-    discount: number
-}
 interface OptionListType {
     idx: number
     name: string
@@ -45,30 +27,23 @@ export default function ProductOptions({
     isModal,
     productId,
     setIsModal,
+    productData,
 }: {
     isModal: boolean
     productId: string
     setIsModal: React.Dispatch<React.SetStateAction<boolean>>
+    productData: ProductDataType
 }) {
     const [optionData, setOptionData] = useState<LastOptionType>({} as LastOptionType)
     const [newOptionList, setNewOptionList] = useState<OptionListType[]>([] as OptionListType[])
-    const [productName, setProductName] = useState<string>('')
-    const [productPrice, setProductPrice] = useState<number>(0)
-    const [productOptionId, setProductOptionId] = useState<string>('')
-    const [discount, setDiscount] = useState<number>()
     const [queryUrl, setQueryUrl] = useState<queryKeyType>({
         color: '',
         size: '',
         etc: '',
     } as queryKeyType)
+    const [selectedOptionId, setSelectedOptionId] = useState<number>(0)
+    const [selectedOptionList, setSelectedOptionList] = useRecoilState(SelectedOptionItemListAtom)
     const [count, setCount] = useState(1)
-
-    const handleCountChange = (newCount: number) => {
-        if (newCount >= 1) {
-            setCount(newCount)
-        }
-    }
-
     useEffect(() => {
         const getOptionData = async () => {
             const data = await fetch(`https://tyrannoback.com/api/v1/option/string/${productId}`, {
@@ -91,69 +66,47 @@ export default function ProductOptions({
         }
         getOptionData()
     }, [productId])
-    const url = `https://tyrannoback.com/api/v1/option/${productId}?`
-
-    const lastUrl =
-        'color' + '=' + queryUrl.color + '&' + 'size' + '=' + queryUrl.size + '&' + 'etc' + '=' + queryUrl.etc
 
     useEffect(() => {
-        const getLastData = async () => {
-            const data1 = await fetch(`${url}${lastUrl}`, {
-                cache: 'force-cache',
-            })
-            if (data1) {
-                const res = await data1.json()
-                const optionList: LastOptionType = res.result[0]
-                setOptionData(optionList)
-                const optionId: LastOptionType[] = res.result[0].optionId
-                setProductOptionId(optionId.toString())
-                // console.log(optionId, '????')
-                // const optionList = res.
-                // console.log(res.result[0][`${optionType}`], '??')
+        const getOptionDataByOptionId = async () => {
+            const res = await fetch(`https://tyrannoback.com/api/v1/option/names/${selectedOptionId}`)
+            if (res) {
+                const data = await res.json()
+                // console.log(data)
+                if (data.isSuccess) {
+                    setSelectedOptionList([
+                        ...selectedOptionList,
+                        {
+                            productId: productId,
+                            optionId: selectedOptionId,
+                            productName: productData.productName,
+                            price: productData.price,
+                            discount: productData.discount,
+                            color: data.result?.color,
+                            size: data.result?.size,
+                            etc: data.result?.additional_option,
+                            qty: count,
+                        },
+                    ])
+                }
             }
         }
-        getLastData()
-    }, [productId, url, queryUrl])
-    console.log(optionData)
+        getOptionDataByOptionId()
+    }, [selectedOptionId])
+    // console.log(selectedOptionList)
 
     // console.log(productId, '상품아이디')
-
-    //    할지말지?
-    //     for (let i = 0; i < newOptionList.length; i++) {
-    //         if (newOptionList[i].name == 'color') {
-    //             newOptionList[i].name = '색상'
-    //         }
-    //         if (newOptionList[i].name == 'size') {
-    //             newOptionList[i].name = '사이즈'
-    //         }
-    //         if (newOptionList[i].name == 'etc') {
-    //             newOptionList[i].name = '기타'
-    //         }
-    //     }
-    useEffect(() => {}, [queryUrl])
 
     const handleModal = () => {
         setIsModal(false)
     }
-    const [recoilProductItem, setRecoilProductItem] = useRecoilState<cartToOrderDataType>(ProductItemsAtom)
-    const [recoilMoney, setRecoilMoney] = useRecoilState<cartMoneyDataType>(CartMoneyAtom)
-    // console.log(optionData)
-    const handleOrder = async () => {
-        const cartToOrder = {
-            productId: parseInt(productId),
-            optionId: parseInt(optionData.optionId),
-            count: count,
-            money: optionData.productPrice,
-        }
-        const orderMoney = {
-            orderMoney: optionData.productPrice,
-            deliveryMoney: 3000,
-            discountMoney: optionData.productPrice * (1 - (optionData.discount as number) / 100) * count,
-        }
-        setRecoilProductItem(cartToOrder)
-        setRecoilMoney(orderMoney)
-    }
-    console.log(recoilProductItem)
+
+    const totalCount = selectedOptionList.reduce((sum: number, item: LastOptionListType) => {
+        return sum + item.qty
+    }, 0)
+
+    // console.log(totalCount)
+    // console.log(selectedOptionId)
     return (
         <>
             <div
@@ -185,73 +138,38 @@ export default function ProductOptions({
                                 newOptionList={newOptionList}
                                 queryUrl={queryUrl}
                                 setQueryUrl={setQueryUrl}
+                                productData={productData}
+                                selectedOptionId={selectedOptionId}
+                                setSelectedOptionId={setSelectedOptionId}
+                                selectedOptionList={selectedOptionList}
                             />
                         ))}
-                    {optionData.color === null && optionData.size === null && optionData.etc === null ? (
-                        <div className="px-2">
-                            <div className="mt-5 border py-2 w-full bg-gray-100  border-black rounded-md min-h-[90px] ">
-                                <div className="flex text-sm ml-2">{optionData.productName}</div>
-                                <div className="absolute ml-2  bg-white mt-2 w-20 flex items-center justify-center h-8">
-                                    <button
-                                        className=" text-4xl font-thin mb-2"
-                                        onClick={() => handleCountChange(count - 1)}
-                                    >
-                                        -
-                                    </button>
-                                    <span className="mx-3  ">{count}</span>
-                                    <button
-                                        className=" text-4xl font-thin mb-2"
-                                        onClick={() => handleCountChange(count + 1)}
-                                    >
-                                        +
-                                    </button>
-                                </div>
-                                <div className=" absolute  right-5 text-lg font-semibold mt-5">
-                                    {(
-                                        optionData.productPrice *
-                                        (1 - (optionData.discount as number) / 100) *
-                                        count
-                                    ).toLocaleString()}{' '}
-                                    원
-                                </div>
+
+                    {selectedOptionList.length > 0 &&
+                        selectedOptionList.map((item: LastOptionListType, idx: number) => (
+                            <div key={idx}>
+                                <ProductSelect item={item} />
                             </div>
-                            <div className="flex justify-end py-6 p-2">
-                                <p className="mr-2 font-bold">총 합계</p>
-                                <p className=" text-red-500 font-bold  text-xl">
-                                    {(
-                                        optionData.productPrice *
-                                        (1 - (optionData.discount as number) / 100) *
-                                        count
-                                    ).toLocaleString()}
-                                    원
-                                </p>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="flex justify-end py-6 p-2">
-                            <p className="mr-2 font-bold">총 합계</p>
-                            <p className=" text-red-500 font-bold  text-xl">
-                                {(
-                                    optionData.productPrice *
-                                    (1 - (optionData.discount as number) / 100) *
-                                    count
-                                ).toLocaleString()}
-                                원
-                            </p>
-                        </div>
-                    )}
+                        ))}
+
+                    <div className="flex justify-end py-6 p-2">
+                        <p className="mr-2 font-bold">총 합계</p>
+                        <p className=" text-red-500 font-bold  text-xl">
+                            {(productData.price * (1 - productData.discount / 100) * totalCount).toLocaleString()}원
+                        </p>
+                    </div>
                 </div>
             </div>
             <div
                 className={`${
                     isModal ? 'bottom-0 z-[10]' : '-bottom-[200px] delay-300 '
-                } transition-all flex items-center h-12 fixed  w-full  `}
+                } transition-all flex items-center h-12 fixed w-full`}
             >
                 <button className="flex justify-center items-center bg-black flex-grow h-12 ">
                     <span className="  text-white">장바구니</span>
                 </button>
-                <button onClick={handleOrder}>
-                    <Link href={'/order'} className="flex justify-center items-center bg-red-500 flex-grow h-12">
+                <button className="flex-grow">
+                    <Link href={'/order'} className="flex justify-center items-center bg-red-500  h-12 ">
                         <span className="  text-white">바로구매</span>
                     </Link>
                 </button>
@@ -267,6 +185,10 @@ const OptionSelecter = ({
     newOptionList,
     queryUrl,
     setQueryUrl,
+    productData,
+    selectedOptionId,
+    setSelectedOptionId,
+    selectedOptionList,
 }: {
     item: OptionListType
     productId: string
@@ -274,11 +196,23 @@ const OptionSelecter = ({
     setNewOptionList: React.Dispatch<React.SetStateAction<OptionListType[]>>
     queryUrl: queryKeyType
     setQueryUrl: React.Dispatch<React.SetStateAction<queryKeyType>>
+    productData: ProductDataType
+    selectedOptionId: number
+    setSelectedOptionId: React.Dispatch<React.SetStateAction<number>>
+    selectedOptionList: LastOptionListType[]
 }) => {
     const [selectedOption, setSelectedOption] = useState<string>(`선택하세요. (${item.name})`)
     const [showModal, setShowModal] = useState<boolean>(false)
-    const [selectedOptionId, setSelectedOptionId] = useState(Number)
+    // const [selectedOptionId, setSelectedOptionId] = useState<number>(0)
+    // const [selectedOptionList, setSelectedOptionList] = useRecoilState(SelectedOptionItemListAtom)
     // const [selectedOptionType, setSelectedOptionType] = useState<string>('')
+    const resetSelectedOptionList = useResetRecoilState(SelectedOptionItemListAtom)
+
+    useEffect(() => {
+        return () => {
+            resetSelectedOptionList()
+        }
+    }, [])
     useEffect(() => {
         setNewOptionList(
             newOptionList.map((opt: OptionListType) => {
@@ -298,6 +232,8 @@ const OptionSelecter = ({
         )
     }, [selectedOption])
 
+    // console.log(selectedOptionId)
+
     return (
         <>
             <div className="px-2 py-1">
@@ -309,16 +245,6 @@ const OptionSelecter = ({
                 >
                     <div className="ml-2 text-sm ">{selectedOption}</div>
                 </div>
-                {selectedOptionId > 0 && (
-                    <div>
-                        <ProductSelect
-                            productId={productId}
-                            queryUrl={queryUrl}
-                            setSelectedOptionId={setSelectedOptionId}
-                            selectedOptionId={selectedOptionId}
-                        />
-                    </div>
-                )}
             </div>
 
             <OptionModal
@@ -331,6 +257,7 @@ const OptionSelecter = ({
                 queryUrl={queryUrl}
                 setQueryUrl={setQueryUrl}
                 setSelectedOptionId={setSelectedOptionId}
+                selectedOptionId={selectedOptionId}
             />
         </>
     )

@@ -27,17 +27,19 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                         </button>
                     </div>
                     <div className="m-4 ">
-                        {/* <div className="mt-2 mb-1"> {data.vendor.length > 0 && data.vendor[0].vendorName}</div> */}
+                        {/* <div className="mt-2 mb-1 font-bold"> {data.vendor && data.vendor[0].vendorName}</div> */}
                         <span className=" text-base ">{data.productName}</span>
 
                         <div>
                             <div className="mt-4">
                                 <del className="line-through text-bases text-gray-500">
-                                    {/* <p>{data.price}원</p> */}
+                                    <p>{data.price}원</p>
                                 </del>
                             </div>
                             <div className="flex space-x-2 text-2xl font-bold">
-                                <div>{/* <span className=" text-red-600 ">{data.discount}%</span> */}</div>
+                                <div>
+                                    <span className=" text-red-600 ">{data.discount}%</span>
+                                </div>
                                 <div>
                                     <span>{data.price * (1 - data.discount / 100)}원</span>
                                 </div>
@@ -95,7 +97,7 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                     <div className=" bg-gray-100 h-4 mb-5 "></div>
 
                     {!expanded && (
-                        <div className="flex items-center justify-center ">
+                        <div className="flex items-center justify-center h-52">
                             <button
                                 type="button"
                                 onClick={toggleExpand}
