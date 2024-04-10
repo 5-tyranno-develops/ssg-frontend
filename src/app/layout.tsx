@@ -6,6 +6,7 @@ import { RecoilRoot } from 'recoil'
 import RecoilProvider from '@/providers/RecoilProvider'
 
 import AuthProvider from '@/providers/AuthProvider'
+import KakaoScript from '@/providers/KakaoScript'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -15,6 +16,11 @@ export const metadata: Metadata = {
         icon: '/favicon.ico',
     },
 }
+declare global {
+    interface Window {
+      Kakao: any;
+    }
+  }
 
 export default function RootLayout({
     children,
@@ -29,6 +35,7 @@ export default function RootLayout({
                         {children} <Footer />
                     </RecoilProvider>
                 </body>
+                <KakaoScript/>
             </html>
         </AuthProvider>
     )

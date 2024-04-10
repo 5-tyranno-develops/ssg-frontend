@@ -8,6 +8,6 @@ export interface ProductDataType {
         vendorName: string
         vendorImageUrl: string | null
         vendorId: number
-    }[]
+    }
     discount: number
 }
