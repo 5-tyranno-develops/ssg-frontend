@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import { Pagination } from 'swiper/modules'
 
 function Thumbnail({ data }: { data: string[] }) {
+   
     return (
         <div className="relative">
             {data && (

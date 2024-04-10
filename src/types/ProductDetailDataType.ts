@@ -4,10 +4,10 @@ export interface ProductDataType {
     price: number
     detailContent: string
     imageUrl: string[]
-    vendor: [{
+    vendor: {
         vendorName: string
         vendorImageUrl: string
         vendorId: number
-    }]
+    }
     discount: number
 }

@@ -210,8 +210,13 @@ export default function ProductOptions({
                     isModal ? 'bottom-0 z-[10]' : '-bottom-[200px] delay-300 '
                 } transition-all flex items-center h-12 fixed w-full`}
             >
-                <button className="flex justify-center items-center bg-black flex-grow h-12 ">
-                    <span className="  text-white">장바구니</span>
+                <button
+                    onClick={selectedOptionList}
+                    className="flex justify-center items-center bg-black flex-grow h-12 "
+                >
+                    <Link href={'/cart'}>
+                        <span className="  text-white">장바구니</span>
+                    </Link>
                 </button>
                 <button className="flex-grow">
                     <Link href={'/order'} className="flex justify-center items-center bg-red-500  h-12 ">

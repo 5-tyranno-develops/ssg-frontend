@@ -31,7 +31,7 @@ function ProductInformation({ data }: { data: ProductDataType }) {
                         </button>
                     </div>
                     <div className="m-4 ">
-                        <div className="mt-2 mb-1 font-bold"> {data.vendor && data.vendor[0].vendorName}</div>
+                        <div className="mt-2 mb-1 font-bold"> {data.vendor && data.vendor.vendorName}</div>
                         <span className=" text-base ">{data.productName}</span>
 
                         <div>
