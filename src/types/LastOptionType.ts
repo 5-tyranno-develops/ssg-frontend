@@ -21,13 +21,13 @@ export interface LastOptionType {
 }
 
 export interface LastOptionListType {
-    [x: string]: any
-    optionId: string,
-    productName: string,
-    price: number,
-    discount : number
-    color: string | null,
-    size: string | null,
-    etc: string | null,
-    qty: number,
+    productId : string
+    optionId: string
+    productName: string
+    price: number
+    discount: number
+    color: string | null
+    size: string | null
+    etc: string | null
+    qty: number
 }

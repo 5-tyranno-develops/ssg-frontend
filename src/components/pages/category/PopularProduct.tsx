@@ -3,10 +3,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 
 async function getProductData(productId: string) {
-    const data = await fetch(`https://tyrannoback.com/api/v1/product/productInformation/${productId}`)
+    const data = await fetch(`https://tyrannoback.com/api/v1/product/productInformation/${productId}`, {
+        cache: 'force-cache',
+    })
     if (data) {
         const response = await data.json()
-        // console.log(response)
+        // console.log(response.result)
         return response.result
     }
 }
