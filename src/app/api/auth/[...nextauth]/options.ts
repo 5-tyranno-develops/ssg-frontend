@@ -50,10 +50,7 @@ export const options: NextAuthOptions = {
         async signIn({ user, profile }): Promise<any> {
             if (profile) {
                 console.log('fdjso;afio;djfoasjkfsldjfjdsfldsnfsdkl')
-                // console.log(profile)
-                // 회원인지 아닌지 확인
-                // console.log(`${process.env.API_BASE_URL}/api/v1/auth/oauth/check`)
-                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/oauth/check`, {
+                const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/auth/oauth/login`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -66,6 +63,7 @@ export const options: NextAuthOptions = {
                 })
                 if (res.ok) {
                     const user = await res.json()
+                    console.log('user', user)
                     if (user.result.code === 3) {
                         return '/signupintro/auth'
                     }
