@@ -4,7 +4,8 @@ import ProductDetail from '@/components/pages/product/ProductDetail'
 import { ProductDataType } from '@/types/ProductDetailDataType'
 import ProductFooter from '@/components/ui/ProductFooter'
 import ProductReview from '@/components/pages/review/ProductReview'
-import { GetProductDataAPI } from '@/actions/product'
+import { GetProductDataAPI, recentProductAPI } from '@/actions/product'
+import { useEffect } from 'react'
 
 async function GetProductData(productId: string) {
     const response = await GetProductDataAPI(productId)
@@ -23,9 +24,15 @@ async function GetProductData(productId: string) {
 
 //     return response.result
 // }
+async function fetchRecentProduct(productId: string) {
+    const response = await recentProductAPI(productId)
+    console.log(response)
+    return response
+}
 export default async function Page({ params }: { params: { productId: string } }) {
     const productId: string = params.productId
     const data: ProductDataType = await GetProductData(productId)
+    await fetchRecentProduct(productId)
 
     return (
         <main>

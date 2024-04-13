@@ -51,10 +51,10 @@ async function getLikeAPI(productId: string) {
     return response
 }
 
-// async function recentProductAPI(productId: string) {
-//     const response = await PostAPI(`/api/v1/recent/${productId}`, undefined, await token)
+async function recentProductAPI(productId: string) {
+    const response = await PostAPI('/api/v1/recent/add', { productId: productId }, await token)
 
-//     return response
-// }
+    return response
+}
 
-export { GetProductDataAPI, cartClickAPI, LikeClickAPI, getLikeAPI, getProductListAPI }
+export { GetProductDataAPI, cartClickAPI, LikeClickAPI, getLikeAPI, getProductListAPI, recentProductAPI }
